@@ -252,10 +252,15 @@ const std::string path_Wizard_iceBall = "Textures/iceball.png";
 
 //----------------------------------------For Ghoul class----------------------------------------
 const std::string path_Ghoul_IntroTexture = "Textures/ghoulIntroTexture.png";
+
 const std::string path_Ghoul_MovingTexture = "Textures/ghoulMoving.png";
 const std::string path_Ghoul_AttackingTexture = "Textures/ghoulAttacking.png";
+
 const std::string path_Ghoul_BeingAttacked = "Textures/goulBeingAttacked_Moving.png";
+const std::string path_Ghoul_BeingColdAttacked = "Textures/ghoulBeingColdAttacked.png"; 
+
 const std::string path_Ghoul_AttakingAttacked = "Textures/ghoulAttackingAttacked.png";
+const std::string path_Ghoul_AttackingColdAttacked = "Textures/ghoulAttackingColdAttacked.png";
 
 const std::string path_Ghoul_IntroMesajAtack = "Textures/ghoulMesajAtack.png";
 

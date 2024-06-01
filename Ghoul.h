@@ -13,20 +13,8 @@ private:
 	sf::Time woundedTime; 
 
 	bool isAttacked; //este atacat
+	bool isColdAttacked; //este atacat de un item de gheata sau apa
 	
-
-	//IntroBattle
-	std::unique_ptr<sf::Texture> introTexture;
-	std::unique_ptr<sf::Sprite> introSprite;
-
-	//BattleScene
-	const sf::Texture* temp; //Cand enemy-ul ataca, textura precedenta este pastrata in el.
-	std::unique_ptr<sf::Texture> MovingTexture;
-	std::unique_ptr<sf::Texture> AttackingTexture;
-	std::unique_ptr<sf::Texture> AttackingAttackedTexture; 
-	std::unique_ptr<sf::Texture> AttackedTexture;
-	std::unique_ptr<sf::Sprite> BattleSprite;
-
 
 	//Private methods
 	void initIntroTexAndSpr(); 
@@ -40,7 +28,7 @@ public:
 
 
 	void attack(const bool& isAttacking) override;
-	void getAttacked(const bool& isAttacked, const short& attackPower) override;
+	void getAttacked(const bool& isAttacked, const short& attackPower, const TypeItem& tipAtac) override;
 	void move(const float& angle, const sf::Sprite& stopTexture) override;
 
 	//Getters

@@ -3,7 +3,7 @@
 Enemy::Enemy(const CategorieEnemy& categorie, const short& hp, const short& attack, const float& speed)
 	: categorie(categorie), health(hp), attackPower(attack), speedMovement(speed)
 {
-	this->isAttack = false; 
+	this->isAttacking = false; 
 }
 
 Enemy::~Enemy()
@@ -32,9 +32,9 @@ const CategorieEnemy& Enemy::getCategorie() const
 	return this->categorie; 
 }
 
-const bool& Enemy::getIsAttack() const
+const bool& Enemy::getIsAttacking() const
 {
-	return this->isAttack; 
+	return this->isAttacking; 
 }
 
 const sf::Clock& Enemy::getEnemyClock() const
@@ -44,7 +44,7 @@ const sf::Clock& Enemy::getEnemyClock() const
 
 void Enemy::setIsAttack(const bool& status)
 {
-	this->isAttack = status; 
+	this->isAttacking = status; 
 }
 
 void Enemy::set_speedMovement(const float& newValue)

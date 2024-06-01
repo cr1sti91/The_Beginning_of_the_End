@@ -1,8 +1,8 @@
 #include "Player.h"
 
 //Constructori
-Player::Player(const std::string& name, const CategoriePlayer& categorie, const short& hp, const short& attack, const float& speed)
-		       : playerName(name), categorie(categorie), health(hp), attackPower(attack), speedMovement(speed)
+Player::Player(const std::string& name, const CategoriePlayer& categorie, const short& hp, const float& speed)
+		       : playerName(name), categorie(categorie), health(hp), speedMovement(speed)
 {
 }
 
@@ -23,11 +23,6 @@ const short Player::get_health() const
 	return this->health; 
 }
 
-const short Player::get_attackPower() const
-{
-	return this->attackPower; 
-}
-
 
 const short Player::get_speedMovement() const
 {
@@ -41,7 +36,7 @@ const CategoriePlayer& Player::getCategorie() const
 	return this->categorie; 
 }
 
-const std::vector<std::unique_ptr<Item>>& Player::getInvetar() const
+const std::vector<std::shared_ptr<Item>>& Player::getInvetar() const
 {
 	return this->inventar; 
 }

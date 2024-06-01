@@ -2,6 +2,16 @@
 
 Item::Item(const TypeItem& tip) : tipItem(tip), countDown(std::nullopt)
 {
+	switch (tip)
+	{
+	case TypeItem::FireBall: this->attackPower = 20; 
+		break; 
+	case TypeItem::IceBall: this->attackPower = 10; 
+		break; 
+
+	default: std::cout << "ERROR::Item::Item::TypeItem incorect!" << std::endl;
+		break;
+	}
 }
 
 void Item::setCountDown(const short& value)
@@ -18,6 +28,11 @@ void Item::decrCountDown()
 const TypeItem& Item::getTipItem() const
 {
 	return this->tipItem; 
+}
+
+const short& Item::getAttackPower() const
+{
+	return this->attackPower; 
 }
 
 const std::optional<short>& Item::getCountDown() const

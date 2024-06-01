@@ -12,7 +12,7 @@ void Rogue::initTexture()
 }
 
 Rogue::Rogue(const std::string& name, const CategoriePlayer& categorie)
-	: Player(name, categorie, 100, 100, 100)
+	: Player(name, categorie, 100, 100)
 {
 	this->initTexture(); 
 }

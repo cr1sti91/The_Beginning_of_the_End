@@ -14,7 +14,25 @@ private:
 	short attackPower;
 	float speedMovement;
 
-	bool isAttack; //enemy-ul ataca
+	bool isAttacking; //enemy-ul ataca
+
+
+protected: 
+	//IntroBattle
+	std::unique_ptr<sf::Texture> introTexture;
+	std::unique_ptr<sf::Sprite> introSprite;
+
+	//BattleScene
+	std::unique_ptr<sf::Texture> MovingTexture;
+	std::unique_ptr<sf::Texture> AttackingTexture;
+
+	std::unique_ptr<sf::Texture> AttackingAttackedTexture;
+	std::unique_ptr<sf::Texture> AttackingColdAttackedTexture; 
+
+	std::unique_ptr<sf::Texture> AttackedTexture;
+	std::unique_ptr<sf::Texture> ColdAttackedTexture;
+
+	std::unique_ptr<sf::Sprite> BattleSprite;
 	
 
 public: 
@@ -23,7 +41,7 @@ public:
 
 	//Metode pur virtuale
 	virtual void attack(const bool& isAttacking) = 0;
-	virtual void getAttacked(const bool& isAttacked, const short& attackPower) = 0;
+	virtual void getAttacked(const bool& isAttacked, const short& attackPower, const TypeItem& tipAtac) = 0;
 	virtual void move(const float& angle, const sf::Sprite& stopTexture) = 0;
 	
 
@@ -33,7 +51,7 @@ public:
 	const short& get_attackPower() const;
 	const short& get_speedMovement() const;
 	const CategorieEnemy& getCategorie() const;
-	const bool& getIsAttack() const; 
+	const bool& getIsAttacking() const; 
 
 	const sf::Clock& getEnemyClock() const; 
 

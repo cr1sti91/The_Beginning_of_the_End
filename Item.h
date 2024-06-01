@@ -6,7 +6,8 @@
 class Item
 {
 	TypeItem tipItem; 
-	
+	short attackPower;
+
 	std::optional<short> countDown; 
 
 public: 
@@ -21,6 +22,7 @@ public:
 
 	//Getters
 	const TypeItem& getTipItem() const; 
+	const short& getAttackPower() const; 
 	const std::optional<short>& getCountDown() const; 
 
 	virtual const std::unique_ptr<sf::Sprite>& getSprite() const = 0;

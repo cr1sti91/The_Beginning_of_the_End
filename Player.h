@@ -19,7 +19,7 @@ private:
 
 protected: 
 	//Inventarul este accesat direct in constructorul claselor derivate
-	std::vector<std::unique_ptr<Item>> inventar; 
+	std::vector<std::shared_ptr<Item>> inventar; 
 
 	//Initializarea texturilor si sprite-urilor sa fie facuta in clasele derivate
 
@@ -40,8 +40,7 @@ protected:
 	const sf::Clock& getPlayerClock() const;
 
 public:
-	Player(const std::string& name, const CategoriePlayer& categorie, const short& hp,
-		   const short& attack, const float& speed);
+	Player(const std::string& name, const CategoriePlayer& categorie, const short& hp, const float& speed);
 	virtual ~Player();
 
 
@@ -60,10 +59,9 @@ public:
 	//Getters
 	const std::string& get_playerName() const;
 	const short get_health() const;
-	const short get_attackPower() const;
 	const short get_speedMovement() const;
 	const CategoriePlayer& getCategorie() const; 
-	const std::vector<std::unique_ptr<Item>>& getInvetar() const; //Doar pentru accesare
+	const std::vector<std::shared_ptr<Item>>& getInvetar() const; //Doar pentru accesare
 	const sf::Vector2f& getPosition() const; 
 
 	const sf::Sprite& getPlayerSpr() const;

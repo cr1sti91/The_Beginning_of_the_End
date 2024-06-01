@@ -48,7 +48,7 @@ private:
 	float max_x; 
 	float max_y; 
 
-	TypeItem currentItem; //este indexul in inventar al item-ului folosit 
+	std::shared_ptr<Item> currentItem; //este indexul in inventar al item-ului folosit 
 	bool itemChanged; 
 
 	bool enemyIsWainting; 

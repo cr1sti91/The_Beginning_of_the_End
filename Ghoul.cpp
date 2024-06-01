@@ -10,8 +10,12 @@ void Ghoul::initBattleTexAndSpr()
 {
 	initTexAndSpr(this->MovingTexture, this->BattleSprite, path_Ghoul_MovingTexture, "ERROR::GHOUL::MovingTexture inaccesibil!");
 	initTex(this->AttackingTexture, path_Ghoul_AttackingTexture, "ERROR::GHOUL::AttackingTexture inaccesibil!");
+
 	initTex(this->AttackedTexture, path_Ghoul_BeingAttacked, "ERROR::GHOUL::AttackedTexture inaccesibil!");
 	initTex(this->AttackingAttackedTexture, path_Ghoul_AttakingAttacked, "ERROR::GHOUL::AttackingAttackedTexture inaccesibil!");
+
+	initTex(this->ColdAttackedTexture, path_Ghoul_BeingColdAttacked, "ERROR::GHOUL::ColdAttackedTexture inaccesibil!");
+	initTex(this->AttackingColdAttackedTexture, path_Ghoul_AttackingColdAttacked, "ERROR::GHOUL::AttackingColdAttackedTexture inaccesibil!");
 
 	this->BattleSprite->setOrigin(273.f, 320.f); 
 	this->BattleSprite->setScale(0.3f, 0.3f);
@@ -30,6 +34,7 @@ Ghoul::Ghoul(const CategorieEnemy& categorie, const short& hp, const short& atta
 	this->woundedTime = sf::seconds(0.4f);
 
 	this->isAttacked = false;
+	this->isColdAttacked = false;
 	this->setIsAttack(false);
 }
 
@@ -39,36 +44,84 @@ void Ghoul::attack(const bool& isAttacking)
 	{
 		if (isAttacking)
 		{
-			this->BattleSprite->setTexture(*this->AttackingTexture);
-			this->attackBeginning = this->getEnemyClock().getElapsedTime();
+			if (this->isAttacked)
+			{
+				if (this->isColdAttacked)
+				{
+					this->BattleSprite->setTexture(*this->AttackingColdAttackedTexture);
+					this->set_speedMovement(4);
+				}
+				else
+				{
+					this->BattleSprite->setTexture(*this->AttackingAttackedTexture);
+					this->set_speedMovement(8); 
+				}
+			}
+			else
+			{
+				this->BattleSprite->setTexture(*this->AttackingTexture); 
+				this->set_speedMovement(6);
+			}
+			
 
-			this->set_speedMovement(6); //de trei ori mai mare
+			this->attackBeginning = this->getEnemyClock().getElapsedTime();
 		}
 		else
 		{
 			if (this->isAttacked)
-				this->BattleSprite->setTexture(*this->AttackedTexture);
+			{
+				if (this->isColdAttacked)
+				{
+					this->BattleSprite->setTexture(*this->ColdAttackedTexture);
+					this->set_speedMovement(1);
+				}
+				else
+				{
+					this->BattleSprite->setTexture(*this->AttackedTexture);
+					this->set_speedMovement(4);
+
+				}
+			}
 			else
+			{
 				this->BattleSprite->setTexture(*this->MovingTexture);
+				this->set_speedMovement(2);
+			}
 
-			this->set_speedMovement(2);
 		}
-
-		this->setIsAttack(isAttacking);
+		this->setIsAttack(isAttacking); 
 	}
 }
 
-void Ghoul::getAttacked(const bool& isAttacked, const short& attackPower)
+void Ghoul::getAttacked(const bool& isAttacked, const short& attackPower, const TypeItem& tipAtac)
 {
 	if (isAttacked)
 	{	
-		if (this->getIsAttack())
+		if (tipAtac == TypeItem::IceBall) //Atacurile cu apa sau gheata sunt considerate cold attacks
 		{
-			this->BattleSprite->setTexture(*this->AttackingAttackedTexture);
+			this->isColdAttacked = true; 
+
+			if (this->getIsAttacking())
+			{
+				this->BattleSprite->setTexture(*this->AttackingColdAttackedTexture);
+			}
+			else
+			{
+				this->BattleSprite->setTexture(*this->ColdAttackedTexture);
+			}
 		}
 		else
 		{
-			this->BattleSprite->setTexture(*this->AttackedTexture);
+			this->isColdAttacked = false; 
+
+			if (this->getIsAttacking())
+			{
+				this->BattleSprite->setTexture(*this->AttackingAttackedTexture);
+			}
+			else
+			{
+				this->BattleSprite->setTexture(*this->AttackedTexture);
+			}
 		}
 
 		this->healthDecreases(attackPower); //enemy este ranit
@@ -77,7 +130,7 @@ void Ghoul::getAttacked(const bool& isAttacked, const short& attackPower)
 	}
 	else if (this->getEnemyClock().getElapsedTime() - this->lastAttack > this->woundedTime)
 	{
-		if (this->getIsAttack())
+		if (this->getIsAttacking())
 		{
 			this->BattleSprite->setTexture(*this->AttackingTexture);
 		}
@@ -86,6 +139,7 @@ void Ghoul::getAttacked(const bool& isAttacked, const short& attackPower)
 			this->BattleSprite->setTexture(*this->MovingTexture);
 		}
 		this->isAttacked = false; 
+		this->isColdAttacked = false;
 	}
 }
 

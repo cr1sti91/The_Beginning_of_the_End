@@ -96,7 +96,7 @@ void GameInfoBattleScene::initVariables(const ActionResults& interact)
 	
 	//In mod implicit, este folosit primul item din inventar
 	if (interact.player->getInvetar().size() != 0)
-		this->currentItem = interact.player->getInvetar().at(0)->getTipItem(); 
+		this->currentItem = interact.player->getInvetar().at(0); 
 }
 
 void GameInfoBattleScene::initBackground(const ActionResults& interact)
@@ -297,7 +297,7 @@ void GameInfoBattleScene::thePlayersAttack(const sf::RenderWindow& target, Actio
 
 			this->mouseHeld = true;
 
-			interact.player->attack(this->projectiles, this->currentItem,
+			interact.player->attack(this->projectiles, this->currentItem->getTipItem(),
 									this->calculateAngle(getMousePosView(target), interact),
 									interact.player->getPlayerSpr().getTransform().transformPoint(210.f, 124));
 		}
@@ -305,7 +305,7 @@ void GameInfoBattleScene::thePlayersAttack(const sf::RenderWindow& target, Actio
 		{
 			this->mouseHeld = true;
 
-			interact.player->attack(this->projectiles, this->currentItem,
+			interact.player->attack(this->projectiles, this->currentItem->getTipItem(),
 									this->calculateAngle(getMousePosView(target), interact),
 									interact.player->getPlayerSpr().getTransform().transformPoint(210.f, 124));
 		}
@@ -327,13 +327,13 @@ void GameInfoBattleScene::thePlayersAttack(const sf::RenderWindow& target, Actio
 			{
 				this->keyHeld = true;
 				this->itemChanged = true;
-				this->currentItem = interact.player->getInvetar().at(1)->getTipItem();
+				this->currentItem = interact.player->getInvetar().at(1);
 			}
 			else if (this->itemChanged && !this->keyHeld)
 			{
 				this->keyHeld = true;
 				this->itemChanged = false;
-				this->currentItem = interact.player->getInvetar().at(0)->getTipItem();
+				this->currentItem = interact.player->getInvetar().at(0);
 			}
 		}
 		else
@@ -386,12 +386,12 @@ void GameInfoBattleScene::enemyGetAttacked(ActionResults& interact)
 
 	if (this->enemyWasAttacked)
 	{
-		interact.enemy->getAttacked(true, interact.player->get_attackPower());
+		interact.enemy->getAttacked(true, this->currentItem->getAttackPower(), this->currentItem->getTipItem());
 		this->enemyWasAttacked = false; 
 	}
 	else
 	{
-		interact.enemy->getAttacked(false, interact.player->get_attackPower());
+		interact.enemy->getAttacked(false, this->currentItem->getAttackPower(), this->currentItem->getTipItem());
 	}
 }
 
@@ -435,15 +435,15 @@ void GameInfoBattleScene::enemyAttack(ActionResults& interact)
 	}
 
 	//Daca enemy-ul se apropie deajuns de player in timp ce ataca, player-ul primeste damage
-	if (this->newEnemyAttack && interact.enemy->getIsAttack())
+	if (this->newEnemyAttack && interact.enemy->getIsAttacking())
 	{
 		if (distance < 210)
 		{
-			interact.player->getAttacked(interact.enemy->getIsAttack(), interact.enemy->get_attackPower());
+			interact.player->getAttacked(interact.enemy->getIsAttacking(), interact.enemy->get_attackPower());
 			this->newEnemyAttack = false;
 		}
 	}
-	else if (!interact.enemy->getIsAttack())
+	else if (!interact.enemy->getIsAttacking())
 	{
 		this->newEnemyAttack = true; 
 		interact.player->getAttacked(false, interact.enemy->get_attackPower());
@@ -468,7 +468,7 @@ void GameInfoBattleScene::updateUiText(const ActionResults& interact) const
 
 	for (int i{}; i < this->itemsFromInventar.size(); i++)
 	{
-		if (this->currentItem == interact.player->getInvetar().at(i)->getTipItem())
+		if (this->currentItem == interact.player->getInvetar().at(i))
 		{
 			this->itemsFromInventar.at(i)->setFillColor(sf::Color::Red);
 		}

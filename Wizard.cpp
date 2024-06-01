@@ -2,7 +2,7 @@
 
 
 Wizard::Wizard(const std::string& name, const CategoriePlayer& categorie)
-	: Player(name, categorie, 100, 10, 6)
+	: Player(name, categorie, 100, 6)
 {
 	//Ordinea este foarte importanta
 	this->initTexture(); 
