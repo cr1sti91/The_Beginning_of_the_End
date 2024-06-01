@@ -4,7 +4,6 @@
 #include <vector>
 #include <string>
 #include <memory>
-#include <string_view>
 #include <thread>
 #include <chrono>
 #include <optional>
@@ -41,17 +40,6 @@ enum class CategorieEnemy
 	Griffon
 };
 
-enum class TypeItem
-{
-	//For wizard
-	FireBall = 1, 
-	IceBall
-
-	//For warior
-
-	//For rogue
-};
-
 
 enum class BattleLocation
 {
@@ -67,6 +55,22 @@ enum class Direction
 	Left, 
 	Right
 };
+
+enum class TypeItem
+{
+	//For wizard
+	FireBall = 0, 
+	IceBall
+
+	//For warior
+
+	//For rogue
+};
+
+//Numarul de tipuri de item-uri posibile
+const short possItemsWizard = 2;
+const short possItemsWarrior = 2;
+const short possItemsRogue = 2;
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

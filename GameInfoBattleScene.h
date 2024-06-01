@@ -21,9 +21,12 @@ private:
 
 	//Text 
 	std::unique_ptr<sf::Text> uiText_PlayerName;
-	std::unique_ptr<sf::Text> uiText_PlayerFeatures;
+	std::unique_ptr<sf::Text> uiText_PlayerHealth;
+	
+	std::vector<std::unique_ptr<sf::Text>> itemsFromInventar; 
+
 	std::unique_ptr<sf::Text> uiText_EnemyName;
-	std::unique_ptr<sf::Text> uiText_EnemyFeatures;
+	std::unique_ptr<sf::Text> uiText_EnemyHealth;
 
 	//Background
 	std::unique_ptr<sf::Texture> backgroundTex{ nullptr };
@@ -35,6 +38,7 @@ private:
 	bool x_modified; 
 	bool y_modified; 
 	bool mouseHeld;	
+	bool keyHeld; 
 
 
 	//Sunt float, fiindca getPostion returneaza valori float
@@ -44,7 +48,8 @@ private:
 	float max_x; 
 	float max_y; 
 
-	unsigned short currentItem; //este indexul in inventar al item-ului folosit 
+	TypeItem currentItem; //este indexul in inventar al item-ului folosit 
+	bool itemChanged; 
 
 	bool enemyIsWainting; 
 	bool enemyWasAttacked; //enemy a fost atacat
@@ -53,14 +58,14 @@ private:
 
 
 	//For attacking
-	std::vector<std::unique_ptr<Item>> projectiles; //Item-uri pentru care generate - fireballs, arrows, spears
+	std::vector<std::unique_ptr<Item>> projectiles; //Item-uri ce sunt generate intr-un numar mai mare - fireballs, arrows, spears
 
 	//Private methods
 	void initFont(); 
 	void initText(const ActionResults& interact); 
 	void initTime(); 
 	void initLimits(); 
-	void initVariables(); 
+	void initVariables(const ActionResults& interact);
 	void initBackground(const ActionResults& interact);
 
 	const double calculateAngle(const sf::Vector2f mousePosition, const ActionResults& interact);  //Unghiul returnat va fi fata de 

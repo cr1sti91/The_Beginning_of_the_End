@@ -24,5 +24,8 @@ public:
 	const std::optional<short>& getCountDown() const; 
 
 	virtual const std::unique_ptr<sf::Sprite>& getSprite() const = 0;
+
+	//Static methods
+	static const std::string typeItemToStr(const TypeItem& typeItem);
 };
 

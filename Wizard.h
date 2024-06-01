@@ -12,6 +12,7 @@ private:
 	sf::Time lastAttacked;
 	sf::Time woundedTime;
 
+
 	//Random device for generateItem
 	std::random_device rd;
 
@@ -35,7 +36,7 @@ public:
 
 	void move(const float& dir_x, const float& dir_y) override;
 
-	std::shared_ptr<Item> generateItem() const override;
+	std::unique_ptr<Item> generateItem() const override;
 
 	//Setters
 	void setRotation(const float& angle) override;

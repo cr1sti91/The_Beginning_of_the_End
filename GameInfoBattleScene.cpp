@@ -11,21 +11,33 @@ void GameInfoBattleScene::initFont()
 void GameInfoBattleScene::initText(const ActionResults& interact)
 {
 	this->uiText_PlayerName = std::make_unique<sf::Text>();
-	this->uiText_PlayerFeatures = std::make_unique<sf::Text>();
+	this->uiText_PlayerHealth = std::make_unique<sf::Text>();
+	
+	for (int i{}; i < interact.player->getInvetar().size(); i++)
+	{
+		this->itemsFromInventar.push_back(std::make_unique<sf::Text>()); 
+
+		this->itemsFromInventar.at(i)->setFont(*this->font); 
+		this->itemsFromInventar.at(i)->setCharacterSize(22);
+		this->itemsFromInventar.at(i)->setFillColor(sf::Color::Green);
+		this->itemsFromInventar.at(i)->setPosition(45.f, 150.f + 30 * (i + 1));
+		this->itemsFromInventar.at(i)->setString(Item::typeItemToStr(interact.player->getInvetar().at(i)->getTipItem()));
+	}
 	
 	this->uiText_PlayerName->setFont(*this->font);
 	this->uiText_PlayerName->setCharacterSize(30);
 	this->uiText_PlayerName->setFillColor(sf::Color::Yellow);
-	this->uiText_PlayerName->setPosition(35.f, 50.f);
+	this->uiText_PlayerName->setPosition(25.f, 50.f);
 	this->uiText_PlayerName->setString(interact.player->get_playerName()); 
 
-	this->uiText_PlayerFeatures->setFont(*this->font);
-	this->uiText_PlayerFeatures->setCharacterSize(22);
-	this->uiText_PlayerFeatures->setFillColor(sf::Color::Green);
-	this->uiText_PlayerFeatures->setPosition(35.f, 100.f);
+	this->uiText_PlayerHealth->setFont(*this->font);
+	this->uiText_PlayerHealth->setCharacterSize(22);
+	this->uiText_PlayerHealth->setFillColor(sf::Color::Green);
+	this->uiText_PlayerHealth->setPosition(25.f, 100.f);
+
 
 	this->uiText_EnemyName = std::make_unique<sf::Text>();
-	this->uiText_EnemyFeatures = std::make_unique<sf::Text>();
+	this->uiText_EnemyHealth = std::make_unique<sf::Text>();
 
 	this->uiText_EnemyName->setFont(*this->font);
 	this->uiText_EnemyName->setCharacterSize(30);
@@ -45,10 +57,10 @@ void GameInfoBattleScene::initText(const ActionResults& interact)
 		break;
 	}
 
-	this->uiText_EnemyFeatures->setFont(*this->font);
-	this->uiText_EnemyFeatures->setCharacterSize(22);
-	this->uiText_EnemyFeatures->setFillColor(sf::Color::Green);
-	this->uiText_EnemyFeatures->setPosition(1630.f, 100.f);
+	this->uiText_EnemyHealth->setFont(*this->font);
+	this->uiText_EnemyHealth->setCharacterSize(22);
+	this->uiText_EnemyHealth->setFillColor(sf::Color::Green);
+	this->uiText_EnemyHealth->setPosition(1630.f, 100.f);
 }
 
 void GameInfoBattleScene::initTime()
@@ -67,19 +79,24 @@ void GameInfoBattleScene::initLimits()
 	this->max_y = 850; 
 }
 
-void GameInfoBattleScene::initVariables()
+void GameInfoBattleScene::initVariables(const ActionResults& interact)
 {
 	this->keyWasPressed = false;
 	this->x_modified = false;
 	this->y_modified = false;
 	this->mouseHeld = false; 
+	this->keyHeld = false; 
 
 	this->enemyIsWainting = false; 
 	this->enemyWasAttacked = false; 
 	this->enemyAttacked = false; 
 	this->newEnemyAttack = true; 
 
-	this->currentItem = 0; //In mod implicit, este folosit primul item din inventar
+	this->itemChanged = false; 
+	
+	//In mod implicit, este folosit primul item din inventar
+	if (interact.player->getInvetar().size() != 0)
+		this->currentItem = interact.player->getInvetar().at(0)->getTipItem(); 
 }
 
 void GameInfoBattleScene::initBackground(const ActionResults& interact)
@@ -119,7 +136,7 @@ GameInfoBattleScene::GameInfoBattleScene(const sf::Vector2u& size, const ActionR
 	this->initText(interact);
 	this->initTime();
 	this->initLimits();
-	this->initVariables();
+	this->initVariables(interact);
 	this->initBackground(interact);
 }
 
@@ -127,11 +144,18 @@ GameInfoBattleScene::GameInfoBattleScene(const sf::Vector2u& size, const ActionR
 void GameInfoBattleScene::drawGameInfo(sf::RenderTarget& target, ActionResults& interact) const
 {
 	target.draw(*this->backgroundSpr); 
+
 	target.draw(*this->uiText_PlayerName);
 	target.draw(*this->uiText_EnemyName);
-	target.draw(*this->uiText_PlayerFeatures);
-	target.draw(*this->uiText_EnemyFeatures);
 
+	target.draw(*this->uiText_PlayerHealth);
+	target.draw(*this->uiText_EnemyHealth);
+
+	for (const auto& itemName : this->itemsFromInventar)
+	{
+		target.draw(*itemName); 
+	}
+	
 	target.draw(interact.player->getPlayerSpr());
 	target.draw(interact.enemy->getBattleSprite());
 
@@ -273,22 +297,17 @@ void GameInfoBattleScene::thePlayersAttack(const sf::RenderWindow& target, Actio
 
 			this->mouseHeld = true;
 
-			if (this->currentItem < interact.player->getInvetar().size())
-			{
-				interact.player->attack(this->projectiles, interact.player->getInvetar().at(currentItem)->getTipItem(), 
-										this->calculateAngle(getMousePosView(target), interact),
-										interact.player->getPlayerSpr().getTransform().transformPoint(210.f, 124));
-			}
+			interact.player->attack(this->projectiles, this->currentItem,
+									this->calculateAngle(getMousePosView(target), interact),
+									interact.player->getPlayerSpr().getTransform().transformPoint(210.f, 124));
 		}
 		else if (!this->mouseHeld && !this->keyWasPressed) //Player-ul nu se deplaseaza
 		{
 			this->mouseHeld = true;
-			if (this->currentItem < interact.player->getInvetar().size())
-			{
-				interact.player->attack(this->projectiles, interact.player->getInvetar().at(currentItem)->getTipItem(),
-										this->calculateAngle(getMousePosView(target), interact),
-										interact.player->getPlayerSpr().getTransform().transformPoint(210.f, 124));
-			}
+
+			interact.player->attack(this->projectiles, this->currentItem,
+									this->calculateAngle(getMousePosView(target), interact),
+									interact.player->getPlayerSpr().getTransform().transformPoint(210.f, 124));
 		}
 		//'sprite.getTransform().transformPoint()' returneaza adresa (Vector2f) punctului (210, 124) ce se afla pe sprite in  
 		//coordonatele window-ului dupa ce a avut loc ultima transforamare (aplicare a unei matrici 3x3 asupra sprite-ului dat).
@@ -297,6 +316,30 @@ void GameInfoBattleScene::thePlayersAttack(const sf::RenderWindow& target, Actio
 	else
 	{
 		this->mouseHeld = false;
+	}
+
+	//Comutarea intre item-uri in inventar este facuta atunci cand avem mai mult de un singur item
+	if (interact.player->getInvetar().size() > 1)
+	{
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::F))
+		{
+			if (!this->itemChanged && !this->keyHeld)
+			{
+				this->keyHeld = true;
+				this->itemChanged = true;
+				this->currentItem = interact.player->getInvetar().at(1)->getTipItem();
+			}
+			else if (this->itemChanged && !this->keyHeld)
+			{
+				this->keyHeld = true;
+				this->itemChanged = false;
+				this->currentItem = interact.player->getInvetar().at(0)->getTipItem();
+			}
+		}
+		else
+		{
+			this->keyHeld = false; 
+		}
 	}
 }
 
@@ -417,17 +460,33 @@ void GameInfoBattleScene::enemyAttack(ActionResults& interact)
 void GameInfoBattleScene::updateUiText(const ActionResults& interact) const
 {
 	std::stringstream ss; 
-	ss 	<< "Health: " << interact.player->get_health() << "\n"
-		<< "Inventar: "; 
 
-	this->uiText_PlayerFeatures->setString(ss.str()); 
+	//For player
+	ss << "Health: " << interact.player->get_health() << "\n\n"
+	   << "Inventar [Press F]: ";
+	this->uiText_PlayerHealth->setString(ss.str()); 
+
+	for (int i{}; i < this->itemsFromInventar.size(); i++)
+	{
+		if (this->currentItem == interact.player->getInvetar().at(i)->getTipItem())
+		{
+			this->itemsFromInventar.at(i)->setFillColor(sf::Color::Red);
+		}
+		else
+		{
+			this->itemsFromInventar.at(i)->setFillColor(sf::Color::Green);
+		}
+	}
+	
 
 	ss.str(""); 
 	ss.clear(); 
-	
+
+
+	//For enemy
 	ss << "Health: " << interact.enemy->get_health(); 
 
-	this->uiText_EnemyFeatures->setString(ss.str()); 
+	this->uiText_EnemyHealth->setString(ss.str()); 
 }
 
 

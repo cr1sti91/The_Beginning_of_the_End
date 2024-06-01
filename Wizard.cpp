@@ -2,7 +2,7 @@
 
 
 Wizard::Wizard(const std::string& name, const CategoriePlayer& categorie)
-	: Player(name, categorie, 100, 10, 6) 
+	: Player(name, categorie, 100, 10, 6)
 {
 	//Ordinea este foarte importanta
 	this->initTexture(); 
@@ -10,6 +10,10 @@ Wizard::Wizard(const std::string& name, const CategoriePlayer& categorie)
 
 	this->woundedTime = sf::seconds(0.4f); 
 	this->lastAttacked = sf::Time::Zero; 
+
+	
+	//In mod random in inventar este plasat un item pentru wizard
+	this->inventar.push_back(std::move(this->generateItem())); 
 }
 
 
@@ -86,31 +90,38 @@ void Wizard::setRotation(const float& angle)
 
 
 //Este chemata o singura data atunci cand in inventar se adauga un item nou
-std::shared_ptr<Item> Wizard::generateItem() const
+std::unique_ptr<Item> Wizard::generateItem() const
 { 
-	std::uniform_int_distribution<int> dist(0, 1);  //La moment, pentru wizard avem doua item-uri
 	static std::random_device rd; //fiindca este static, va fi declarat o singura data si va fi utilizat in apelurile ulterioare
 
-	//switch (dist(rd))
-	switch (1)
-	{
-		case 0: //Pentru wizard, 0 va fi fireball
-		{
-			return std::make_shared<ThrownBall>(TypeItem::FireBall, this->getPosition().x,
-												this->getPosition().y, this->playerSpr->getRotation());
-		}break; 
+	std::vector<TypeItem> unownedItems; //Vector de itemi (pentru wizard) care nu sunt prezenti in inventar
 
-		case 1: //Pentru wizard, 1 va fi iceball
+	for (int i{}; i < possItemsWizard; i++)
+	{
+		bool exist = false; 
+		for (int j{}; j < this->inventar.size(); j++)
 		{
-			return std::make_shared<ThrownBall>(TypeItem::IceBall, this->getPosition().x,
-												this->getPosition().y, this->playerSpr->getRotation());
-		}break;
-		
-	
-		default:
-			std::cout << "ERROR::Wizard::GenerateItem::numar random incorect!" << std::endl;
-			break;
+			if (this->inventar.at(j)->getTipItem() == static_cast<TypeItem>(i))
+			{
+				exist = true;
+				break; 
+			}
+		}
+
+		if (!exist)
+			unownedItems.push_back(static_cast<TypeItem>(i));
 	}
+
+	if (unownedItems.size() == 0)
+	{
+		std::cerr << "ERROR::Wizard::generateItem::A avut loc incercarea de generare cand unownedItems.size = 0" << std::endl;
+		return nullptr; 
+	}
+
+	std::uniform_int_distribution<int> dist(0, unownedItems.size() - 1);  //La moment, pentru wizard sunt doua item-uri
+
+	return std::make_unique<ThrownBall>(unownedItems.at(dist(rd)), this->getPosition().x,
+										this->getPosition().y, this->playerSpr->getRotation());
 }
 
 void Wizard::setSpriteDirection(const short& dir_x, const short& dir_y)

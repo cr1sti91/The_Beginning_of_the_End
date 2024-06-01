@@ -393,7 +393,12 @@ void GameCrossRoads::updatePollEvents(sf::RenderWindow& target, ActionResults& i
 				bool adaugat = false; 
 				do
 				{
-					adaugat = interact.player->addItems(interact.player->generateItem()); //Wizard-ul si-a generat un item si la adaugat
+					while (!adaugat) //cat timp item-ul generat random se intalneste deja in inventar, repetam generarea
+					{
+						//metoda 'generateItem' returneaza un unique_ptr temporar, astfel ca pentru siguranta utilizam std::move() sa 
+						//mutam adresa din el catre parametrul metodei 'addItems'
+						adaugat = interact.player->addItems(std::move(interact.player->generateItem())); 
+					}
 
 					*this->addedItem = *interact.player->getInvetar().at(interact.player->getInvetar().size() - 1)->getSprite(); 
 					this->addedItem->setPosition(1050.f, 700.f); 

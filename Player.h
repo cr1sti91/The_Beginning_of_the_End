@@ -7,19 +7,21 @@
 class Player
 {
 private:
+	sf::Clock playerClock;
+
 	//Player features
 	std::string playerName;
 	CategoriePlayer categorie; 
-
-	sf::Clock playerClock;
-
-	std::vector<std::shared_ptr<Item>> inventar;
 
 	short health;
 	short attackPower;
 	float speedMovement;
 
-protected: //Initializarea sa fie facuta in clasele derivate
+protected: 
+	//Inventarul este accesat direct in constructorul claselor derivate
+	std::vector<std::unique_ptr<Item>> inventar; 
+
+	//Initializarea texturilor si sprite-urilor sa fie facuta in clasele derivate
 
 	//Player textures
 	//For CrossRoads scene
@@ -61,7 +63,7 @@ public:
 	const short get_attackPower() const;
 	const short get_speedMovement() const;
 	const CategoriePlayer& getCategorie() const; 
-	const std::vector<std::shared_ptr<Item>>& getInvetar() const; //Doar pentru accesare
+	const std::vector<std::unique_ptr<Item>>& getInvetar() const; //Doar pentru accesare
 	const sf::Vector2f& getPosition() const; 
 
 	const sf::Sprite& getPlayerSpr() const;
@@ -75,10 +77,10 @@ public:
 
 
 
-	//Generarea item-urilor 
-	virtual std::shared_ptr<Item> generateItem() const = 0;
+	//Generarea random a item-urilor
+	virtual std::unique_ptr<Item> generateItem() const = 0;
 
 	//Setters
-	bool addItems(std::shared_ptr<Item> item); //Returneaza 'true' daca item-ul a fost adaugat, in caz constrar - 'false'
+	bool addItems(std::unique_ptr<Item> item); //Returneaza 'true' daca item-ul a fost adaugat, in caz constrar - 'false'
 	void healthDecreases(const short& damage);
 };

@@ -39,7 +39,7 @@ void Rogue::setRotation(const float& angle)
 	//NECESITA DEZVOLTARE
 }
 
-std::shared_ptr<Item> Rogue::generateItem() const
+std::unique_ptr<Item> Rogue::generateItem() const
 {
 	return nullptr;  //NECESITA DEZVOLTARE
 }

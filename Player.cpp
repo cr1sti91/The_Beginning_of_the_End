@@ -41,7 +41,7 @@ const CategoriePlayer& Player::getCategorie() const
 	return this->categorie; 
 }
 
-const std::vector<std::shared_ptr<Item>>& Player::getInvetar() const
+const std::vector<std::unique_ptr<Item>>& Player::getInvetar() const
 {
 	return this->inventar; 
 }
@@ -66,7 +66,7 @@ const sf::Sprite& Player::getPlayerSpr() const
 
 
 //Setters
-bool Player::addItems(std::shared_ptr<Item> item)
+bool Player::addItems(std::unique_ptr<Item> item)
 {
 	bool exist = false; 
 
@@ -77,8 +77,8 @@ bool Player::addItems(std::shared_ptr<Item> item)
 			exist = true; 
 		}
 	}
-	if (!exist)
-		this->inventar.push_back(item);
+	if (!exist && item) //Item trebuie sa fie diferit de 'nullptr'
+		this->inventar.push_back(std::move(item));
 
 	return (!exist);
 }
@@ -87,6 +87,8 @@ void Player::healthDecreases(const short& damage)
 {
 	this->health -= damage; 
 }
+
+
 
 
 

@@ -24,7 +24,7 @@ public:
 	void setRotation(const float& angle) override;
 
 
-	std::shared_ptr<Item> generateItem() const;
+	std::unique_ptr<Item> generateItem() const;
 	
 	//Getters
 	const sf::Texture& getToCaveTexture() const override;

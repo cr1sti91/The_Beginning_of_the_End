@@ -35,7 +35,7 @@ void Warrior::setRotation(const float& angle)
 	//NECESITA DEZVOLATER
 }
 
-std::shared_ptr<Item> Warrior::generateItem() const
+std::unique_ptr<Item> Warrior::generateItem() const
 {
 	return nullptr;  //NECESITA DEZVOLTARE
 }

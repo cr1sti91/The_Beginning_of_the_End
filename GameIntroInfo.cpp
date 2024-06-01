@@ -68,13 +68,6 @@ GameIntroInfo_1::GameIntroInfo_1(const sf::Vector2u& size, const ActionResults& 
 }
 
 
-//void GameIntroInfo_1::initGameInfo(const sf::Vector2u& size, const ActionResults& interact)
-//{
-//	this->initBackground();
-//	this->initGameName(size);
-//	this->initOptions(size);
-//	this->initVariables();
-//}
 
 void GameIntroInfo_1::drawGameInfo(sf::RenderTarget& target, ActionResults& interact) const
 {

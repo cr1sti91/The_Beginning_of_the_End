@@ -153,7 +153,6 @@ const float distanceBetweenPoints(const sf::Vector2f& point1, const sf::Vector2f
 
 
 
-
 // Helper function to check if a pixel is transparent
 const bool isPixelTransparent(const sf::Uint8* pixelArray, unsigned int x, unsigned int y, unsigned int width) {
 	unsigned int index = 4 * (y * width + x);
