@@ -146,7 +146,7 @@
     <ClCompile Include="GameIntroInfo.cpp" />
     <ClCompile Include="Ghoul.cpp" />
     <ClCompile Include="Item.cpp" />
-    <ClCompile Include="ItemsForWizard.cpp" />
+    <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Rogue.cpp" />
     <ClCompile Include="The_Beginning_of_the_End.cpp" />
@@ -166,7 +166,7 @@
     <ClInclude Include="GameIntroInfo.h" />
     <ClInclude Include="Ghoul.h" />
     <ClInclude Include="Item.h" />
-    <ClInclude Include="ItemsForWizard.h" />
+    <ClInclude Include="Projectile.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Rogue.h" />
     <ClInclude Include="Warrior.h" />

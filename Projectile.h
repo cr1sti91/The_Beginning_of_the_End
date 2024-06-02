@@ -2,7 +2,7 @@
 #include "Item.h"
 
 
-class ThrownBall : public Item
+class Projectile : public Item
 {
 private:
 	std::unique_ptr<sf::Texture> texture;
@@ -17,8 +17,8 @@ private:
 
 
 public:
-	ThrownBall(const TypeItem& tip, float pos_x, float pos_y, const float& angle, float movement_speed = 12);
-	~ThrownBall() = default;
+	Projectile(const TypeItem& tip, float pos_x, float pos_y, const float& angle, float movement_speed = 12);
+	~Projectile() = default;
 
 	void move() override; 
 

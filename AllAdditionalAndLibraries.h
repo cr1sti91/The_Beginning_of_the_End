@@ -67,7 +67,7 @@ enum class TypeItem
 	//For rogue
 };
 
-//Numarul de tipuri de item-uri posibile
+//Numarul de tipuri de item-uri posibile pentru fiecare clasa
 const short possItemsWizard = 2;
 const short possItemsWarrior = 2;
 const short possItemsRogue = 2;
@@ -102,8 +102,23 @@ struct ActionResults //Instantele clasei date fac legatura (sunt agregate ale lu
 
 
 
+struct Characteristics 
+{
+	int health;
+	int attackPower;
+	int speedMovement;
+};
+
+static const std::map<std::string, Characteristics> enemyStats  
+{
+	{"Ghoul", {1000, 25, 2}},
+	{"Troll", {2000, 50, 1}},
+	{"Griffon", {1500, 35, 4}}
+};
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 
 
@@ -202,17 +217,34 @@ const std::string path_villageInscription_choosed = "Textures/villageTEXT_choose
 
 
 //----------------------------------------For GameInfoIntroBattle----------------------------------------
-const std::string path_IntroBattle_BackG = "Textures/intrarePerstera.png";
+const std::string path_IntroBattle_BackGCave = "Textures/intrarePerstera.png";
 const std::string path_IntroBattle_CaveDescrip = "Textures/descriereCave.png"; 
+
+const std::string path_IntroBattle_BackGForest = "Textures/intrareForest.png";
+const std::string path_IntroBattle_ForestDescrip = "Textures/descriereForest.png";
+
+const std::string path_IntroBattle_BackGVillage = "Textures/intrareSat.png";
+const std::string path_IntroBattle_VillageDescrip = "Textures/descriereSat.png";
 
 
 //----------------------------------------For GameInfoBattleScene----------------------------------------
-const std::string path_BattleScene_BackG = "Textures/battleSceneCave.png"; 
+const std::string path_BattleScene_BackGCave = "Textures/battleSceneCave.png";
+const std::string path_BattleScene_BackGForest = "Textures/battleSceneForest.png";
+const std::string path_BattleScene_BackGVillage = "Textures/battleSceneVillage.png";
 
 
 
 //----------------------------------------For Warrior class----------------------------------------
 const std::string path_Warrior_IntroText = "Textures/TextWarriorIntro.png"; //Nu se utilizeaza in Warrior class, ci in GameIntroInfo
+
+//Scena CrossRoads
+const std::string path_Warrior_toCave = "Textures/warriorCave.png";
+const std::string path_Warrior_toForest = "Textures/warriorForest.png";
+const std::string path_Warrior_toVillage = "Textures/warriorVillage.png";
+
+//Scena Battle
+const std::string path_Warrior_BattleUp = "Textures/testWarrior.png";
+//const std::string path_Warrior_BattleUpAttacked = "Textures/wizardBattleSceneUpAttacked.png";
 
 
 

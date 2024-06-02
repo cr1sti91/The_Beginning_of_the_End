@@ -2,7 +2,7 @@
 
 
 
-void GameInfoIntroBattle::initEnemy()
+void GameInfoIntroBattle::initEnemy(const ActionResults& interact)
 {
 	/*std::random_device rd; 
 	std::uniform_int_distribution<unsigned short> dist(); 
@@ -14,22 +14,70 @@ void GameInfoIntroBattle::initEnemy()
 	{
 		case CategorieEnemy::Ghoul: 
 		{
-			this->enemy = std::make_unique<Ghoul>(CategorieEnemy::Ghoul, 100, 25, 2); 
+			this->enemy = std::make_unique<Ghoul>(CategorieEnemy::Ghoul, 
+						  enemyStats.at("Ghoul").health, enemyStats.at("Ghoul").attackPower, enemyStats.at("Ghoul").speedMovement);
 			
-			//Scalare si pozitionare intrSprite
+			//Scalare
 			this->enemy->setScaleIntroSpr(0.8f, 0.8f); 
-			this->enemy->setPosIntroSpr(410.f, 550.f); 
+
+			//Pozitionarea lui enemy in dependenta de locatia de lupta
+			switch (interact.locatieLupta)
+			{
+			case BattleLocation::Cave: this->enemy->setPosIntroSpr(410.f, 550.f);
+				break; 
+			case BattleLocation::Forest: this->enemy->setPosIntroSpr(410.f, 550.f);
+				break;
+			case BattleLocation::Village: this->enemy->setPosIntroSpr(758.f, 575.f);
+				break;
+
+			default: std::cout << "ERROR::GameInfoIntroBattle::initEnemy::Locatie lupta incorecta!" << std::endl;
+				break;
+			}
 
 		}break; 
 
 		case CategorieEnemy::Troll:
 		{
+			//this->enemy = std::make_unique<Ghoul>(CategorieEnemy::Ghoul, 100, 25, 2);
 
+			////Scalare
+			//this->enemy->setScaleIntroSpr(0.8f, 0.8f);
+
+			////Pozitionarea lui enemy in dependenta de locatia de lupta
+			//switch (interact.locatieLupta)
+			//{
+			//case BattleLocation::Cave: this->enemy->setPosIntroSpr(410.f, 550.f);
+			//	break;
+			//case BattleLocation::Forest: this->enemy->setPosIntroSpr(410.f, 550.f);
+			//	break;
+			//case BattleLocation::Village: this->enemy->setPosIntroSpr(410.f, 550.f);
+			//	break;
+
+			//default: std::cout << "ERROR::GameInfoIntroBattle::initEnemy::Locatie lupta incorecta!" << std::endl;
+			//	break;
+			//}
 		}break;
 
 		case CategorieEnemy::Griffon:
 		{
+			//this->enemy = std::make_unique<Ghoul>(CategorieEnemy::Ghoul, 100, 25, 2);
 
+			////Scalare
+			//this->enemy->setScaleIntroSpr(0.8f, 0.8f);
+
+			////Pozitionarea lui enemy in dependenta de locatia de lupta
+			//switch (interact.locatieLupta)
+			//{
+			//case BattleLocation::Cave: this->enemy->setPosIntroSpr(410.f, 550.f);
+			//	break;
+			//case BattleLocation::Forest: this->enemy->setPosIntroSpr(410.f, 550.f);
+			//	break;
+			//case BattleLocation::Village: this->enemy->setPosIntroSpr(410.f, 550.f);
+			//	break;
+
+			//default: std::cout << "ERROR::GameInfoIntroBattle::initEnemy::Locatie lupta incorecta!" << std::endl;
+			//	break;
+			//}
 		}break;
 
 		default:
@@ -54,18 +102,20 @@ void GameInfoIntroBattle::initBackground(const ActionResults& interact)
 	{
 		case BattleLocation::Cave: 
 		{
-			initTexAndSpr(this->backgroundTex, this->backgroundSpr, path_IntroBattle_BackG, 
+			initTexAndSpr(this->backgroundTex, this->backgroundSpr, path_IntroBattle_BackGCave, 
 							"ERROR::GameInfoIntroBattle::Background inaccesibil!");
 		}break;
 
 		case BattleLocation::Forest:
 		{
-
+			initTexAndSpr(this->backgroundTex, this->backgroundSpr, path_IntroBattle_BackGForest,
+							"ERROR::GameInfoIntroBattle::Background inaccesibil!");
 		}break;
 
 		case BattleLocation::Village:
 		{
-
+			initTexAndSpr(this->backgroundTex, this->backgroundSpr, path_IntroBattle_BackGVillage,
+							"ERROR::GameInfoIntroBattle::Background inaccesibil!");
 		}break;
 
 		default:
@@ -90,12 +140,16 @@ void GameInfoIntroBattle::initText(const ActionResults& interact)
 
 		case BattleLocation::Forest:
 		{
-
+			initTexAndSpr(this->Text_DescriereLoc_Tex, TextSpr, path_IntroBattle_CaveDescrip,
+							"ERROR::GameInfoIntroBattle::Descriere cave inaccesibil!");
+			this->TextSpr->setPosition(149.f, 853.f);
 		}break;
 
 		case BattleLocation::Village:
 		{
-
+			initTexAndSpr(this->Text_DescriereLoc_Tex, TextSpr, path_IntroBattle_CaveDescrip,
+							"ERROR::GameInfoIntroBattle::Descriere cave inaccesibil!");
+			this->TextSpr->setPosition(149.f, 853.f);
 		}break;
 
 		default:
@@ -141,7 +195,7 @@ void GameInfoIntroBattle::initContinue()
 //Constructor
 GameInfoIntroBattle::GameInfoIntroBattle(const sf::Vector2u& size, const ActionResults& interact)
 {
-	this->initEnemy();
+	this->initEnemy(interact);
 	this->initVariables();
 	this->initBackground(interact);
 	this->initText(interact);

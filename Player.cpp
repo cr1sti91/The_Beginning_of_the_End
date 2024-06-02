@@ -6,11 +6,21 @@ Player::Player(const std::string& name, const CategoriePlayer& categorie, const 
 {
 }
 
-//Destructor
-Player::~Player()
+
+void Player::move(const float& dir_x, const float& dir_y)
 {
+	this->playerSpr->move(this->get_speedMovement() * dir_x, this->get_speedMovement() * dir_y);
 }
 
+void Player::setSpriteDirection(const short& dir_x, const short& dir_y)
+{
+	this->playerSpr->setRotation(dirToDegree(dir_x, dir_y));
+}
+
+void Player::setRotation(const float& angle)
+{
+	this->playerSpr->setRotation(angle);
+}
 
 //Getters
 const std::string& Player::get_playerName() const
@@ -46,16 +56,24 @@ const sf::Vector2f& Player::getPosition() const
 	return this->playerSpr->getPosition(); 
 }
 
-const sf::Clock& Player::getPlayerClock() const
-{
-	return this->playerClock; 
-}
-
-
-
 const sf::Sprite& Player::getPlayerSpr() const
 {
 	return *this->playerSpr;
+}
+
+const sf::Texture& Player::getToCaveTexture() const
+{
+	return *this->textureToCave;
+}
+
+const sf::Texture& Player::getToForestTexture() const
+{
+	return *this->textureToForest;
+}
+
+const sf::Texture& Player::getToVillageTexture() const
+{
+	return *this->textureToVillage;
 }
 
 

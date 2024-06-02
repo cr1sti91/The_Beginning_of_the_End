@@ -48,7 +48,7 @@
     <ClCompile Include="GameCrossRoads.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ItemsForWizard.cpp">
+    <ClCompile Include="Projectile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GameInfoIntroBattle.cpp">
@@ -101,7 +101,7 @@
     <ClInclude Include="GameCrossRoads.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ItemsForWizard.h">
+    <ClInclude Include="Projectile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameInfoIntroBattle.h">

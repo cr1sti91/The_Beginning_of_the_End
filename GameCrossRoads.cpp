@@ -460,7 +460,8 @@ void GameCrossRoads::setPlayerSprite(ActionResults& interact)
 		{
 		case CategoriePlayer::Warrior:
 		{
-			this->playerSpr->setScale(0.5f, 0.5f);
+			this->playerSpr->setScale(0.4f, 0.4f);
+			this->playerSpr->setOrigin(80.f, 28.f);
 		} break;
 		case CategoriePlayer::Rogue:
 		{
@@ -485,7 +486,7 @@ void GameCrossRoads::setPlayerSprite(ActionResults& interact)
 		{
 		case CategoriePlayer::Warrior:
 		{
-			this->playerSpr->setScale(0.46f, 0.46f);
+			this->playerSpr->setScale(0.4f, 0.4f);
 		} break;
 		case CategoriePlayer::Rogue:
 		{
@@ -510,7 +511,8 @@ void GameCrossRoads::setPlayerSprite(ActionResults& interact)
 		{
 		case CategoriePlayer::Warrior:
 		{
-			this->playerSpr->setScale(0.5f, 0.5f);
+			this->playerSpr->setScale(0.4f, 0.4f);
+			this->playerSpr->setOrigin(80.f, 28.f);
 		} break;
 		case CategoriePlayer::Rogue:
 		{

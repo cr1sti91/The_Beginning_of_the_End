@@ -4,13 +4,33 @@
 
 void Warrior::initTexture()
 {
-	//NECESITA DEZVOLTARE
+	//For CrossRoads scene
+	initTex(this->textureToCave, path_Warrior_toCave, "ERROR::Rogue::Rogue to cave inaccesibil!");
+	initTex(this->textureToForest, path_Warrior_toForest, "ERROR::Rogue::Rogue to forest inaccesibil!");
+	initTex(this->textureToVillage, path_Warrior_toVillage, "ERROR::Rogue::Rogue to village inaccesibil!");
+
+	this->textureToCave->setSmooth(true);
+	this->textureToForest->setSmooth(true);
+	this->textureToVillage->setSmooth(true);
+
+	initTex(this->textureUp, path_Warrior_BattleUp, "ERROR::Warrior::Warrior Up inaccesibil!");
 }
 
-Warrior::Warrior(const std::string& name, const CategoriePlayer& categorie)
-				 : Player(name, categorie, 100, 100)
+void Warrior::initPlayerSpr()
+{
+	this->playerSpr = std::make_unique<sf::Sprite>(*this->textureUp);
+	this->playerSpr->setScale(0.3f, 0.3f);
+	this->playerSpr->setOrigin(212.f, 315.f);
+	this->playerSpr->setPosition(900.f, 800.f);
+
+	this->setSpriteDirection(0, 1); //In mod implicit, player-ul o sa fie setat cu textura indreptata in sus
+}
+
+Warrior::Warrior(const std::string& name)
+				 : Player(name, CategoriePlayer::Warrior, 200, 5)
 {
 	this->initTexture(); 
+	this->initPlayerSpr(); 
 }
 
 
@@ -25,38 +45,7 @@ void Warrior::getAttacked(const bool& isAttacked, const short& attackPower)
 {
 }
 
-void Warrior::move(const float& dir_x, const float& dir_y)
-{
-	//NECESITA DEZVOLTARE
-}
-
-void Warrior::setRotation(const float& angle)
-{
-	//NECESITA DEZVOLATER
-}
-
 std::unique_ptr<Item> Warrior::generateItem() const
 {
 	return nullptr;  //NECESITA DEZVOLTARE
 }
-
-const sf::Texture& Warrior::getToCaveTexture() const
-{
-	return *this->textureToCave;
-}
-
-const sf::Texture& Warrior::getToForestTexture() const
-{
-	return *this->textureToForest;
-}
-
-const sf::Texture& Warrior::getToVillageTexture() const
-{
-	return *this->textureToVillage;
-}
-
-void Warrior::setSpriteDirection(const short& dir_x, const short& dir_y)
-{
-	///////////////////////////////////////////////////////////////
-}
-

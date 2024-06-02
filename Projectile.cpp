@@ -1,7 +1,7 @@
 #include "ItemsForWizard.h"
 
 
-void ThrownBall::initShape(float pos_x, float pos_y)
+void Projectile::initShape(float pos_x, float pos_y)
 {
 	switch (this->getTipItem())
 	{
@@ -32,7 +32,7 @@ void ThrownBall::initShape(float pos_x, float pos_y)
 
 
 
-ThrownBall::ThrownBall(const TypeItem& tip, float pos_x, float pos_y, const float& angle, float movement_speed)
+Projectile::Projectile(const TypeItem& tip, float pos_x, float pos_y, const float& angle, float movement_speed)
 	: Item(tip), unghi(angle), movementSpeed(movement_speed)
 {
 	this->initShape(pos_x, pos_y); 
@@ -40,13 +40,13 @@ ThrownBall::ThrownBall(const TypeItem& tip, float pos_x, float pos_y, const floa
 }
 
 
-void ThrownBall::move()
+void Projectile::move()
 {
 	this->shape->move(this->movementSpeed * std::cos((unghi - 90) * M_PI / 180), this->movementSpeed * std::sin((unghi - 90) * M_PI / 180));
 	std::cout << "unghiul este : " << unghi << std::endl;
 }
 
-const std::unique_ptr<sf::Sprite>& ThrownBall::getSprite() const
+const std::unique_ptr<sf::Sprite>& Projectile::getSprite() const
 {
 	return this->shape; 
 }

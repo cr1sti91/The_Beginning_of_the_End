@@ -148,17 +148,17 @@ void Game::initPlayer(const CategoriePlayer& categorie, const std::string& nume)
 	{
 		case CategoriePlayer::Warrior: 
 		{
-			this->player = std::make_shared<Warrior>(nume, categorie); 
+			this->player = std::make_shared<Warrior>(nume); 
 		} break;
 
 		case CategoriePlayer::Rogue:
 		{
-			this->player = std::make_shared<Rogue>(nume, categorie);
+			this->player = std::make_shared<Rogue>(nume);
 		} break;
 
 		case CategoriePlayer::Wizard:
 		{
-			this->player = std::make_shared<Wizard>(nume, categorie);
+			this->player = std::make_shared<Wizard>(nume);
 		} break;
 
 		default: 

@@ -32,7 +32,7 @@ private:
 
 
 	//Private methods
-	void initEnemy(); 
+	void initEnemy(const ActionResults& interact); 
 	void initVariables(); 
 	void initBackground(const ActionResults& interact);
 	void initText(const ActionResults& interact);

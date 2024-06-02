@@ -1,8 +1,8 @@
 #include "Wizard.h"
 
 
-Wizard::Wizard(const std::string& name, const CategoriePlayer& categorie)
-	: Player(name, categorie, 100, 6)
+Wizard::Wizard(const std::string& name)
+	: Player(name, CategoriePlayer::Wizard, 100, 6)
 {
 	//Ordinea este foarte importanta
 	this->initTexture(); 
@@ -24,6 +24,10 @@ void Wizard::initTexture()
 	initTex(this->textureToCave, path_Wizard_toCave, "ERROR::Wizard::Wizard to cave inaccesibil!");
 	initTex(this->textureToForest, path_Wizard_toForest, "ERROR::Wizard::Wizard to forest inaccesibil!");
 	initTex(this->textureToVillage, path_Wizard_toVillage, "ERROR::Wizard::Wizard to village inaccesibil!");
+
+	this->textureToCave->setSmooth(true);
+	this->textureToForest->setSmooth(true);
+	this->textureToVillage->setSmooth(true);
 
 	//For Battle scene
 	initTex(this->textureUp, path_Wizard_BattleUp, "ERROR::Wizard::Wizard Up inaccesibil!");
@@ -66,26 +70,15 @@ void Wizard::getAttacked(const bool& isAttacked, const short& attackPower)
 {
 	if (isAttacked)
 	{
-		this->lastAttacked = this->getPlayerClock().getElapsedTime(); 
+		this->lastAttacked = this->playerClock.getElapsedTime(); 
 		this->playerSpr->setTexture(*this->textureUpAttacked); 
 
 		this->healthDecreases(attackPower); 
 	}
-	else if (this->getPlayerClock().getElapsedTime() - this->lastAttacked > this->woundedTime)
+	else if (this->playerClock.getElapsedTime() - this->lastAttacked > this->woundedTime)
 	{
 		this->playerSpr->setTexture(*this->textureUp); 
 	}
-}
-
-void Wizard::move(const float& dir_x, const float& dir_y)
-{
-	this->playerSpr->move(this->get_speedMovement() * dir_x, this->get_speedMovement() * dir_y); 
-}
-
-
-void Wizard::setRotation(const float& angle)
-{
-	this->playerSpr->setRotation(angle); 
 }
 
 
@@ -122,28 +115,6 @@ std::unique_ptr<Item> Wizard::generateItem() const
 
 	return std::make_unique<ThrownBall>(unownedItems.at(dist(rd)), this->getPosition().x,
 										this->getPosition().y, this->playerSpr->getRotation());
-}
-
-void Wizard::setSpriteDirection(const short& dir_x, const short& dir_y)
-{
-	this->playerSpr->setRotation(dirToDegree(dir_x, dir_y));
-}
-
-
-
-const sf::Texture& Wizard::getToCaveTexture() const
-{
-	return *this->textureToCave;
-}
-
-const sf::Texture& Wizard::getToForestTexture() const
-{
-	return *this->textureToForest;
-}
-
-const sf::Texture& Wizard::getToVillageTexture() const
-{
-	return *this->textureToVillage;
 }
 
 

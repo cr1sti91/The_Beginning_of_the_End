@@ -106,18 +106,20 @@ void GameInfoBattleScene::initBackground(const ActionResults& interact)
 	{
 		case BattleLocation::Cave:
 		{
-			initTexAndSpr(this->backgroundTex, this->backgroundSpr, path_BattleScene_BackG,
+			initTexAndSpr(this->backgroundTex, this->backgroundSpr, path_BattleScene_BackGCave,
 				"ERROR::GameInfoBattleScene::Background inaccesibil!");
 		}break;
 
 		case BattleLocation::Forest:
 		{
-
+			initTexAndSpr(this->backgroundTex, this->backgroundSpr, path_BattleScene_BackGForest,
+				"ERROR::GameInfoBattleScene::Background inaccesibil!");
 		}break;
 
 		case BattleLocation::Village:
 		{
-
+			initTexAndSpr(this->backgroundTex, this->backgroundSpr, path_BattleScene_BackGVillage,
+				"ERROR::GameInfoBattleScene::Background inaccesibil!");
 		}break;
 
 		default:
