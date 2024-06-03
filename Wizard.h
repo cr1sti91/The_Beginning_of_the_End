@@ -19,7 +19,7 @@ public:
 	Wizard(const std::string& name);
 	~Wizard() = default;
 
-	void attack(std::vector<std::unique_ptr<Item>>& attacks, const TypeItem& tipAttack, 
+	void attack(std::vector<std::unique_ptr<Item>>& projectiles, const TypeItem& tipAttack,
 				const float& angle, const sf::Vector2f&) override;
 	void getAttacked(const bool& isAttacked, const short& attackPower) override;
 

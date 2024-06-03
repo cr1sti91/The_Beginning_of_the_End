@@ -13,14 +13,16 @@ void Warrior::initTexture()
 	this->textureToForest->setSmooth(true);
 	this->textureToVillage->setSmooth(true);
 
+	//For BattleScene
 	initTex(this->textureUp, path_Warrior_BattleUp, "ERROR::Warrior::Warrior Up inaccesibil!");
+	initTex(this->textureAttacking, path_Warrior_BattleAttacking, "ERROR::Warrior::Warrior Up inaccesibil!");
 }
 
 void Warrior::initPlayerSpr()
 {
 	this->playerSpr = std::make_unique<sf::Sprite>(*this->textureUp);
-	this->playerSpr->setScale(0.3f, 0.3f);
-	this->playerSpr->setOrigin(212.f, 315.f);
+	this->playerSpr->setScale(0.65f, 0.65f);
+	this->playerSpr->setOrigin(117.f, 91.f);
 	this->playerSpr->setPosition(900.f, 800.f);
 
 	this->setSpriteDirection(0, 1); //In mod implicit, player-ul o sa fie setat cu textura indreptata in sus
@@ -31,14 +33,41 @@ Warrior::Warrior(const std::string& name)
 {
 	this->initTexture(); 
 	this->initPlayerSpr(); 
+
+	////////////test
+	this->inventar.push_back(std::move(std::make_unique<Sword>())); 
 }
 
 
 
-void Warrior::attack(std::vector<std::unique_ptr<Item>>& attacks, const TypeItem& tipAttack, const float& angle,
+void Warrior::attack(std::vector<std::unique_ptr<Item>>& projectiles, const TypeItem& tipAttack, const float& angle,
 				     const sf::Vector2f& pos)
 {
-	//NECESITA DEZVOLTARE
+	switch (tipAttack)
+	{
+	case TypeItem::Sword: 
+	{
+		sf::Vector2f pos = this->playerSpr->getPosition(); 
+		this->playerSpr = std::make_unique<sf::Sprite>();
+		this->playerSpr->setTexture(*this->textureAttacking);
+		this->playerSpr->setScale(0.5f, 0.5f);
+		this->playerSpr->setOrigin(157.f, 387.f);
+		this->playerSpr->setPosition(pos); 
+	}break;
+
+	case TypeItem::None:
+	{
+		sf::Vector2f pos = this->playerSpr->getPosition();
+		this->playerSpr = std::make_unique<sf::Sprite>();
+		this->playerSpr->setTexture(*this->textureUp);
+		this->playerSpr->setScale(0.65f, 0.65f);
+		this->playerSpr->setOrigin(117.f, 91.f);
+		this->playerSpr->setPosition(pos);
+	}
+
+	default:
+		break;
+	}
 }
 
 void Warrior::getAttacked(const bool& isAttacked, const short& attackPower)

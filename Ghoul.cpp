@@ -34,7 +34,7 @@ Ghoul::Ghoul(const CategorieEnemy& categorie, const short& hp, const short& atta
 	this->woundedTime = sf::seconds(0.4f);
 
 	this->isAttacked = false;
-	this->isColdAttacked = false;
+	this->ThermalAttack = std::nullopt; 
 	this->setIsAttack(false);
 }
 
@@ -46,15 +46,23 @@ void Ghoul::attack(const bool& isAttacking)
 		{
 			if (this->isAttacked)
 			{
-				if (this->isColdAttacked)
+				if (this->ThermalAttack.has_value())
 				{
-					this->BattleSprite->setTexture(*this->AttackingColdAttackedTexture);
-					this->set_speedMovement(4);
+					if (this->ThermalAttack.value())
+					{
+						this->BattleSprite->setTexture(*this->AttackingAttackedTexture);
+						this->set_speedMovement(8);
+					}
+					else 
+					{
+						this->BattleSprite->setTexture(*this->AttackingColdAttackedTexture);
+						this->set_speedMovement(4);
+					}
 				}
 				else
 				{
 					this->BattleSprite->setTexture(*this->AttackingAttackedTexture);
-					this->set_speedMovement(8); 
+					this->set_speedMovement(5);
 				}
 			}
 			else
@@ -70,16 +78,23 @@ void Ghoul::attack(const bool& isAttacking)
 		{
 			if (this->isAttacked)
 			{
-				if (this->isColdAttacked)
+				if (this->ThermalAttack.has_value())
 				{
-					this->BattleSprite->setTexture(*this->ColdAttackedTexture);
-					this->set_speedMovement(1);
+					if (this->ThermalAttack.value())
+					{
+						this->BattleSprite->setTexture(*this->AttackedTexture);
+						this->set_speedMovement(4);
+					}
+					else
+					{
+						this->BattleSprite->setTexture(*this->ColdAttackedTexture);
+						this->set_speedMovement(1);
+					}
 				}
 				else
 				{
 					this->BattleSprite->setTexture(*this->AttackedTexture);
-					this->set_speedMovement(4);
-
+					this->set_speedMovement(2);
 				}
 			}
 			else
@@ -87,7 +102,6 @@ void Ghoul::attack(const bool& isAttacking)
 				this->BattleSprite->setTexture(*this->MovingTexture);
 				this->set_speedMovement(2);
 			}
-
 		}
 		this->setIsAttack(isAttacking); 
 	}
@@ -99,7 +113,7 @@ void Ghoul::getAttacked(const bool& isAttacked, const short& attackPower, const 
 	{	
 		if (tipAtac == TypeItem::IceBall) //Atacurile cu apa sau gheata sunt considerate cold attacks
 		{
-			this->isColdAttacked = true; 
+			this->ThermalAttack = false;
 
 			if (this->getIsAttacking())
 			{
@@ -110,9 +124,22 @@ void Ghoul::getAttacked(const bool& isAttacked, const short& attackPower, const 
 				this->BattleSprite->setTexture(*this->ColdAttackedTexture);
 			}
 		}
+		else if (tipAtac == TypeItem::FireBall)
+		{
+			this->ThermalAttack = true; 
+
+			if (this->getIsAttacking())
+			{
+				this->BattleSprite->setTexture(*this->AttackingAttackedTexture);
+			}
+			else
+			{
+				this->BattleSprite->setTexture(*this->AttackedTexture);
+			}
+		}
 		else
 		{
-			this->isColdAttacked = false; 
+			this->ThermalAttack = std::nullopt; 
 
 			if (this->getIsAttacking())
 			{
@@ -139,28 +166,21 @@ void Ghoul::getAttacked(const bool& isAttacked, const short& attackPower, const 
 			this->BattleSprite->setTexture(*this->MovingTexture);
 		}
 		this->isAttacked = false; 
-		this->isColdAttacked = false;
+		this->ThermalAttack = std::nullopt; 
 	}
 }
 
 void Ghoul::move(const float& angle, const sf::Sprite& stopTexture)
 {
-	//Limita de coliziunea este pe baza dreptunghiurilor floatRect 
-	//scade sansa ca enemy-ul sa blocheze complet sprite-ul player-ului
-	/*sf::FloatRect futureBouds = this->BattleSprite->getGlobalBounds(); 
-	futureBouds.left += - this->get_speedMovement() * std::cos((angle - 90) * M_PI / 180);
-	futureBouds.top += -this->get_speedMovement() * std::sin((angle - 90) * M_PI / 180); 
-
-	if (!(futureBouds.intersects(stopTexture.getGlobalBounds())))
-		this->BattleSprite->move(-this->get_speedMovement() * std::cos((angle - 90) * M_PI / 180), 
-								 -this->get_speedMovement() * std::sin((angle - 90) * M_PI / 180));*/
-
 	this->BattleSprite->move(-this->get_speedMovement() * std::cos((angle - 90) * M_PI / 180),
 							 -this->get_speedMovement() * std::sin((angle - 90) * M_PI / 180));
 
-	if (pixelPerfectCollision(*this->BattleSprite, stopTexture))
-		this->BattleSprite->move(this->get_speedMovement() * std::cos((angle - 90) * M_PI / 180),
-								 this->get_speedMovement() * std::sin((angle - 90) * M_PI / 180));
+	for (int i{}; i < 2; i++) //A doua iterare impune miscarea inapoi cand sprite-ul player-ului are coliziune cu enemy
+	{
+		if (pixelPerfectCollision(*this->BattleSprite, stopTexture))
+			this->BattleSprite->move(this->get_speedMovement() * std::cos((angle - 90) * M_PI / 180),
+									 this->get_speedMovement() * std::sin((angle - 90) * M_PI / 180));
+	}
 }
 
 const sf::Sprite& Ghoul::getIntroSprite() //Nu trebuie sa fie const, fiindca in dependenta de BattleLocation, poate necesita 

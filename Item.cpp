@@ -6,10 +6,17 @@ Item::Item(const TypeItem& tip) : tipItem(tip), countDown(std::nullopt)
 	{
 	case TypeItem::FireBall: this->attackPower = 20; 
 		break; 
-	case TypeItem::IceBall: this->attackPower = 10; 
+	case TypeItem::IceBall: this->attackPower = 5; 
 		break; 
-
-	default: std::cout << "ERROR::Item::Item::TypeItem incorect!" << std::endl;
+	case TypeItem::Sword: this->attackPower = 15;
+		break;
+	case TypeItem::Arrow: this->attackPower = 15;
+		break;
+	default:
+	{
+		std::cout << "ERROR::Item::Item::TypeItem incorect!" << std::endl;
+		this->attackPower = 1;
+	}
 		break;
 	}
 }
@@ -48,6 +55,10 @@ const std::string Item::typeItemToStr(const TypeItem& typeItem)
 			return "FireBall";
 	case TypeItem::IceBall:
 			return "IceBall";
+	case TypeItem::Sword: 
+			return "Sword"; 
+	case TypeItem::Arrow:
+			return "Arrow"; 
 	default:
 			return "GameInfoBattleScene::updateUiText::Incorect argument for lambda function!";
 		break;

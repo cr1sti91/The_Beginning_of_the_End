@@ -96,7 +96,9 @@ void GameInfoBattleScene::initVariables(const ActionResults& interact)
 	
 	//In mod implicit, este folosit primul item din inventar
 	if (interact.player->getInvetar().size() != 0)
-		this->currentItem = interact.player->getInvetar().at(0); 
+		this->currentItem = interact.player->getInvetar().at(0);
+	else
+		this->currentItem = nullptr;
 }
 
 void GameInfoBattleScene::initBackground(const ActionResults& interact)
@@ -277,8 +279,9 @@ void GameInfoBattleScene::rotatePlayer(const sf::RenderWindow& target, ActionRes
 	if (this->keyWasPressed && !sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
 		interact.player->setSpriteDirection(interact.dir_x, interact.dir_y);
+		this->mouseHeld = false;
 	}
-	else if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && (this->mouseHeld || !this->keyWasPressed))
+	else if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && this->mouseHeld)
 	{
 		interact.player->setSpriteDirection(0, 0);
 		interact.player->setRotation(calculateAngle(getMousePosView(target), interact));
@@ -291,29 +294,49 @@ void GameInfoBattleScene::rotatePlayer(const sf::RenderWindow& target, ActionRes
 
 void GameInfoBattleScene::thePlayersAttack(const sf::RenderWindow& target, ActionResults& interact)
 {
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+	//Fiindca este conditia 'this->currentItem != nullptr', orice player trebuie sa detina in inventar
+	//cel putin un item pentru ca metoda 'rotatePlayer' sa functioneze corect (este dependenta de 'mouseHeld').
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && this->currentItem != nullptr)
 	{
-		if (this->clock.getElapsedTime() - this->timePoint >= this->cooldownTime && this->keyWasPressed)
+		if (this->currentItem->getTipItem() == TypeItem::FireBall ||
+			this->currentItem->getTipItem() == TypeItem::IceBall  ||
+			this->currentItem->getTipItem() == TypeItem::Arrow)
 		{
-			this->timePoint = this->clock.getElapsedTime(); 
+			if (this->clock.getElapsedTime() - this->timePoint > this->cooldownTime && this->keyWasPressed)
+			{
+				this->timePoint = this->clock.getElapsedTime();
 
-			this->mouseHeld = true;
+				this->mouseHeld = true;
 
-			interact.player->attack(this->projectiles, this->currentItem->getTipItem(),
-									this->calculateAngle(getMousePosView(target), interact),
-									interact.player->getPlayerSpr().getTransform().transformPoint(210.f, 124));
+				interact.player->attack(this->projectiles, this->currentItem->getTipItem(),
+					this->calculateAngle(getMousePosView(target), interact),
+					interact.player->getPlayerSpr().getTransform().transformPoint(210.f, 124));
+			}
+			else if (!this->mouseHeld && !this->keyWasPressed) //Player-ul nu se deplaseaza
+			{
+				this->mouseHeld = true;
+
+				interact.player->attack(this->projectiles, this->currentItem->getTipItem(),
+					this->calculateAngle(getMousePosView(target), interact),
+					interact.player->getPlayerSpr().getTransform().transformPoint(210.f, 124));
+			}
+			//'sprite.getTransform().transformPoint()' returneaza adresa (Vector2f) punctului (210, 124) ce se afla pe sprite in  
+			//coordonatele window-ului dupa ce a avut loc ultima transforamare (aplicare a unei matrici 3x3 asupra sprite-ului dat).
+			//In acest mod, fireballurile vor fi create la adresa actualizata a punctului de pe sprite. 
 		}
-		else if (!this->mouseHeld && !this->keyWasPressed) //Player-ul nu se deplaseaza
+		else if (this->currentItem->getTipItem() == TypeItem::Sword)
 		{
-			this->mouseHeld = true;
+			if (this->clock.getElapsedTime() - this->timePoint > this->cooldownTime)
+			{
+				this->timePoint = this->clock.getElapsedTime();
 
-			interact.player->attack(this->projectiles, this->currentItem->getTipItem(),
-									this->calculateAngle(getMousePosView(target), interact),
-									interact.player->getPlayerSpr().getTransform().transformPoint(210.f, 124));
+				this->mouseHeld = true;
+
+				interact.player->attack(this->projectiles, this->currentItem->getTipItem(),
+										this->calculateAngle(getMousePosView(target), interact),
+										interact.player->getPlayerSpr().getTransform().transformPoint(210.f, 124));
+			}
 		}
-		//'sprite.getTransform().transformPoint()' returneaza adresa (Vector2f) punctului (210, 124) ce se afla pe sprite in  
-		//coordonatele window-ului dupa ce a avut loc ultima transforamare (aplicare a unei matrici 3x3 asupra sprite-ului dat).
-		//In acest mod, fireballurile vor fi create la adresa actualizata a punctului de pe sprite. 
 	}
 	else
 	{

@@ -59,12 +59,17 @@ enum class Direction
 enum class TypeItem
 {
 	//For wizard
-	FireBall = 0, 
-	IceBall
+	FireBall = 0,
+	IceBall,
 
 	//For warior
+	Sword,
 
 	//For rogue
+	Arrow,
+
+	////////////
+	None
 };
 
 //Numarul de tipuri de item-uri posibile pentru fiecare clasa
@@ -243,7 +248,8 @@ const std::string path_Warrior_toForest = "Textures/warriorForest.png";
 const std::string path_Warrior_toVillage = "Textures/warriorVillage.png";
 
 //Scena Battle
-const std::string path_Warrior_BattleUp = "Textures/testWarrior.png";
+const std::string path_Warrior_BattleUp = "Textures/warriorBattleSceneUp.png";
+const std::string path_Warrior_BattleAttacking = "Textures/warriorBattleSceneAttacking.png"; 
 //const std::string path_Warrior_BattleUpAttacked = "Textures/wizardBattleSceneUpAttacked.png";
 
 
@@ -257,6 +263,11 @@ const std::string path_Rogue_toCave = "Textures/rogueCave.png";
 const std::string path_Rogue_toForest = "Textures/rogueForest.png";
 const std::string path_Rogue_toVillage = "Textures/rogueVillage.png";
 
+const std::string path_Rogue_BattleUp = "Textures/rogueBattleSceneUp.png";
+const std::string path_Rogue_BattleUpAttacked = "Textures/rogueBattleSceneUpAttacked.png";
+
+//Items
+const std::string path_Rogue_arrow = "Textures/arrow.png"; 
 
 
 

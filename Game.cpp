@@ -54,7 +54,7 @@ void Game::run()
 	{
 
 		this->update(); //Daca in GameMenuInfo::updatePollEvents window-ul este inchis, atunci are loc 
-		//metoda this->render() doar o singura data si ...
+						//metoda this->render() doar o singura data si ...
 
 		this->render();
 

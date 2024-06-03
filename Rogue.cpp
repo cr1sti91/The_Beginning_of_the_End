@@ -1,8 +1,6 @@
 #include "Rogue.h"
 
 
-
-
 void Rogue::initTexture()
 {
 	//For CrossRoads scene
@@ -13,28 +11,67 @@ void Rogue::initTexture()
 	this->textureToCave->setSmooth(true);
 	this->textureToForest->setSmooth(true);
 	this->textureToVillage->setSmooth(true);
+
+	//For BattleScene
+	initTex(this->textureUp, path_Rogue_BattleUp, "ERROR::Rogue::Rogue Up inaccesibil!");
 }
 
 void Rogue::initPlayerSpr()
 {
+	this->playerSpr = std::make_unique<sf::Sprite>(*this->textureUp);
+	this->playerSpr->setScale(0.5f, 0.5f);
+	this->playerSpr->setOrigin(210.f, 115.f);
+	this->playerSpr->setPosition(900.f, 800.f);
+
+	this->setSpriteDirection(0, 1); //In mod implicit, player-ul o sa fie setat cu textura indreptata in sus
 }
 
 Rogue::Rogue(const std::string& name)
-	: Player(name, CategoriePlayer::Rogue, 100, 100)
+	: Player(name, CategoriePlayer::Rogue, 150, 8)
 {
 	this->initTexture(); 
+	this->initPlayerSpr(); 
+
+	//Init variables
+	this->woundedTime = sf::seconds(0.4f);
+	this->lastAttacked = sf::Time::Zero;
+
+	//In mod implicit un rogue detine sageti in inventar
+	this->inventar.push_back(std::make_shared<Projectile>(TypeItem::Arrow, this->getPosition().x,
+													      this->getPosition().y, this->playerSpr->getRotation())); 
 }
 
 
 
-void Rogue::attack(std::vector<std::unique_ptr<Item>>& attacks, const TypeItem& tipAttack, const float& angle,
+void Rogue::attack(std::vector<std::unique_ptr<Item>>& projectiles, const TypeItem& tipAttack, const float& angle,
 				   const sf::Vector2f& pos)
 {
-	//NECESITA DEZVOLTARE
+	switch (tipAttack)
+	{
+	case TypeItem::Arrow:
+	{
+		projectiles.push_back(std::make_unique<Projectile>(TypeItem::Arrow, pos.x, pos.y, angle));
+	}break;
+
+	default:
+		break;
+	}
 }
+
 
 void Rogue::getAttacked(const bool& isAttacked, const short& attackPower)
 {
+	if (isAttacked)
+	{
+		this->lastAttacked = this->playerClock.getElapsedTime();
+		this->playerSpr->setTexture(*this->textureUpAttacked);
+
+		this->healthDecreases(attackPower);
+	}
+	else if (this->playerClock.getElapsedTime() - this->lastAttacked > this->woundedTime)
+	{
+		this->playerSpr->setTexture(*this->textureUp);
+	}
 }
 
 

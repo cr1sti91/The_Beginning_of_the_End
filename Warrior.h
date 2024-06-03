@@ -1,10 +1,14 @@
 #pragma once
 #include "Player.h"
+#include "Sword.h"
 
 
 class Warrior : public Player
 {
 private: 
+	std::unique_ptr<sf::Texture> textureAttacking; //Textura pentru atack
+
+
 	//Private methods
 	void initTexture() override;
 	void initPlayerSpr() override;
@@ -15,7 +19,7 @@ public:
 	~Warrior() = default;
 
 
-	void attack(std::vector<std::unique_ptr<Item>>& attacks, const TypeItem& tipAttack, const float& angle,
+	void attack(std::vector<std::unique_ptr<Item>>& projectiles, const TypeItem& tipAttack, const float& angle,
 			    const sf::Vector2f& pos) override;
 	void getAttacked(const bool& isAttacked, const short& attackPower) override;
 

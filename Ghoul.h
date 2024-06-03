@@ -13,8 +13,7 @@ private:
 	sf::Time woundedTime; 
 
 	bool isAttacked; //este atacat
-	bool isColdAttacked; //este atacat de un item de gheata sau apa
-	
+	std::optional<bool> ThermalAttack; //iceball-ul va fi pentru 'false', iar fireball-ul va fi pentru 'true'
 
 	//Private methods
 	void initIntroTexAndSpr(); 

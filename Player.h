@@ -47,8 +47,8 @@ public:
 
 
 	//---------------------------------------Metode pur virtuale--------------------------------------
-	virtual void attack(std::vector<std::unique_ptr<Item>>& attacks, const TypeItem& tipAttack, 
-						const float& angle, const sf::Vector2f&) = 0;
+	virtual void attack(std::vector<std::unique_ptr<Item>>& projectiles, const TypeItem& tipAttack,
+						const float& angle, const sf::Vector2f& pos) = 0;
 	virtual void getAttacked(const bool& isAttacked, const short& attackPower) = 0;
 
 	//Generarea random a item-urilor

@@ -1,4 +1,4 @@
-#include "ItemsForWizard.h"
+#include "Projectile.h"
 
 
 void Projectile::initShape(float pos_x, float pos_y)
@@ -7,7 +7,7 @@ void Projectile::initShape(float pos_x, float pos_y)
 	{
 	case TypeItem::FireBall:
 	{
-		initTexAndSpr(this->texture, this->shape, path_Wizard_fireBall, "ERROR::initShape::Fireball inaccesibil!");
+		initTexAndSpr(this->texture, this->shape, path_Wizard_fireBall, "ERROR::Projectile::initShape::Fireball inaccesibil!");
 		this->shape->setPosition(pos_x, pos_y);
 		this->shape->scale(0.25f, 0.25f);
 		this->shape->setOrigin(87.f, 380.f);  //Cand vor fi create fireball-uri in scena de lupta, punctul de spawn va fi acesta
@@ -16,10 +16,19 @@ void Projectile::initShape(float pos_x, float pos_y)
 
 	case TypeItem::IceBall:
 	{
-		initTexAndSpr(this->texture, this->shape, path_Wizard_iceBall, "ERROR::initShape::Iceball inaccesibil!");
+		initTexAndSpr(this->texture, this->shape, path_Wizard_iceBall, "ERROR::Projectile::initShape::Iceball inaccesibil!");
 		this->shape->setPosition(pos_x, pos_y);
 		this->shape->scale(0.35f, 0.2f);
 		this->shape->setOrigin(92.f, 674);  //Cand vor fi create fireball-uri in scena de lupta, punctul de spawn va fi acesta
+
+	}break;
+
+	case TypeItem::Arrow:
+	{
+		initTexAndSpr(this->texture, this->shape, path_Rogue_arrow, "ERROR::Projectile::initShape::Arrow inaccesibil!");
+		this->shape->setPosition(pos_x, pos_y);
+		this->shape->scale(0.35f, 0.1f);
+		this->shape->setOrigin(78.f, 1140);  //Cand vor fi create fireball-uri in scena de lupta, punctul de spawn va fi acesta
 
 	}break;
 

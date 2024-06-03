@@ -8,6 +8,7 @@ Wizard::Wizard(const std::string& name)
 	this->initTexture(); 
 	this->initPlayerSpr(); 
 
+	//Init variables
 	this->woundedTime = sf::seconds(0.4f); 
 	this->lastAttacked = sf::Time::Zero; 
 
@@ -45,20 +46,19 @@ void Wizard::initPlayerSpr()
 }
 
 
-void Wizard::attack(std::vector<std::unique_ptr<Item>>& attacks, const TypeItem& tipAttack, const float& angle,
+void Wizard::attack(std::vector<std::unique_ptr<Item>>& projectiles, const TypeItem& tipAttack, const float& angle,
 				    const sf::Vector2f& pos)
 {
-	//
 	switch (tipAttack)
 	{
 	case TypeItem::FireBall :
 	{
-		attacks.push_back(std::make_unique<ThrownBall>(TypeItem::FireBall, pos.x, pos.y, angle));
+		projectiles.push_back(std::make_unique<Projectile>(TypeItem::FireBall, pos.x, pos.y, angle));
 	}break; 
 
 	case TypeItem::IceBall:
 	{
-		attacks.push_back(std::make_unique<ThrownBall>(TypeItem::IceBall, pos.x, pos.y, angle));
+		projectiles.push_back(std::make_unique<Projectile>(TypeItem::IceBall, pos.x, pos.y, angle));
 	}break;
 
 	default:
@@ -113,7 +113,7 @@ std::unique_ptr<Item> Wizard::generateItem() const
 
 	std::uniform_int_distribution<int> dist(0, unownedItems.size() - 1);  //La moment, pentru wizard sunt doua item-uri
 
-	return std::make_unique<ThrownBall>(unownedItems.at(dist(rd)), this->getPosition().x,
+	return std::make_unique<Projectile>(unownedItems.at(dist(rd)), this->getPosition().x,
 										this->getPosition().y, this->playerSpr->getRotation());
 }
 
