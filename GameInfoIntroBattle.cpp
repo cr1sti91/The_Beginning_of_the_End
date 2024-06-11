@@ -8,7 +8,7 @@ void GameInfoIntroBattle::initEnemy(const ActionResults& interact)
 	std::uniform_int_distribution<unsigned short> dist(); 
 	unsigned short randomNum = dist(rd); */
 
-	unsigned short randomNum = 1; 
+	unsigned short randomNum = 3; 
 
 	switch (static_cast<CategorieEnemy>(randomNum))
 	{
@@ -38,46 +38,46 @@ void GameInfoIntroBattle::initEnemy(const ActionResults& interact)
 
 		case CategorieEnemy::Troll:
 		{
-			//this->enemy = std::make_unique<Ghoul>(CategorieEnemy::Ghoul, 100, 25, 2);
+			this->enemy = std::make_unique<Troll>(CategorieEnemy::Troll, 100, 25, 2);
 
-			////Scalare
-			//this->enemy->setScaleIntroSpr(0.8f, 0.8f);
+			//Scalare
+			this->enemy->setScaleIntroSpr(0.8f, 0.8f);
 
-			////Pozitionarea lui enemy in dependenta de locatia de lupta
-			//switch (interact.locatieLupta)
-			//{
-			//case BattleLocation::Cave: this->enemy->setPosIntroSpr(410.f, 550.f);
-			//	break;
-			//case BattleLocation::Forest: this->enemy->setPosIntroSpr(410.f, 550.f);
-			//	break;
-			//case BattleLocation::Village: this->enemy->setPosIntroSpr(410.f, 550.f);
-			//	break;
+			//Pozitionarea lui enemy in dependenta de locatia de lupta
+			switch (interact.locatieLupta)
+			{
+			case BattleLocation::Cave: this->enemy->setPosIntroSpr(410.f, 550.f);
+				break;
+			case BattleLocation::Forest: this->enemy->setPosIntroSpr(410.f, 550.f);
+				break;
+			case BattleLocation::Village: this->enemy->setPosIntroSpr(410.f, 550.f);
+				break;
 
-			//default: std::cout << "ERROR::GameInfoIntroBattle::initEnemy::Locatie lupta incorecta!" << std::endl;
-			//	break;
-			//}
+			default: std::cout << "ERROR::GameInfoIntroBattle::initEnemy::Locatie lupta incorecta!" << std::endl;
+				break;
+			}
 		}break;
 
 		case CategorieEnemy::Griffon:
 		{
-			//this->enemy = std::make_unique<Ghoul>(CategorieEnemy::Ghoul, 100, 25, 2);
+			this->enemy = std::make_unique<Griffon>(CategorieEnemy::Griffon, 100, 25, 2);
 
-			////Scalare
-			//this->enemy->setScaleIntroSpr(0.8f, 0.8f);
+			//Scalare
+			this->enemy->setScaleIntroSpr(0.8f, 0.8f);
 
-			////Pozitionarea lui enemy in dependenta de locatia de lupta
-			//switch (interact.locatieLupta)
-			//{
-			//case BattleLocation::Cave: this->enemy->setPosIntroSpr(410.f, 550.f);
-			//	break;
-			//case BattleLocation::Forest: this->enemy->setPosIntroSpr(410.f, 550.f);
-			//	break;
-			//case BattleLocation::Village: this->enemy->setPosIntroSpr(410.f, 550.f);
-			//	break;
+			//Pozitionarea lui enemy in dependenta de locatia de lupta
+			switch (interact.locatieLupta)
+			{
+			case BattleLocation::Cave: this->enemy->setPosIntroSpr(410.f, 550.f);
+				break;
+			case BattleLocation::Forest: this->enemy->setPosIntroSpr(410.f, 550.f);
+				break;
+			case BattleLocation::Village: this->enemy->setPosIntroSpr(410.f, 550.f);
+				break;
 
-			//default: std::cout << "ERROR::GameInfoIntroBattle::initEnemy::Locatie lupta incorecta!" << std::endl;
-			//	break;
-			//}
+			default: std::cout << "ERROR::GameInfoIntroBattle::initEnemy::Locatie lupta incorecta!" << std::endl;
+				break;
+			}
 		}break;
 
 		default:
@@ -168,11 +168,17 @@ void GameInfoIntroBattle::initText(const ActionResults& interact)
 
 		case CategorieEnemy::Troll:
 		{
+			//Pentru test!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			initTex(this->Text_MesajAtack_Tex, path_Ghoul_IntroMesajAtack,
+				"ERROR::GameInfoIntroBattle::Mesaj atac ghoul inaccesibil!");
 
 		}break;
 
 		case CategorieEnemy::Griffon:
 		{
+			//Pentru test!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			initTex(this->Text_MesajAtack_Tex, path_Ghoul_IntroMesajAtack,
+				"ERROR::GameInfoIntroBattle::Mesaj atac ghoul inaccesibil!");
 
 		}break;
 	}

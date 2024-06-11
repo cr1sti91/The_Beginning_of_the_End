@@ -1,6 +1,8 @@
 #pragma once
 #include "GameInfo.h"
 #include "Ghoul.h" //Enemy sunt necesar doar in scenele Battle
+#include "Troll.h"; 
+#include "Griffon.h"
 
 
 class GameInfoBattleScene : public GameInfo
@@ -59,6 +61,9 @@ private:
 
 	//For attacking
 	std::vector<std::unique_ptr<Item>> projectiles; //Item-uri ce sunt generate intr-un numar mai mare - fireballs, arrows, spears
+
+	bool isCloseAttack; 
+	bool isHoldClosedAttack; 
 
 	//Private methods
 	void initFont(); 

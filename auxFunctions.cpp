@@ -154,13 +154,16 @@ const float distanceBetweenPoints(const sf::Vector2f& point1, const sf::Vector2f
 
 
 // Helper function to check if a pixel is transparent
-const bool isPixelTransparent(const sf::Uint8* pixelArray, unsigned int x, unsigned int y, unsigned int width) {
+const bool isPixelTransparent(const sf::Uint8* pixelArray, unsigned int x, unsigned int y, unsigned int width) 
+{
 	unsigned int index = 4 * (y * width + x);
 	return pixelArray[index + 3] == 0; // Check alpha value (4th element in the pixel)
 									   // Daca a patra valoare ce descrie pixelul este nula, atunci acesta este transparent
 }
 
-const bool pixelPerfectCollision(const sf::Sprite& sprite1, const sf::Sprite& sprite2) {
+
+const bool pixelPerfectCollision(const sf::Sprite& sprite1, const sf::Sprite& sprite2) 
+{
 	// Get the bounding boxes of the sprites
 	sf::FloatRect bounds1 = sprite1.getGlobalBounds();
 	sf::FloatRect bounds2 = sprite2.getGlobalBounds();
@@ -186,21 +189,25 @@ const bool pixelPerfectCollision(const sf::Sprite& sprite1, const sf::Sprite& sp
 	sf::IntRect localBounds2 = sprite2.getTextureRect();
 
 	// Loop through the intersection rectangle and check pixels
-	for (int i = intersection.left; i < intersection.left + intersection.width; ++i) {
-		for (int j = intersection.top; j < intersection.top + intersection.height; ++j) {
+	for (int i = intersection.left; i < intersection.left + intersection.width; ++i) 
+	{
+		for (int j = intersection.top; j < intersection.top + intersection.height; ++j) 
+		{
 			// Calculate the positions in local texture space
 			sf::Vector2f localPos1 = sprite1.getInverseTransform().transformPoint(i, j);
 			sf::Vector2f localPos2 = sprite2.getInverseTransform().transformPoint(i, j);
 
 			// Check bounds
 			if (localPos1.x < 0 || localPos1.x >= localBounds1.width || localPos1.y < 0 || localPos1.y >= localBounds1.height ||
-				localPos2.x < 0 || localPos2.x >= localBounds2.width || localPos2.y < 0 || localPos2.y >= localBounds2.height) {
+				localPos2.x < 0 || localPos2.x >= localBounds2.width || localPos2.y < 0 || localPos2.y >= localBounds2.height) 
+			{
 				continue;
 			}
 
 			// Check transparency
 			if (!isPixelTransparent(image1.getPixelsPtr(), localPos1.x, localPos1.y, localBounds1.width) &&
-				!isPixelTransparent(image2.getPixelsPtr(), localPos2.x, localPos2.y, localBounds2.width)) {
+				!isPixelTransparent(image2.getPixelsPtr(), localPos2.x, localPos2.y, localBounds2.width)) 
+			{
 				return true; // Collision detected
 			}
 		}

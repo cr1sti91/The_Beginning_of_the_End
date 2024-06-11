@@ -145,12 +145,14 @@
     <ClCompile Include="GameInfoIntroBattle.cpp" />
     <ClCompile Include="GameIntroInfo.cpp" />
     <ClCompile Include="Ghoul.cpp" />
+    <ClCompile Include="Griffon.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Rogue.cpp" />
     <ClCompile Include="Sword.cpp" />
     <ClCompile Include="The_Beginning_of_the_End.cpp" />
+    <ClCompile Include="Troll.cpp" />
     <ClCompile Include="Warrior.cpp" />
     <ClCompile Include="Wizard.cpp" />
   </ItemGroup>
@@ -166,11 +168,13 @@
     <ClInclude Include="GameInfoIntroBattle.h" />
     <ClInclude Include="GameIntroInfo.h" />
     <ClInclude Include="Ghoul.h" />
+    <ClInclude Include="Griffon.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Rogue.h" />
     <ClInclude Include="Sword.h" />
+    <ClInclude Include="Troll.h" />
     <ClInclude Include="Warrior.h" />
     <ClInclude Include="Wizard.h" />
   </ItemGroup>

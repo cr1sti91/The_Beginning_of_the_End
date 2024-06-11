@@ -93,6 +93,9 @@ void GameInfoBattleScene::initVariables(const ActionResults& interact)
 	this->newEnemyAttack = true; 
 
 	this->itemChanged = false; 
+
+	this->isCloseAttack = false; 
+	this->isHoldClosedAttack = false; 
 	
 	//In mod implicit, este folosit primul item din inventar
 	if (interact.player->getInvetar().size() != 0)
@@ -181,7 +184,7 @@ void GameInfoBattleScene::updatePollEvents(sf::RenderWindow& target, ActionResul
 	this->thePlayersAttack(target, interact); 
 
 	//Resetare
-	this->keyWasPressed = false;
+	this->keyWasPressed = false; //Conteaza doar pentru player
 
 	//Move projectiles
 	this->moveProjectiles(target); 
@@ -326,7 +329,7 @@ void GameInfoBattleScene::thePlayersAttack(const sf::RenderWindow& target, Actio
 		}
 		else if (this->currentItem->getTipItem() == TypeItem::Sword)
 		{
-			if (this->clock.getElapsedTime() - this->timePoint > this->cooldownTime)
+		if (this->clock.getElapsedTime() - this->timePoint > this->cooldownTime && !this->mouseHeld)
 			{
 				this->timePoint = this->clock.getElapsedTime();
 
@@ -335,12 +338,30 @@ void GameInfoBattleScene::thePlayersAttack(const sf::RenderWindow& target, Actio
 				interact.player->attack(this->projectiles, this->currentItem->getTipItem(),
 										this->calculateAngle(getMousePosView(target), interact),
 										interact.player->getPlayerSpr().getTransform().transformPoint(210.f, 124));
+
+
+
+				sf::Sprite swordSpr = interact.player->getPlayerSpr(); 
+				swordSpr.setTextureRect(interact.player->getInvetar().at(0)->getItemLimits()); //Sword-ul va fi cu indexul 0
+
+				if (pixelPerfectCollision(swordSpr, interact.enemy->getBattleSprite()) && !this->isHoldClosedAttack)
+				{
+					this->isCloseAttack = true; 
+				}
+			}
+			else
+			{
+				interact.player->stopAttack(); 
 			}
 		}
 	}
 	else
 	{
 		this->mouseHeld = false;
+		this->isHoldClosedAttack = false; 
+		
+		//Stop attack
+		interact.player->stopAttack(); 
 	}
 
 	//Comutarea intre item-uri in inventar este facuta atunci cand avem mai mult de un singur item
@@ -388,6 +409,13 @@ void GameInfoBattleScene::moveProjectiles(const sf::RenderWindow& target)
 
 void GameInfoBattleScene::enemyGetAttacked(ActionResults& interact)
 {
+	if (this->isCloseAttack && !this->isHoldClosedAttack)
+	{
+		//Close attack este doar pentru sword
+		this->enemyWasAttacked = true;
+		this->isCloseAttack = false; 
+	}
+
 	for (size_t i{}; i < this->projectiles.size(); i++)
 	{
 		if (this->projectiles.at(i)->getSprite()->getGlobalBounds().intersects(interact.enemy->getBattleSprite().getGlobalBounds()))
@@ -412,7 +440,7 @@ void GameInfoBattleScene::enemyGetAttacked(ActionResults& interact)
 	if (this->enemyWasAttacked)
 	{
 		interact.enemy->getAttacked(true, this->currentItem->getAttackPower(), this->currentItem->getTipItem());
-		this->enemyWasAttacked = false; 
+		this->enemyWasAttacked = false;
 	}
 	else
 	{

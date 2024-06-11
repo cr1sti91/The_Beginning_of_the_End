@@ -47,6 +47,11 @@ const std::optional<short>& Item::getCountDown() const
 	return this->countDown; 
 }
 
+const sf::IntRect& Item::getItemLimits() const
+{
+	return this->itemLimits; 
+}
+
 const std::string Item::typeItemToStr(const TypeItem& typeItem)
 {
 	switch (typeItem)

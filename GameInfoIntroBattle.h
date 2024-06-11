@@ -1,6 +1,8 @@
 #pragma once
 #include "GameInfo.h"
 #include "Ghoul.h" //Enemy sunt necesar doar in scenele Battle
+#include "Troll.h"
+#include "Griffon.h"
 
 
 class GameInfoIntroBattle : public GameInfo

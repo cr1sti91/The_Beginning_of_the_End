@@ -10,6 +10,11 @@ class Item
 
 	std::optional<short> countDown; 
 
+protected: 
+	//Pentru item-uri de close attack - atunci cand item-ul este parte din textura player-ului
+	sf::IntRect itemLimits;
+
+
 public: 
 	Item(const TypeItem& tip);
 	virtual ~Item() = default; 
@@ -24,6 +29,7 @@ public:
 	const TypeItem& getTipItem() const; 
 	const short& getAttackPower() const; 
 	const std::optional<short>& getCountDown() const; 
+	const sf::IntRect& getItemLimits() const; 
 
 	virtual const std::unique_ptr<sf::Sprite>& getSprite() const = 0;
 

@@ -66,6 +66,11 @@ void Wizard::attack(std::vector<std::unique_ptr<Item>>& projectiles, const TypeI
 	}
 }
 
+void Wizard::stopAttack()
+{
+	//La moment nu necesita implementare, fiindca atacand, wizard-ul nu isi modifica textura
+}
+
 void Wizard::getAttacked(const bool& isAttacked, const short& attackPower)
 {
 	if (isAttacked)

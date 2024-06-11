@@ -14,6 +14,7 @@ void Rogue::initTexture()
 
 	//For BattleScene
 	initTex(this->textureUp, path_Rogue_BattleUp, "ERROR::Rogue::Rogue Up inaccesibil!");
+	initTex(this->textureUpAttacked, path_Rogue_BattleUpAttacked, "ERROR::Rogue::Rogue Up inaccesibil!");
 }
 
 void Rogue::initPlayerSpr()
@@ -56,6 +57,11 @@ void Rogue::attack(std::vector<std::unique_ptr<Item>>& projectiles, const TypeIt
 	default:
 		break;
 	}
+}
+
+void Rogue::stopAttack()
+{
+	//La moment nu necesita implementare, fiindca atacand, rogue-ul nu isi modifica textura
 }
 
 

@@ -250,7 +250,8 @@ const std::string path_Warrior_toVillage = "Textures/warriorVillage.png";
 //Scena Battle
 const std::string path_Warrior_BattleUp = "Textures/warriorBattleSceneUp.png";
 const std::string path_Warrior_BattleAttacking = "Textures/warriorBattleSceneAttacking.png"; 
-//const std::string path_Warrior_BattleUpAttacked = "Textures/wizardBattleSceneUpAttacked.png";
+const std::string path_Warrior_BattleUpAttacked = "Textures/warriorBattleSceneUpAttacked.png";
+const std::string path_Warrior_BattleAttackingAttacked = "Textures/warriorBattleSceneAttackingAttacked.png";
 
 
 
@@ -307,6 +308,19 @@ const std::string path_Ghoul_AttackingColdAttacked = "Textures/ghoulAttackingCol
 
 const std::string path_Ghoul_IntroMesajAtack = "Textures/ghoulMesajAtack.png";
 
+
+//----------------------------------------For Troll class----------------------------------------
+const std::string path_Troll_IntroTexture = "Textures/trollIntroTexture.png"; 
+
+const std::string path_Troll_MovingTexture = "Textures/trollMoving.png"; 
+const std::string path_Troll_BeingAttacked = "Textures/trollBeingAttacked_Moving.png"; 
+
+
+//----------------------------------------For Griffon class----------------------------------------
+const std::string path_Griffon_IntroTexture = "Textures/griffonIntroTexture.png"; 
+
+const std::string path_Griffon_MovingTexture = "Textures/griffonMoving.png"; 
+const std::string path_Griffon_AttackingTexture = "Textures/griffonAttacking.png"; 
 
 
 //----------------------------------------For Text----------------------------------------
