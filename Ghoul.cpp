@@ -12,7 +12,7 @@ void Ghoul::initBattleTexAndSpr()
 	initTex(this->AttackingTexture, path_Ghoul_AttackingTexture, "ERROR::GHOUL::AttackingTexture inaccesibil!");
 
 	initTex(this->AttackedTexture, path_Ghoul_BeingAttacked, "ERROR::GHOUL::AttackedTexture inaccesibil!");
-	initTex(this->AttackingAttackedTexture, path_Ghoul_AttakingAttacked, "ERROR::GHOUL::AttackingAttackedTexture inaccesibil!");
+	initTex(this->AttackingAttackedTexture, path_Ghoul_AttackingAttacked, "ERROR::GHOUL::AttackingAttackedTexture inaccesibil!");
 
 	initTex(this->ColdAttackedTexture, path_Ghoul_BeingColdAttacked, "ERROR::GHOUL::ColdAttackedTexture inaccesibil!");
 	initTex(this->AttackingColdAttackedTexture, path_Ghoul_AttackingColdAttacked, "ERROR::GHOUL::AttackingColdAttackedTexture inaccesibil!");
@@ -22,20 +22,26 @@ void Ghoul::initBattleTexAndSpr()
 	this->BattleSprite->setPosition(900.f, 228.f);
 }
 
+void Ghoul::initVariables()
+{
+	this->attackBeginning = sf::Time::Zero;
+	this->attackDuration = sf::seconds(1.f);
+	this->lastAttack = sf::Time::Zero;
+	this->woundedTime = sf::seconds(0.4f);
+
+	this->isAttacked = false;
+	this->isAttacking = false;
+	this->ThermalAttack = std::nullopt;
+}
+
+
+
 Ghoul::Ghoul(const CategorieEnemy& categorie, const short& hp, const short& attack, const float& speed)
 	: Enemy(categorie, hp, attack, speed)
 {
 	this->initIntroTexAndSpr(); 
 	this->initBattleTexAndSpr(); 
-
-	this->attackBeginning = sf::Time::Zero; 
-	this->attackDuration = sf::seconds(1.f); 
-	this->lastAttack = sf::Time::Zero;
-	this->woundedTime = sf::seconds(0.4f);
-
-	this->isAttacked = false;
-	this->ThermalAttack = std::nullopt; 
-	this->setIsAttack(false);
+	this->initVariables(); 
 }
 
 void Ghoul::attack(const bool& isAttacking)
@@ -103,7 +109,7 @@ void Ghoul::attack(const bool& isAttacking)
 				this->set_speedMovement(2);
 			}
 		}
-		this->setIsAttack(isAttacking); 
+		this->isAttacking = isAttacking; 
 	}
 }
 
@@ -115,7 +121,7 @@ void Ghoul::getAttacked(const bool& isAttacked, const short& attackPower, const 
 		{
 			this->ThermalAttack = false;
 
-			if (this->getIsAttacking())
+			if (this->isAttacking)
 			{
 				this->BattleSprite->setTexture(*this->AttackingColdAttackedTexture);
 			}
@@ -128,7 +134,7 @@ void Ghoul::getAttacked(const bool& isAttacked, const short& attackPower, const 
 		{
 			this->ThermalAttack = true; 
 
-			if (this->getIsAttacking())
+			if (this->isAttacking)
 			{
 				this->BattleSprite->setTexture(*this->AttackingAttackedTexture);
 			}
@@ -141,7 +147,7 @@ void Ghoul::getAttacked(const bool& isAttacked, const short& attackPower, const 
 		{
 			this->ThermalAttack = std::nullopt; 
 
-			if (this->getIsAttacking())
+			if (this->isAttacking)
 			{
 				this->BattleSprite->setTexture(*this->AttackingAttackedTexture);
 			}
@@ -157,7 +163,7 @@ void Ghoul::getAttacked(const bool& isAttacked, const short& attackPower, const 
 	}
 	else if (this->getEnemyClock().getElapsedTime() - this->lastAttack > this->woundedTime)
 	{
-		if (this->getIsAttacking())
+		if (this->isAttacking)
 		{
 			this->BattleSprite->setTexture(*this->AttackingTexture);
 		}
@@ -170,18 +176,6 @@ void Ghoul::getAttacked(const bool& isAttacked, const short& attackPower, const 
 	}
 }
 
-void Ghoul::move(const float& angle, const sf::Sprite& stopTexture)
-{
-	this->BattleSprite->move(-this->get_speedMovement() * std::cos((angle - 90) * M_PI / 180),
-							 -this->get_speedMovement() * std::sin((angle - 90) * M_PI / 180));
-
-	for (int i{}; i < 2; i++) //A doua iterare impune miscarea inapoi cand sprite-ul player-ului are coliziune cu enemy
-	{
-		if (pixelPerfectCollision(*this->BattleSprite, stopTexture))
-			this->BattleSprite->move(this->get_speedMovement() * std::cos((angle - 90) * M_PI / 180),
-									 this->get_speedMovement() * std::sin((angle - 90) * M_PI / 180));
-	}
-}
 
 const sf::Sprite& Ghoul::getIntroSprite() //Nu trebuie sa fie const, fiindca in dependenta de BattleLocation, poate necesita 
 {										  //modificarea pozitiei

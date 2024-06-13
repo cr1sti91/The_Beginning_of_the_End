@@ -49,26 +49,12 @@ void Wizard::initPlayerSpr()
 void Wizard::attack(std::vector<std::unique_ptr<Item>>& projectiles, const TypeItem& tipAttack, const float& angle,
 				    const sf::Vector2f& pos)
 {
-	switch (tipAttack)
-	{
-	case TypeItem::FireBall :
-	{
-		projectiles.push_back(std::make_unique<Projectile>(TypeItem::FireBall, pos.x, pos.y, angle));
-	}break; 
-
-	case TypeItem::IceBall:
-	{
-		projectiles.push_back(std::make_unique<Projectile>(TypeItem::IceBall, pos.x, pos.y, angle));
-	}break;
-
-	default:
-		break;
-	}
+	projectiles.push_back(std::make_unique<Projectile>(tipAttack, pos.x, pos.y, angle)); 
 }
 
 void Wizard::stopAttack()
 {
-	//La moment nu necesita implementare, fiindca atacand, wizard-ul nu isi modifica textura
+	//La moment nu necesita implementare, fiindca atacand, wizard-ul nu isi modifica textura 
 }
 
 void Wizard::getAttacked(const bool& isAttacked, const short& attackPower)

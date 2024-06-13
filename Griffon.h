@@ -16,11 +16,9 @@ public:
 	Griffon(const CategorieEnemy& categorie, const short& hp, const short& attack, const float& speed);
 	~Griffon() = default;
 
-
-
 	void attack(const bool& isAttacking) override;
 	void getAttacked(const bool& isAttacked, const short& attackPower, const TypeItem& tipAtac) override;
-	void move(const float& angle, const sf::Sprite& stopTexture) override;
+
 
 	//Getters
 	const sf::Sprite& getIntroSprite() override;

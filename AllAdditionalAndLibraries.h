@@ -64,9 +64,11 @@ enum class TypeItem
 
 	//For warior
 	Sword,
+	Spear,
 
 	//For rogue
 	Arrow,
+	Trap,
 
 	////////////
 	None
@@ -253,6 +255,9 @@ const std::string path_Warrior_BattleAttacking = "Textures/warriorBattleSceneAtt
 const std::string path_Warrior_BattleUpAttacked = "Textures/warriorBattleSceneUpAttacked.png";
 const std::string path_Warrior_BattleAttackingAttacked = "Textures/warriorBattleSceneAttackingAttacked.png";
 
+//Items
+const std::string path_Warrior_spear = "Textures/spear.png"; 
+
 
 
 
@@ -303,7 +308,7 @@ const std::string path_Ghoul_AttackingTexture = "Textures/ghoulAttacking.png";
 const std::string path_Ghoul_BeingAttacked = "Textures/goulBeingAttacked_Moving.png";
 const std::string path_Ghoul_BeingColdAttacked = "Textures/ghoulBeingColdAttacked.png"; 
 
-const std::string path_Ghoul_AttakingAttacked = "Textures/ghoulAttackingAttacked.png";
+const std::string path_Ghoul_AttackingAttacked = "Textures/ghoulAttackingAttacked.png";
 const std::string path_Ghoul_AttackingColdAttacked = "Textures/ghoulAttackingColdAttacked.png";
 
 const std::string path_Ghoul_IntroMesajAtack = "Textures/ghoulMesajAtack.png";
@@ -313,7 +318,16 @@ const std::string path_Ghoul_IntroMesajAtack = "Textures/ghoulMesajAtack.png";
 const std::string path_Troll_IntroTexture = "Textures/trollIntroTexture.png"; 
 
 const std::string path_Troll_MovingTexture = "Textures/trollMoving.png"; 
+
+//Moving
 const std::string path_Troll_BeingAttacked = "Textures/trollBeingAttacked_Moving.png"; 
+const std::string path_Troll_BeingColdAttacked = "Textures/trollBeingColdAttacked.png"; 
+//Attacking
+const std::string path_Troll_AttackingAttacked = "Textures/trollAttackingAttacked.png";
+const std::string path_Troll_AttackingColdAttacked = "Textures/trollAttackingColdAttacked.png";
+
+
+const std::string path_Troll_AttackingTexture = "Textures/trollAttacking.png"; 
 
 
 //----------------------------------------For Griffon class----------------------------------------

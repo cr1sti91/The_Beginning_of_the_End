@@ -14,10 +14,13 @@ private:
 	short attackPower;
 	float speedMovement;
 
+protected: 
+	//For BattleScene
+	bool isAttacked; //este atacat
 	bool isAttacking; //enemy-ul ataca
 
+	std::optional<bool> ThermalAttack; //iceball-ul va fi pentru 'false', iar fireball-ul va fi pentru 'true'
 
-protected: 
 	//IntroBattle
 	std::unique_ptr<sf::Texture> introTexture;
 	std::unique_ptr<sf::Sprite> introSprite;
@@ -37,15 +40,14 @@ protected:
 
 public: 
 	Enemy(const CategorieEnemy& categorie, const short& hp, const short& attack, const float& speed);
-	virtual ~Enemy();
+	virtual ~Enemy() = default;
 
 	//Metode pur virtuale
 	virtual void attack(const bool& isAttacking) = 0;
 	virtual void getAttacked(const bool& isAttacked, const short& attackPower, const TypeItem& tipAtac) = 0;
-	virtual void move(const float& angle, const sf::Sprite& stopTexture) = 0;
 	
-
-
+	void move(const float& angle, const sf::Sprite& stopTexture);
+	
 	//Getters
 	const short& get_health() const;
 	const short& get_attackPower() const;
@@ -59,7 +61,6 @@ public:
 	virtual const sf::Sprite& getBattleSprite() = 0;
 
 	//Setters
-	void setIsAttack(const bool& status);
 	void set_speedMovement(const float& newValue); 
 	void healthDecreases(const short& damage); 
 	//For IntroBattle

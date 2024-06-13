@@ -6,7 +6,7 @@ class Projectile : public Item
 {
 private:
 	std::unique_ptr<sf::Texture> texture;
-	std::unique_ptr<sf::Sprite> shape;
+	std::unique_ptr<sf::Sprite> sprite;
 
 	float unghi;
 	float movementSpeed;

@@ -46,7 +46,7 @@ Warrior::Warrior(const std::string& name)
 	this->woundedTime = sf::seconds(0.4f);
 	this->lastAttacked = sf::Time::Zero;
 
-	////////////test
+	//In mod implicit, warrior-ul va avea in inventar un sword
 	this->inventar.push_back(std::move(std::make_unique<Sword>(CategoriePlayer::Warrior))); 
 }
 
@@ -72,6 +72,11 @@ void Warrior::attack(std::vector<std::unique_ptr<Item>>& projectiles, const Type
 		this->playerSpr->setRotation(rot); 
 
 		this->isAttacking = true; 
+	}break;
+
+	case TypeItem::Spear:
+	{
+		projectiles.push_back(std::make_unique<Projectile>(TypeItem::Spear, pos.x, pos.y, angle));
 	}break;
 
 	default:
@@ -131,5 +136,35 @@ void Warrior::getAttacked(const bool& isAttacked, const short& attackPower)
 
 std::unique_ptr<Item> Warrior::generateItem() const
 {
-	return nullptr;  //NECESITA DEZVOLTARE
+	static std::random_device rd; //fiindca este static, va fi declarat o singura data si va fi utilizat in apelurile ulterioare
+
+	std::vector<int> unownedItems; //Vector de itemi (pentru wizard) care nu sunt prezenti in inventar
+
+	for (int i{}; i < possItemsWizard; i++)
+	{
+		bool exist = false;
+		for (int j{}; j < this->inventar.size(); j++)
+		{
+			if (this->inventar.at(j)->getTipItem() == static_cast<TypeItem>(i))
+			{
+				exist = true;
+				break;
+			}
+		}
+
+		if (!exist)
+			unownedItems.push_back(i);
+	}
+
+	if (unownedItems.size() == 0)
+	{
+		std::cerr << "ERROR::Wizard::generateItem::A avut loc incercarea de generare cand unownedItems.size = 0" << std::endl;
+		return nullptr;
+	}
+
+	std::uniform_int_distribution<int> dist(0, unownedItems.size() - 1);  //La moment, pentru wizard sunt doua item-uri
+
+	//avem '+ 2' fiindca static_cast<int>(TypeItem::Sword) = 2
+	return std::make_unique<Projectile>(static_cast<TypeItem>(unownedItems.at(dist(rd)) + 2), this->getPosition().x, 
+		this->getPosition().y, this->playerSpr->getRotation());
 }

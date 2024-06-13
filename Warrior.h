@@ -1,6 +1,7 @@
 #pragma once
 #include "Player.h"
 #include "Sword.h"
+#include "Projectile.h"
 
 
 class Warrior : public Player

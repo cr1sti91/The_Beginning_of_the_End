@@ -14,6 +14,8 @@ void resetSprite(std::unique_ptr<sf::Sprite>& sprite, std::unique_ptr<sf::Textur
 void resetMusicForCase(std::atomic<bool>& musicIsStopped, std::atomic<bool>& musicIsInitialized, std::unique_ptr<sf::Music>& music,
 					   const std::string& path, const std::string& error); 
 
+void resetBattleSprite(std::unique_ptr<sf::Sprite>& battleSpr, const std::unique_ptr<sf::Texture>& newTexture, const sf::Vector2f origin);
+
 const short dirToDegree(const short& dir_x, const short& dir_y); 
 
 //O alternativa mai buna pentru metoda 'intersect' cand verificam coliziunea intre doua sprite-uri

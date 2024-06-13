@@ -7,36 +7,44 @@ void Projectile::initShape(float pos_x, float pos_y)
 	{
 	case TypeItem::FireBall:
 	{
-		initTexAndSpr(this->texture, this->shape, path_Wizard_fireBall, "ERROR::Projectile::initShape::Fireball inaccesibil!");
-		this->shape->setPosition(pos_x, pos_y);
-		this->shape->scale(0.25f, 0.25f);
-		this->shape->setOrigin(87.f, 380.f);  //Cand vor fi create fireball-uri in scena de lupta, punctul de spawn va fi acesta
+		initTexAndSpr(this->texture, this->sprite, path_Wizard_fireBall, "ERROR::Projectile::initShape::Fireball inaccesibil!");
+		this->sprite->setPosition(pos_x, pos_y);
+		this->sprite->scale(0.25f, 0.25f);
+		this->sprite->setOrigin(87.f, 380.f);  
 
 	}break;
 
 	case TypeItem::IceBall:
 	{
-		initTexAndSpr(this->texture, this->shape, path_Wizard_iceBall, "ERROR::Projectile::initShape::Iceball inaccesibil!");
-		this->shape->setPosition(pos_x, pos_y);
-		this->shape->scale(0.35f, 0.2f);
-		this->shape->setOrigin(92.f, 674);  //Cand vor fi create fireball-uri in scena de lupta, punctul de spawn va fi acesta
+		initTexAndSpr(this->texture, this->sprite, path_Wizard_iceBall, "ERROR::Projectile::initShape::Iceball inaccesibil!");
+		this->sprite->setPosition(pos_x, pos_y);
+		this->sprite->scale(0.35f, 0.2f);
+		this->sprite->setOrigin(92.f, 674.f); 
 
 	}break;
 
 	case TypeItem::Arrow:
 	{
-		initTexAndSpr(this->texture, this->shape, path_Rogue_arrow, "ERROR::Projectile::initShape::Arrow inaccesibil!");
-		this->shape->setPosition(pos_x, pos_y);
-		this->shape->scale(0.35f, 0.1f);
-		this->shape->setOrigin(78.f, 1140);  //Cand vor fi create fireball-uri in scena de lupta, punctul de spawn va fi acesta
+		initTexAndSpr(this->texture, this->sprite, path_Rogue_arrow, "ERROR::Projectile::initShape::Arrow inaccesibil!");
+		this->sprite->setPosition(pos_x, pos_y);
+		this->sprite->scale(0.35f, 0.1f);
+		this->sprite->setOrigin(78.f, 1140.f);  
+
+	}break;
+
+	case TypeItem::Spear:
+	{
+		initTexAndSpr(this->texture, this->sprite, path_Warrior_spear, "ERROR::Projectile::initShape::Spear inaccesibil!");
+		this->sprite->setPosition(pos_x, pos_y);
+		this->sprite->scale(0.5f, 0.3f);
+		this->sprite->setOrigin(30.f, 870.f);  
 
 	}break;
 
 	default:
-		std::cout << "TypeItem incorect!" << std::endl;
+		std::cout << "ERROR::Projectile::initShape::TypeItem incorect!" << std::endl;
 		break;
 	}
-	
 }
 
 
@@ -45,19 +53,19 @@ Projectile::Projectile(const TypeItem& tip, float pos_x, float pos_y, const floa
 	: Item(tip), unghi(angle), movementSpeed(movement_speed)
 {
 	this->initShape(pos_x, pos_y); 
-	this->shape->setRotation(angle); 
+	this->sprite->setRotation(angle);
 }
 
 
 void Projectile::move()
 {
-	this->shape->move(this->movementSpeed * std::cos((unghi - 90) * M_PI / 180), this->movementSpeed * std::sin((unghi - 90) * M_PI / 180));
+	this->sprite->move(this->movementSpeed * std::cos((unghi - 90) * M_PI / 180), this->movementSpeed * std::sin((unghi - 90) * M_PI / 180));
 	std::cout << "unghiul este : " << unghi << std::endl;
 }
 
 const std::unique_ptr<sf::Sprite>& Projectile::getSprite() const
 {
-	return this->shape; 
+	return this->sprite;
 }
 
 

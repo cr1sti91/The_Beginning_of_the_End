@@ -12,6 +12,7 @@ void Griffon::initBattleTexAndSpr()
 
 	this->BattleSprite->setOrigin(199.f, 221.f);
 	this->BattleSprite->setPosition(900.f, 242.f);
+	this->BattleSprite->setScale(0.7f, 0.7f);
 }
 
 Griffon::Griffon(const CategorieEnemy& categorie, const short& hp, const short& attack, const float& speed)
@@ -29,18 +30,6 @@ void Griffon::getAttacked(const bool& isAttacked, const short& attackPower, cons
 {
 }
 
-void Griffon::move(const float& angle, const sf::Sprite& stopTexture)
-{
-	this->BattleSprite->move(-this->get_speedMovement() * std::cos((angle - 90) * M_PI / 180),
-		-this->get_speedMovement() * std::sin((angle - 90) * M_PI / 180));
-
-	for (int i{}; i < 2; i++) //A doua iterare impune miscarea inapoi cand sprite-ul player-ului are coliziune cu enemy
-	{
-		if (pixelPerfectCollision(*this->BattleSprite, stopTexture))
-			this->BattleSprite->move(this->get_speedMovement() * std::cos((angle - 90) * M_PI / 180),
-				this->get_speedMovement() * std::sin((angle - 90) * M_PI / 180));
-	}
-}
 
 const sf::Sprite& Griffon::getIntroSprite()
 {

@@ -67,6 +67,22 @@ void resetMusicForCase(std::atomic<bool>& musicIsStopped, std::atomic<bool>& mus
 }
 
 
+void resetBattleSprite(std::unique_ptr<sf::Sprite>& battleSpr, const std::unique_ptr<sf::Texture>& newTexture, const sf::Vector2f origin)
+{
+	sf::Vector2f pos = battleSpr->getPosition();
+	sf::Vector2f scale = battleSpr->getScale();
+	float rot = battleSpr->getRotation();
+
+	battleSpr = std::make_unique<sf::Sprite>();
+
+	battleSpr->setTexture(*newTexture);
+	battleSpr->setPosition(pos);
+	battleSpr->setRotation(rot);
+	battleSpr->setScale(scale);
+	battleSpr->setOrigin(origin); 
+}
+
+
 const short dirToDegree(const short& dir_x, const short& dir_y)
 {
 	//In sensul acelor ceasornic are loc rotirea
@@ -169,7 +185,8 @@ const bool pixelPerfectCollision(const sf::Sprite& sprite1, const sf::Sprite& sp
 	sf::FloatRect bounds2 = sprite2.getGlobalBounds();
 
 	// Check if the bounding boxes intersect
-	if (!bounds1.intersects(bounds2)) {
+	if (!bounds1.intersects(bounds2)) 
+	{
 		return false;
 	}
 

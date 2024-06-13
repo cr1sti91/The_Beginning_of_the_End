@@ -237,7 +237,7 @@ void GameInfoBattleScene::movePlayer(ActionResults& interact)
 		this->keyWasPressed = true;
 	}
 	else if (!this->x_modified)
-	{
+	{  
 		interact.dir_x = 0;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
@@ -303,7 +303,8 @@ void GameInfoBattleScene::thePlayersAttack(const sf::RenderWindow& target, Actio
 	{
 		if (this->currentItem->getTipItem() == TypeItem::FireBall ||
 			this->currentItem->getTipItem() == TypeItem::IceBall  ||
-			this->currentItem->getTipItem() == TypeItem::Arrow)
+			this->currentItem->getTipItem() == TypeItem::Arrow    ||
+			this->currentItem->getTipItem() == TypeItem::Spear)
 		{
 			if (this->clock.getElapsedTime() - this->timePoint > this->cooldownTime && this->keyWasPressed)
 			{
@@ -418,7 +419,8 @@ void GameInfoBattleScene::enemyGetAttacked(ActionResults& interact)
 
 	for (size_t i{}; i < this->projectiles.size(); i++)
 	{
-		if (this->projectiles.at(i)->getSprite()->getGlobalBounds().intersects(interact.enemy->getBattleSprite().getGlobalBounds()))
+		//if (this->projectiles.at(i)->getSprite()->getGlobalBounds().intersects(interact.enemy->getBattleSprite().getGlobalBounds()))
+		if (pixelPerfectCollision(*this->projectiles.at(i)->getSprite(), interact.enemy->getBattleSprite()))
 		{
 			if (!this->projectiles.at(i)->getCountDown().has_value())
 				this->enemyWasAttacked = true; 

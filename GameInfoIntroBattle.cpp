@@ -8,7 +8,7 @@ void GameInfoIntroBattle::initEnemy(const ActionResults& interact)
 	std::uniform_int_distribution<unsigned short> dist(); 
 	unsigned short randomNum = dist(rd); */
 
-	unsigned short randomNum = 3; 
+	unsigned short randomNum = 2; 
 
 	switch (static_cast<CategorieEnemy>(randomNum))
 	{
@@ -38,7 +38,8 @@ void GameInfoIntroBattle::initEnemy(const ActionResults& interact)
 
 		case CategorieEnemy::Troll:
 		{
-			this->enemy = std::make_unique<Troll>(CategorieEnemy::Troll, 100, 25, 2);
+			this->enemy = std::make_unique<Troll>(CategorieEnemy::Troll, 
+							enemyStats.at("Troll").health, enemyStats.at("Troll").attackPower, enemyStats.at("Troll").speedMovement);
 
 			//Scalare
 			this->enemy->setScaleIntroSpr(0.8f, 0.8f);
@@ -60,7 +61,8 @@ void GameInfoIntroBattle::initEnemy(const ActionResults& interact)
 
 		case CategorieEnemy::Griffon:
 		{
-			this->enemy = std::make_unique<Griffon>(CategorieEnemy::Griffon, 100, 25, 2);
+			this->enemy = std::make_unique<Griffon>(CategorieEnemy::Griffon, 
+						  enemyStats.at("Griffon").health, enemyStats.at("Griffon").attackPower, enemyStats.at("Griffon").speedMovement);
 
 			//Scalare
 			this->enemy->setScaleIntroSpr(0.8f, 0.8f);

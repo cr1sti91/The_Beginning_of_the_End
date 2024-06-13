@@ -8,10 +8,32 @@ void Troll::initIntroTexAndSpr()
 void Troll::initBattleTexAndSpr()
 {
 	initTexAndSpr(this->MovingTexture, this->BattleSprite, path_Troll_MovingTexture, "ERROR::TROLL::MovingTexture inaccesibil!");
+	initTex(this->AttackingTexture, path_Troll_AttackingTexture, "ERROR::TROLL::AttackingTexture inaccesibil!");
+
 	initTex(this->AttackedTexture, path_Troll_BeingAttacked, "ERROR::TROLL::AttackedTexture inaccesibil!");
+	initTex(this->ColdAttackedTexture, path_Troll_BeingColdAttacked, "ERROR::TROLL::AttackingTexture inaccesibil!");
+
+	initTex(this->AttackingAttackedTexture, path_Troll_AttackingAttacked, "ERROR::TROLL::AttackingTexture inaccesibil!");
+	initTex(this->AttackingColdAttackedTexture, path_Troll_AttackingColdAttacked, "ERROR::TROLL::AttackingTexture inaccesibil!");
+
 
 	this->BattleSprite->setOrigin(125.f, 115.f);
 	this->BattleSprite->setPosition(900.f, 242.f);
+}
+
+void Troll::initVariables()
+{
+	this->isAttacked = false;
+	this->isAttacking = false;
+	this->ThermalAttack = std::nullopt;
+
+	this->attackBeginning = sf::Time::Zero;
+	this->attackDuration = sf::seconds(1.f);
+	this->lastAttack = sf::Time::Zero;
+	this->woundedTime = sf::seconds(0.4f);
+
+	this->movingOrigin = sf::Vector2f(125.f, 115.f);
+	this->attackingOrigin = sf::Vector2f(206.f, 133.f);
 }
 
 Troll::Troll(const CategorieEnemy& categorie, const short& hp, const short& attack, const float& speed)
@@ -19,28 +41,216 @@ Troll::Troll(const CategorieEnemy& categorie, const short& hp, const short& atta
 {
 	this->initIntroTexAndSpr();
 	this->initBattleTexAndSpr();
+	this->initVariables();
 }
 
 void Troll::attack(const bool& isAttacking)
 {
+
+	/*if (this->getEnemyClock().getElapsedTime() - this->attackBeginning > this->attackDuration)
+	{
+		if (isAttacking)
+		{
+			if (this->isAttacked)
+			{
+				if (this->ThermalAttack.has_value())
+				{
+					if (this->ThermalAttack.value())
+					{
+						resetBattleSprite(this->BattleSprite, this->AttackingAttackedTexture, this->attackingOrigin); 
+
+						this->set_speedMovement(8);
+					}
+					else
+					{
+						resetBattleSprite(this->BattleSprite, this->AttackingColdAttackedTexture, this->attackingOrigin); 
+
+						this->set_speedMovement(4);
+					}
+				}
+				else
+				{
+					resetBattleSprite(this->BattleSprite, this->AttackingAttackedTexture, this->attackingOrigin); 
+
+					this->set_speedMovement(5);
+				}
+			}
+			else
+			{
+				resetBattleSprite(this->BattleSprite, this->AttackingTexture, this->attackingOrigin); 
+
+				this->set_speedMovement(6);
+			}
+
+
+			this->attackBeginning = this->getEnemyClock().getElapsedTime();
+		}
+		else
+		{
+			if (this->isAttacked)
+			{
+				if (this->ThermalAttack.has_value())
+				{
+					if (this->ThermalAttack.value())
+					{
+						resetBattleSprite(this->BattleSprite, this->AttackedTexture, this->movingOrigin);
+
+						this->set_speedMovement(4);
+					}
+					else
+					{
+						resetBattleSprite(this->BattleSprite, this->ColdAttackedTexture, this->movingOrigin); 
+
+						this->set_speedMovement(1);
+					}
+				}
+				else
+				{
+					resetBattleSprite(this->BattleSprite, this->AttackedTexture, this->movingOrigin); 
+
+					this->set_speedMovement(2);
+				}
+			}
+			else
+			{
+				resetBattleSprite(this->BattleSprite, this->MovingTexture, this->movingOrigin);
+
+				this->set_speedMovement(2);
+			}
+		}
+	}
+	this->isAttacking = isAttacking;*/
+
+	if (this->getEnemyClock().getElapsedTime() - this->attackBeginning > this->attackDuration)
+	{
+		if (isAttacking)
+		{
+			if (this->isAttacked)
+			{
+				if (this->ThermalAttack.has_value())
+				{
+					if (this->ThermalAttack.value())
+					{
+						resetBattleSprite(this->BattleSprite, this->AttackingAttackedTexture, this->attackingOrigin);
+						this->set_speedMovement(8);
+					}
+					else
+					{
+						resetBattleSprite(this->BattleSprite, this->AttackingColdAttackedTexture, this->attackingOrigin);
+						this->set_speedMovement(4);
+					}
+				}
+				else
+				{
+					resetBattleSprite(this->BattleSprite, this->AttackingAttackedTexture, this->attackingOrigin);
+					this->set_speedMovement(5);
+				}
+			}
+			else
+			{
+				resetBattleSprite(this->BattleSprite, this->AttackingTexture, this->attackingOrigin);
+				this->set_speedMovement(6);
+			}
+
+
+			this->attackBeginning = this->getEnemyClock().getElapsedTime();
+		}
+		else
+		{
+			if (this->isAttacked)
+			{
+				if (this->ThermalAttack.has_value())
+				{
+					if (this->ThermalAttack.value())
+					{
+						resetBattleSprite(this->BattleSprite, this->AttackedTexture, this->movingOrigin);
+						this->set_speedMovement(4);
+					}
+					else
+					{
+						resetBattleSprite(this->BattleSprite, this->ColdAttackedTexture, this->movingOrigin);
+						this->set_speedMovement(1);
+					}
+				}
+				else
+				{
+					resetBattleSprite(this->BattleSprite, this->AttackedTexture, this->movingOrigin);
+					this->set_speedMovement(2);
+				}
+			}
+			else
+			{
+				resetBattleSprite(this->BattleSprite, this->MovingTexture, this->movingOrigin);
+				this->set_speedMovement(2);
+			}
+		}
+		this->isAttacking = isAttacking;
+	}
 }
 
 void Troll::getAttacked(const bool& isAttacked, const short& attackPower, const TypeItem& tipAtac)
 {
-}
-
-void Troll::move(const float& angle, const sf::Sprite& stopTexture)
-{
-	this->BattleSprite->move(-this->get_speedMovement() * std::cos((angle - 90) * M_PI / 180),
-		-this->get_speedMovement() * std::sin((angle - 90) * M_PI / 180));
-
-	for (int i{}; i < 2; i++) //A doua iterare impune miscarea inapoi cand sprite-ul player-ului are coliziune cu enemy
+	if (isAttacked)
 	{
-		if (pixelPerfectCollision(*this->BattleSprite, stopTexture))
-			this->BattleSprite->move(this->get_speedMovement() * std::cos((angle - 90) * M_PI / 180),
-				this->get_speedMovement() * std::sin((angle - 90) * M_PI / 180));
+		if (tipAtac == TypeItem::IceBall) //Atacurile cu apa sau gheata sunt considerate cold attacks
+		{
+			this->ThermalAttack = false;
+
+			if (this->isAttacking)
+			{
+				this->BattleSprite->setTexture(*this->AttackingColdAttackedTexture);
+			}
+			else
+			{
+				this->BattleSprite->setTexture(*this->ColdAttackedTexture);
+			}
+		}
+		else if (tipAtac == TypeItem::FireBall)
+		{
+			this->ThermalAttack = true;
+
+			if (this->isAttacking)
+			{
+				this->BattleSprite->setTexture(*this->AttackingAttackedTexture);
+			}
+			else
+			{
+				this->BattleSprite->setTexture(*this->AttackedTexture);
+			}
+		}
+		else
+		{
+			this->ThermalAttack = std::nullopt;
+
+			if (this->isAttacking)
+			{
+				this->BattleSprite->setTexture(*this->AttackingAttackedTexture);
+			}
+			else
+			{
+				this->BattleSprite->setTexture(*this->AttackedTexture);
+			}
+		}
+
+		this->healthDecreases(attackPower); //enemy este ranit
+		this->lastAttack = this->getEnemyClock().getElapsedTime();
+		this->isAttacked = true;
+	}
+	else if (this->getEnemyClock().getElapsedTime() - this->lastAttack > this->woundedTime)
+	{
+		if (this->isAttacking)
+		{
+			this->BattleSprite->setTexture(*this->AttackingTexture);
+		}
+		else
+		{
+			this->BattleSprite->setTexture(*this->MovingTexture);
+		}
+		this->isAttacked = false;
+		this->ThermalAttack = std::nullopt;
 	}
 }
+
 
 const sf::Sprite& Troll::getIntroSprite()
 {
