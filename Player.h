@@ -22,9 +22,6 @@ protected:
 	sf::Time lastAttacked;
 	sf::Time woundedTime;
 
-	//Random device for generateItem
-	std::random_device rd;
-
 	//Inventarul este accesat direct in constructorul claselor derivate
 	std::vector<std::shared_ptr<Item>> inventar; 
 
@@ -53,6 +50,7 @@ public:
 	//---------------------------------------Metode pur virtuale--------------------------------------
 	virtual void attack(std::vector<std::unique_ptr<Item>>& projectiles, const TypeItem& tipAttack,
 						const float& angle, const sf::Vector2f& pos) = 0;
+
 	virtual void stopAttack() = 0; 
 
 	virtual void getAttacked(const bool& isAttacked, const short& attackPower) = 0;
@@ -76,6 +74,7 @@ public:
 	const std::vector<std::shared_ptr<Item>>& getInvetar() const; //Doar pentru accesare
 	const sf::Vector2f& getPosition() const; 
 	const sf::Sprite& getPlayerSpr() const;
+
 	//For CrossRoads scene
 	const sf::Texture& getToCaveTexture() const;
 	const sf::Texture& getToForestTexture() const;

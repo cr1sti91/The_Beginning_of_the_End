@@ -1,5 +1,6 @@
 #pragma once
 #include "AllAdditionalAndLibraries.h"
+#include "Projectile.h"
 
 
 class Enemy
@@ -43,7 +44,10 @@ public:
 	virtual ~Enemy() = default;
 
 	//Metode pur virtuale
-	virtual void attack(const bool& isAttacking) = 0;
+	virtual void closeAttack(const sf::Vector2f& playerPos, const sf::Vector2f& enemyPos) = 0;
+	virtual void projectileAttack(std::vector<std::unique_ptr<Item>>& projectiles, const float& angle, const sf::Vector2f& pos,
+		const float& distanceFromPlayer) = 0;
+
 	virtual void getAttacked(const bool& isAttacked, const short& attackPower, const TypeItem& tipAtac) = 0;
 	
 	void move(const float& angle, const sf::Sprite& stopTexture);

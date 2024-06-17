@@ -55,12 +55,12 @@ private:
 
 	bool enemyIsWainting; 
 	bool enemyWasAttacked; //enemy a fost atacat
-	bool enemyAttacked; //enemy a atacat
 	bool newEnemyAttack; 
 
 
-	//For attacking
-	std::vector<std::unique_ptr<Item>> projectiles; //Item-uri ce sunt generate intr-un numar mai mare - fireballs, arrows, spears
+	//For attacking -  item-uri ce sunt generate intr-un numar mai mare - fireballs, arrows, spears
+	std::vector<std::unique_ptr<Item>> projectilesPlayer;
+	std::vector<std::unique_ptr<Item>> projectilesEnemy; 
 
 	bool isCloseAttack; 
 	bool isHoldClosedAttack; 
@@ -75,14 +75,19 @@ private:
 
 	const double calculateAngle(const sf::Vector2f mousePosition, const ActionResults& interact);  //Unghiul returnat va fi fata de 
 																								 //directia 'Up' verticala. 
+	//Metode aplicate player-ului
 	void movePlayer(ActionResults& interact); 
 	void rotatePlayer(const sf::RenderWindow& target, ActionResults& interact);
 	void thePlayersAttack(const sf::RenderWindow& target, ActionResults& interact);
-	void moveProjectiles(const sf::RenderWindow& target); 
+	void playerGetAttacked(ActionResults& interact); 
+
+
+	//Metode aplicate enemy-ului
 	void enemyGetAttacked(ActionResults& interact); 
 	void moveEnemy(ActionResults& interact); 
 	void enemyAttack(ActionResults& interact); 
 
+	void moveProjectiles(const sf::RenderWindow& target);
 	void updateUiText(const ActionResults& interact) const; 
 
 

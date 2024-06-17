@@ -44,10 +44,25 @@ Ghoul::Ghoul(const CategorieEnemy& categorie, const short& hp, const short& atta
 	this->initVariables(); 
 }
 
-void Ghoul::attack(const bool& isAttacking)
+void Ghoul::closeAttack(const sf::Vector2f& playerPos, const sf::Vector2f& enemyPos)
 {
+	static std::random_device rd; 
+	std::uniform_int_distribution<int> attackChance(1, 150); //atacurile sa fie random
+
+
 	if (this->getEnemyClock().getElapsedTime() - this->attackBeginning > this->attackDuration)
 	{
+		const float distance = distanceBetweenPoints(playerPos, enemyPos);
+		if (distance > 200 && distance < 400 && attackChance(rd) == 1)
+		{
+			this->isAttacking = true;
+		}
+		else
+		{
+			this->isAttacking = false;
+		}
+
+
 		if (isAttacking)
 		{
 			if (this->isAttacked)
@@ -111,6 +126,12 @@ void Ghoul::attack(const bool& isAttacking)
 		}
 		this->isAttacking = isAttacking; 
 	}
+}
+
+void Ghoul::projectileAttack(std::vector<std::unique_ptr<Item>>& projectiles, const float& angle, const sf::Vector2f& pos,
+							 const float& distanceFromPlayer)
+{
+	//La moment ghoul-ul nu ataca utilizand item-uri
 }
 
 void Ghoul::getAttacked(const bool& isAttacked, const short& attackPower, const TypeItem& tipAtac)

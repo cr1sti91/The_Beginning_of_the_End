@@ -32,6 +32,8 @@ void Troll::initVariables()
 	this->lastAttack = sf::Time::Zero;
 	this->woundedTime = sf::seconds(0.4f);
 
+	this->projectileCooldown = false; 
+
 	this->movingOrigin = sf::Vector2f(125.f, 115.f);
 	this->attackingOrigin = sf::Vector2f(206.f, 133.f);
 }
@@ -44,86 +46,30 @@ Troll::Troll(const CategorieEnemy& categorie, const short& hp, const short& atta
 	this->initVariables();
 }
 
-void Troll::attack(const bool& isAttacking)
+
+void Troll::closeAttack(const sf::Vector2f& playerPos, const sf::Vector2f& enemyPos)
 {
+	static std::random_device rd; 
+	std::uniform_int_distribution<int> attackChance(1, 150); //atacurile sa fie random
 
-	/*if (this->getEnemyClock().getElapsedTime() - this->attackBeginning > this->attackDuration)
-	{
-		if (isAttacking)
-		{
-			if (this->isAttacked)
-			{
-				if (this->ThermalAttack.has_value())
-				{
-					if (this->ThermalAttack.value())
-					{
-						resetBattleSprite(this->BattleSprite, this->AttackingAttackedTexture, this->attackingOrigin); 
-
-						this->set_speedMovement(8);
-					}
-					else
-					{
-						resetBattleSprite(this->BattleSprite, this->AttackingColdAttackedTexture, this->attackingOrigin); 
-
-						this->set_speedMovement(4);
-					}
-				}
-				else
-				{
-					resetBattleSprite(this->BattleSprite, this->AttackingAttackedTexture, this->attackingOrigin); 
-
-					this->set_speedMovement(5);
-				}
-			}
-			else
-			{
-				resetBattleSprite(this->BattleSprite, this->AttackingTexture, this->attackingOrigin); 
-
-				this->set_speedMovement(6);
-			}
-
-
-			this->attackBeginning = this->getEnemyClock().getElapsedTime();
-		}
-		else
-		{
-			if (this->isAttacked)
-			{
-				if (this->ThermalAttack.has_value())
-				{
-					if (this->ThermalAttack.value())
-					{
-						resetBattleSprite(this->BattleSprite, this->AttackedTexture, this->movingOrigin);
-
-						this->set_speedMovement(4);
-					}
-					else
-					{
-						resetBattleSprite(this->BattleSprite, this->ColdAttackedTexture, this->movingOrigin); 
-
-						this->set_speedMovement(1);
-					}
-				}
-				else
-				{
-					resetBattleSprite(this->BattleSprite, this->AttackedTexture, this->movingOrigin); 
-
-					this->set_speedMovement(2);
-				}
-			}
-			else
-			{
-				resetBattleSprite(this->BattleSprite, this->MovingTexture, this->movingOrigin);
-
-				this->set_speedMovement(2);
-			}
-		}
-	}
-	this->isAttacking = isAttacking;*/
 
 	if (this->getEnemyClock().getElapsedTime() - this->attackBeginning > this->attackDuration)
 	{
-		if (isAttacking)
+		const float distance = distanceBetweenPoints(playerPos, enemyPos);
+		if (distance > 200 && attackChance(rd) == 1)
+		{
+			this->isAttacking = true;
+			this->projectileCooldown = false; 
+		}
+		else
+		{
+			this->isAttacking = false;
+			this->projectileCooldown = true; 
+		}
+
+
+
+		if (this->isAttacking)
 		{
 			if (this->isAttacked)
 			{
@@ -132,24 +78,24 @@ void Troll::attack(const bool& isAttacking)
 					if (this->ThermalAttack.value())
 					{
 						resetBattleSprite(this->BattleSprite, this->AttackingAttackedTexture, this->attackingOrigin);
-						this->set_speedMovement(8);
+						this->set_speedMovement(4.f);
 					}
 					else
 					{
 						resetBattleSprite(this->BattleSprite, this->AttackingColdAttackedTexture, this->attackingOrigin);
-						this->set_speedMovement(4);
+						this->set_speedMovement(2.f);
 					}
 				}
 				else
 				{
 					resetBattleSprite(this->BattleSprite, this->AttackingAttackedTexture, this->attackingOrigin);
-					this->set_speedMovement(5);
+					this->set_speedMovement(2.5f);
 				}
 			}
 			else
 			{
 				resetBattleSprite(this->BattleSprite, this->AttackingTexture, this->attackingOrigin);
-				this->set_speedMovement(6);
+				this->set_speedMovement(3.f);
 			}
 
 
@@ -164,29 +110,46 @@ void Troll::attack(const bool& isAttacking)
 					if (this->ThermalAttack.value())
 					{
 						resetBattleSprite(this->BattleSprite, this->AttackedTexture, this->movingOrigin);
-						this->set_speedMovement(4);
+						this->set_speedMovement(2.f);
 					}
 					else
 					{
 						resetBattleSprite(this->BattleSprite, this->ColdAttackedTexture, this->movingOrigin);
-						this->set_speedMovement(1);
+						this->set_speedMovement(0.5f);
 					}
 				}
 				else
 				{
 					resetBattleSprite(this->BattleSprite, this->AttackedTexture, this->movingOrigin);
-					this->set_speedMovement(2);
+					this->set_speedMovement(1.f);
 				}
 			}
 			else
 			{
 				resetBattleSprite(this->BattleSprite, this->MovingTexture, this->movingOrigin);
-				this->set_speedMovement(2);
+				this->set_speedMovement(1.f);
 			}
 		}
-		this->isAttacking = isAttacking;
 	}
 }
+
+
+
+void Troll::projectileAttack(std::vector<std::unique_ptr<Item>>& projectiles, const float& angle, const sf::Vector2f& pos,
+							 const float& distanceFromPlayer)
+{
+	if (!this->projectileCooldown)
+	{
+		if (this->isAttacking && distanceFromPlayer > 500)
+		{
+			//Avem 'angle + 180' pentru ca initial sprite-ul troll-ului este rotit cu 180 grade fata de sprite-ul player-ului
+			projectiles.push_back(std::make_unique<Projectile>(TypeItem::Rock, pos.x, pos.y, angle + 180));
+			this->projectileCooldown = true; 
+		}
+	}
+}
+
+
 
 void Troll::getAttacked(const bool& isAttacked, const short& attackPower, const TypeItem& tipAtac)
 {

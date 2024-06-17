@@ -84,6 +84,7 @@ void Warrior::attack(std::vector<std::unique_ptr<Item>>& projectiles, const Type
 	}
 }
 
+
 void Warrior::stopAttack()
 {
 	if (this->playerClock.getElapsedTime() - this->lastAttack > this->attackDuration && this->isAttacking)
@@ -136,8 +137,7 @@ void Warrior::getAttacked(const bool& isAttacked, const short& attackPower)
 
 std::unique_ptr<Item> Warrior::generateItem() const
 {
-	static std::random_device rd; //fiindca este static, va fi declarat o singura data si va fi utilizat in apelurile ulterioare
-
+	static std::random_device rd; 
 	std::vector<int> unownedItems; //Vector de itemi (pentru wizard) care nu sunt prezenti in inventar
 
 	for (int i{}; i < possItemsWizard; i++)
@@ -166,5 +166,5 @@ std::unique_ptr<Item> Warrior::generateItem() const
 
 	//avem '+ 2' fiindca static_cast<int>(TypeItem::Sword) = 2
 	return std::make_unique<Projectile>(static_cast<TypeItem>(unownedItems.at(dist(rd)) + 2), this->getPosition().x, 
-		this->getPosition().y, this->playerSpr->getRotation());
+									    this->getPosition().y, this->playerSpr->getRotation());
 }

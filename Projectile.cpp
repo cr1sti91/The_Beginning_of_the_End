@@ -41,6 +41,15 @@ void Projectile::initShape(float pos_x, float pos_y)
 
 	}break;
 
+	case TypeItem::Rock:
+	{
+		initTexAndSpr(this->texture, this->sprite, path_Troll_Rock, "ERROR::Projectile::initShape::Rock inaccesibil!");
+		this->sprite->setPosition(pos_x, pos_y);
+		this->sprite->scale(0.5f, 0.3f);
+		this->sprite->setOrigin(130.f, 232.f);
+
+	}break;
+
 	default:
 		std::cout << "ERROR::Projectile::initShape::TypeItem incorect!" << std::endl;
 		break;
@@ -60,7 +69,6 @@ Projectile::Projectile(const TypeItem& tip, float pos_x, float pos_y, const floa
 void Projectile::move()
 {
 	this->sprite->move(this->movementSpeed * std::cos((unghi - 90) * M_PI / 180), this->movementSpeed * std::sin((unghi - 90) * M_PI / 180));
-	std::cout << "unghiul este : " << unghi << std::endl;
 }
 
 const std::unique_ptr<sf::Sprite>& Projectile::getSprite() const

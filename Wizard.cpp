@@ -47,10 +47,11 @@ void Wizard::initPlayerSpr()
 
 
 void Wizard::attack(std::vector<std::unique_ptr<Item>>& projectiles, const TypeItem& tipAttack, const float& angle,
-				    const sf::Vector2f& pos)
+							  const sf::Vector2f& pos)
 {
 	projectiles.push_back(std::make_unique<Projectile>(tipAttack, pos.x, pos.y, angle)); 
 }
+
 
 void Wizard::stopAttack()
 {
@@ -75,9 +76,8 @@ void Wizard::getAttacked(const bool& isAttacked, const short& attackPower)
 
 //Este chemata o singura data atunci cand in inventar se adauga un item nou
 std::unique_ptr<Item> Wizard::generateItem() const
-{ 
-	static std::random_device rd; //fiindca este static, va fi declarat o singura data si va fi utilizat in apelurile ulterioare
-
+{
+	static std::random_device rd; 
 	std::vector<TypeItem> unownedItems; //Vector de itemi (pentru wizard) care nu sunt prezenti in inventar
 
 	for (int i{}; i < possItemsWizard; i++)

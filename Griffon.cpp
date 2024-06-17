@@ -22,8 +22,14 @@ Griffon::Griffon(const CategorieEnemy& categorie, const short& hp, const short& 
 	this->initBattleTexAndSpr();
 }
 
-void Griffon::attack(const bool& isAttacking)
+void Griffon::closeAttack(const sf::Vector2f& playerPos, const sf::Vector2f& enemyPos)
 {
+}
+
+void Griffon::projectileAttack(std::vector<std::unique_ptr<Item>>& projectiles, const float& angle, const sf::Vector2f& pos,
+							   const float& distanceFromPlayer)
+{
+	//La moment griffon-ul nu ataca utilizand item-uri
 }
 
 void Griffon::getAttacked(const bool& isAttacked, const short& attackPower, const TypeItem& tipAtac)

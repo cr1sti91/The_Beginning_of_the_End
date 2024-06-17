@@ -14,6 +14,8 @@ Item::Item(const TypeItem& tip) : tipItem(tip), countDown(std::nullopt)
 		break;
 	case TypeItem::Spear: this->attackPower = 20;
 		break;
+	case TypeItem::Rock: this->attackPower = 30;
+		break;
 	default:
 	{
 		std::cout << "ERROR::Item::Item::TypeItem incorect!" << std::endl;

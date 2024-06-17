@@ -89,7 +89,6 @@ void GameInfoBattleScene::initVariables(const ActionResults& interact)
 
 	this->enemyIsWainting = false; 
 	this->enemyWasAttacked = false; 
-	this->enemyAttacked = false; 
 	this->newEnemyAttack = true; 
 
 	this->itemChanged = false; 
@@ -166,9 +165,14 @@ void GameInfoBattleScene::drawGameInfo(sf::RenderTarget& target, ActionResults& 
 	target.draw(interact.player->getPlayerSpr());
 	target.draw(interact.enemy->getBattleSprite());
 
-	for (auto& projectile : this->projectiles)
+	for (auto& projectile : this->projectilesPlayer)
 	{
 		target.draw(*projectile->getSprite()); 
+	}
+
+	for (auto& projectile : this->projectilesEnemy)
+	{
+		target.draw(*projectile->getSprite());
 	}
 }
 
@@ -189,7 +193,7 @@ void GameInfoBattleScene::updatePollEvents(sf::RenderWindow& target, ActionResul
 	//Move projectiles
 	this->moveProjectiles(target); 
 
-	//If enemy is attacked
+	//IEnemy is attacked
 	this->enemyGetAttacked(interact); 
 
 	//Enemy is moving or is wainting
@@ -197,6 +201,9 @@ void GameInfoBattleScene::updatePollEvents(sf::RenderWindow& target, ActionResul
 
 	//Enemy is attacking
 	this->enemyAttack(interact); 	
+
+	//Player is attacked
+	this->playerGetAttacked(interact); 
 
 	//Update text
 	this->updateUiText(interact); 
@@ -312,7 +319,7 @@ void GameInfoBattleScene::thePlayersAttack(const sf::RenderWindow& target, Actio
 
 				this->mouseHeld = true;
 
-				interact.player->attack(this->projectiles, this->currentItem->getTipItem(),
+				interact.player->attack(this->projectilesPlayer, this->currentItem->getTipItem(),
 					this->calculateAngle(getMousePosView(target), interact),
 					interact.player->getPlayerSpr().getTransform().transformPoint(210.f, 124));
 			}
@@ -320,7 +327,7 @@ void GameInfoBattleScene::thePlayersAttack(const sf::RenderWindow& target, Actio
 			{
 				this->mouseHeld = true;
 
-				interact.player->attack(this->projectiles, this->currentItem->getTipItem(),
+				interact.player->attack(this->projectilesPlayer, this->currentItem->getTipItem(),
 					this->calculateAngle(getMousePosView(target), interact),
 					interact.player->getPlayerSpr().getTransform().transformPoint(210.f, 124));
 			}
@@ -336,11 +343,11 @@ void GameInfoBattleScene::thePlayersAttack(const sf::RenderWindow& target, Actio
 
 				this->mouseHeld = true;
 
-				interact.player->attack(this->projectiles, this->currentItem->getTipItem(),
+				interact.player->attack(this->projectilesPlayer, this->currentItem->getTipItem(),
 										this->calculateAngle(getMousePosView(target), interact),
 										interact.player->getPlayerSpr().getTransform().transformPoint(210.f, 124));
 
-
+				
 
 				sf::Sprite swordSpr = interact.player->getPlayerSpr(); 
 				swordSpr.setTextureRect(interact.player->getInvetar().at(0)->getItemLimits()); //Sword-ul va fi cu indexul 0
@@ -390,20 +397,84 @@ void GameInfoBattleScene::thePlayersAttack(const sf::RenderWindow& target, Actio
 	}
 }
 
+
+
+void GameInfoBattleScene::playerGetAttacked(ActionResults& interact)
+{
+	//Daca enemy-ul se apropie deajuns de player in timp ce ataca, player-ul primeste damage
+	if (this->newEnemyAttack && interact.enemy->getIsAttacking())
+	{
+		if (distanceBetweenPoints(interact.player->getPosition(), interact.enemy->getBattleSprite().getPosition()) < 210)
+		{
+			interact.player->getAttacked(interact.enemy->getIsAttacking(), interact.enemy->get_attackPower());
+			this->newEnemyAttack = false;
+		}
+	}
+	else if (!interact.enemy->getIsAttacking())
+	{
+		this->newEnemyAttack = true;
+		interact.player->getAttacked(false, interact.enemy->get_attackPower());
+	}
+	else
+	{
+		interact.player->getAttacked(false, interact.enemy->get_attackPower());
+	}
+
+	//Attacked from projectiles
+	for (size_t i{}; i < this->projectilesEnemy.size(); i++)
+	{
+		if (pixelPerfectCollision(*this->projectilesEnemy.at(i)->getSprite(), interact.player->getPlayerSpr()))
+		{
+			if (!this->projectilesEnemy.at(i)->getCountDown().has_value())
+				interact.player->getAttacked(true, this->projectilesEnemy.at(i)->getAttackPower());
+
+
+			if (this->projectilesEnemy.at(i)->getCountDown().has_value())
+				this->projectilesEnemy.at(i)->decrCountDown();
+			else
+				this->projectilesEnemy.at(i)->setCountDown(7); //Proiectilele sunt distruse dupa 7 iterari
+
+			//Proiectilele vor fi distruse dupa un numar de iteratii 
+			if (this->projectilesEnemy.at(i)->getCountDown() <= 0)
+			{
+				this->projectilesEnemy.erase(this->projectilesEnemy.begin() + i);
+				i--;
+			}
+		}
+	}
+}
+
+
+
 void GameInfoBattleScene::moveProjectiles(const sf::RenderWindow& target)
 {
-	for (size_t i{}; i < this->projectiles.size(); i++)
+	for (size_t i{}; i < this->projectilesPlayer.size(); i++)
 	{
-		this->projectiles.at(i)->move();
+		this->projectilesPlayer.at(i)->move();
 
-		if (this->projectiles.at(i)->getSprite()->getPosition().x > target.getSize().x ||
-			this->projectiles.at(i)->getSprite()->getPosition().x < 0 ||
-			this->projectiles.at(i)->getSprite()->getPosition().y > target.getSize().y ||
-			this->projectiles.at(i)->getSprite()->getPosition().y < 0)
+		if (this->projectilesPlayer.at(i)->getSprite()->getPosition().x > target.getSize().x ||
+			this->projectilesPlayer.at(i)->getSprite()->getPosition().x < 0 ||
+			this->projectilesPlayer.at(i)->getSprite()->getPosition().y > target.getSize().y ||
+			this->projectilesPlayer.at(i)->getSprite()->getPosition().y < 0)
 		{
-			this->projectiles.erase(this->projectiles.begin() + i);
+			this->projectilesPlayer.erase(this->projectilesPlayer.begin() + i);
 
 			i--; 
+		}
+	}
+
+	for (size_t i{}; i < this->projectilesEnemy.size(); i++)
+	{
+		this->projectilesEnemy.at(i)->move();
+
+		if (this->projectilesEnemy.at(i)->getSprite()->getPosition().x > target.getSize().x ||
+			this->projectilesEnemy.at(i)->getSprite()->getPosition().x < 0 ||
+			this->projectilesEnemy.at(i)->getSprite()->getPosition().y > target.getSize().y ||
+			this->projectilesEnemy.at(i)->getSprite()->getPosition().y < 0)
+		{
+			this->projectilesEnemy.erase(this->projectilesEnemy.begin() + i);
+
+			i--;
 		}
 	}
 }
@@ -417,23 +488,22 @@ void GameInfoBattleScene::enemyGetAttacked(ActionResults& interact)
 		this->isCloseAttack = false; 
 	}
 
-	for (size_t i{}; i < this->projectiles.size(); i++)
+	for (size_t i{}; i < this->projectilesPlayer.size(); i++)
 	{
-		//if (this->projectiles.at(i)->getSprite()->getGlobalBounds().intersects(interact.enemy->getBattleSprite().getGlobalBounds()))
-		if (pixelPerfectCollision(*this->projectiles.at(i)->getSprite(), interact.enemy->getBattleSprite()))
+		if (pixelPerfectCollision(*this->projectilesPlayer.at(i)->getSprite(), interact.enemy->getBattleSprite()))
 		{
-			if (!this->projectiles.at(i)->getCountDown().has_value())
+			if (!this->projectilesPlayer.at(i)->getCountDown().has_value())
 				this->enemyWasAttacked = true; 
 
-			if (this->projectiles.at(i)->getCountDown().has_value())
-				this->projectiles.at(i)->decrCountDown();
+			if (this->projectilesPlayer.at(i)->getCountDown().has_value())
+				this->projectilesPlayer.at(i)->decrCountDown();
 			else
-				this->projectiles.at(i)->setCountDown(7); //Proiectilele sunt distruse dupa 7 iterari
+				this->projectilesPlayer.at(i)->setCountDown(7); //Proiectilele sunt distruse dupa 7 iterari
 
 			//Proiectilele vor fi distruse dupa un numar de iteratii 
-			if (this->projectiles.at(i)->getCountDown() <= 0)
+			if (this->projectilesPlayer.at(i)->getCountDown() <= 0)
 			{
-				this->projectiles.erase(this->projectiles.begin() + i);
+				this->projectilesPlayer.erase(this->projectilesPlayer.begin() + i);
 				i--;
 			}
 		}
@@ -473,40 +543,16 @@ void GameInfoBattleScene::moveEnemy(ActionResults& interact)
 	}
 }
 
+
+
 void GameInfoBattleScene::enemyAttack(ActionResults& interact)
 {
-	//Enemy attack
-	std::uniform_int_distribution<int> attackChance(1, 150); //atacurile sa fie random
-	const float distance = distanceBetweenPoints(interact.player->getPosition(), interact.enemy->getBattleSprite().getPosition());
-	if (distance > 200 && distance < 400 && attackChance(rd) == 1)
-	{
-		interact.enemy->attack(true);
-		this->enemyAttacked = true; 
-	}
-	else
-	{
-		interact.enemy->attack(false);
-		this->enemyAttacked = false; 
-	}
+	//Enemy attack's
+	interact.enemy->closeAttack(interact.player->getPosition(), interact.enemy->getBattleSprite().getPosition());
 
-	//Daca enemy-ul se apropie deajuns de player in timp ce ataca, player-ul primeste damage
-	if (this->newEnemyAttack && interact.enemy->getIsAttacking())
-	{
-		if (distance < 210)
-		{
-			interact.player->getAttacked(interact.enemy->getIsAttacking(), interact.enemy->get_attackPower());
-			this->newEnemyAttack = false;
-		}
-	}
-	else if (!interact.enemy->getIsAttacking())
-	{
-		this->newEnemyAttack = true; 
-		interact.player->getAttacked(false, interact.enemy->get_attackPower());
-	}
-	else
-	{
-		interact.player->getAttacked(false, interact.enemy->get_attackPower());
-	}
+	interact.enemy->projectileAttack(this->projectilesEnemy, interact.enemy->getBattleSprite().getRotation(),
+									 interact.enemy->getBattleSprite().getTransform().transformPoint(201.f, 249.f),
+									 distanceBetweenPoints(interact.player->getPosition(), interact.enemy->getBattleSprite().getPosition())); 
 }
 
 

@@ -70,6 +70,9 @@ enum class TypeItem
 	Arrow,
 	Trap,
 
+	//For troll
+	Rock, 
+
 	////////////
 	None
 };
@@ -109,14 +112,14 @@ struct ActionResults //Instantele clasei date fac legatura (sunt agregate ale lu
 
 
 
-struct Characteristics 
+struct Stats 
 {
 	int health;
 	int attackPower;
 	int speedMovement;
 };
 
-static const std::map<std::string, Characteristics> enemyStats  
+static const std::map<std::string, Stats> enemyStats  
 {
 	{"Ghoul", {1000, 25, 2}},
 	{"Troll", {2000, 50, 1}},
@@ -325,6 +328,9 @@ const std::string path_Troll_BeingColdAttacked = "Textures/trollBeingColdAttacke
 //Attacking
 const std::string path_Troll_AttackingAttacked = "Textures/trollAttackingAttacked.png";
 const std::string path_Troll_AttackingColdAttacked = "Textures/trollAttackingColdAttacked.png";
+
+//Rock item for troll attack
+const std::string path_Troll_Rock = "Textures/rock.png"; 
 
 
 const std::string path_Troll_AttackingTexture = "Textures/trollAttacking.png"; 

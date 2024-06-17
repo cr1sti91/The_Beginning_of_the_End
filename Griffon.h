@@ -5,8 +5,6 @@
 
 class Griffon : public Enemy
 {
-
-
 	//Private methods
 	void initIntroTexAndSpr();
 	void initBattleTexAndSpr();
@@ -16,7 +14,11 @@ public:
 	Griffon(const CategorieEnemy& categorie, const short& hp, const short& attack, const float& speed);
 	~Griffon() = default;
 
-	void attack(const bool& isAttacking) override;
+
+	void closeAttack(const sf::Vector2f& playerPos, const sf::Vector2f& enemyPos) override;
+	void projectileAttack(std::vector<std::unique_ptr<Item>>& projectiles, const float& angle, const sf::Vector2f& pos,
+				          const float& distanceFromPlayer) override;
+
 	void getAttacked(const bool& isAttacked, const short& attackPower, const TypeItem& tipAtac) override;
 
 
