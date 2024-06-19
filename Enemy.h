@@ -20,6 +20,19 @@ protected:
 	bool isAttacked; //este atacat
 	bool isAttacking; //enemy-ul ataca
 
+	//Enemy is attacking
+	sf::Time attackDuration;
+	sf::Time attackBeginning;
+	//Enemy is attacked
+	sf::Time lastAttack;
+	sf::Time woundedTime;
+
+	//For enemy waiting
+	sf::Time waitingTime;
+	sf::Time waitingBegin;
+	bool enemyIsWaiting; 
+
+
 	std::optional<bool> ThermalAttack; //iceball-ul va fi pentru 'false', iar fireball-ul va fi pentru 'true'
 
 	//IntroBattle
@@ -50,7 +63,8 @@ public:
 
 	virtual void getAttacked(const bool& isAttacked, const short& attackPower, const TypeItem& tipAtac) = 0;
 	
-	void move(const float& angle, const sf::Sprite& stopTexture);
+	virtual void move(const float& angle, const sf::Sprite& stopTexture) = 0;
+
 	
 	//Getters
 	const short& get_health() const;

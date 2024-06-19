@@ -8,7 +8,7 @@ void GameInfoIntroBattle::initEnemy(const ActionResults& interact)
 	std::uniform_int_distribution<unsigned short> dist(1, 2); 
 	unsigned short randomNum = dist(rd); 
 
-	//unsigned short randomNum = 2; 
+	randomNum = 3; 
 
 	switch (static_cast<CategorieEnemy>(randomNum))
 	{

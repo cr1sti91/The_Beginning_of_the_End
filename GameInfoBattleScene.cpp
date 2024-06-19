@@ -67,9 +67,7 @@ void GameInfoBattleScene::initText(const ActionResults& interact)
 void GameInfoBattleScene::initTime()
 {
 	this->timePoint = sf::Time::Zero;
-	this->waitingBegin = sf::seconds(-3);  //cand incepe scena, enemy-ul nu va fi stopat
 	this->cooldownTime = sf::seconds(0.4f); 
-	this->waitingTime = sf::seconds(3.f); 
 }
 
 void GameInfoBattleScene::initLimits()
@@ -88,7 +86,6 @@ void GameInfoBattleScene::initVariables(const ActionResults& interact)
 	this->mouseHeld = false; 
 	this->keyHeld = false; 
 
-	this->enemyIsWainting = false; 
 	this->enemyWasAttacked = false; 
 	this->newEnemyAttack = true; 
 
@@ -298,7 +295,7 @@ void GameInfoBattleScene::rotatePlayer(const sf::RenderWindow& target, ActionRes
 	else if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && this->mouseHeld)
 	{
 		interact.player->setSpriteDirection(0, 0);
-		interact.player->setRotation(calculateAngle(getMousePosView(target), interact));
+		interact.player->setRotation(calculateAngle(getMousePosView(target), interact.player->getPosition()));
 	}
 	else
 	{
@@ -324,7 +321,7 @@ void GameInfoBattleScene::thePlayersAttack(const sf::RenderWindow& target, Actio
 				this->mouseHeld = true;
 
 				interact.player->attack(this->projectilesPlayer, this->currentItem->getTipItem(),
-					this->calculateAngle(getMousePosView(target), interact),
+					calculateAngle(getMousePosView(target), interact.player->getPosition()),
 					interact.player->getPlayerSpr().getTransform().transformPoint(210.f, 124));
 			}
 			else if (!this->mouseHeld && !this->keyWasPressed) //Player-ul nu se deplaseaza
@@ -332,7 +329,7 @@ void GameInfoBattleScene::thePlayersAttack(const sf::RenderWindow& target, Actio
 				this->mouseHeld = true;
 
 				interact.player->attack(this->projectilesPlayer, this->currentItem->getTipItem(),
-					this->calculateAngle(getMousePosView(target), interact),
+					calculateAngle(getMousePosView(target), interact.player->getPosition()),
 					interact.player->getPlayerSpr().getTransform().transformPoint(210.f, 124));
 			}
 			//'sprite.getTransform().transformPoint()' returneaza adresa (Vector2f) punctului (210, 124) ce se afla pe sprite in  
@@ -348,7 +345,7 @@ void GameInfoBattleScene::thePlayersAttack(const sf::RenderWindow& target, Actio
 				this->mouseHeld = true;
 
 				interact.player->attack(this->projectilesPlayer, this->currentItem->getTipItem(),
-										this->calculateAngle(getMousePosView(target), interact),
+										calculateAngle(getMousePosView(target), interact.player->getPosition()),
 										interact.player->getPlayerSpr().getTransform().transformPoint(210.f, 124));
 
 				
@@ -526,25 +523,8 @@ void GameInfoBattleScene::enemyGetAttacked(ActionResults& interact)
 
 void GameInfoBattleScene::moveEnemy(ActionResults& interact)
 {
-	//The enemy is directed towards the player
-	interact.enemy->setRotation(calculateAngle(interact.enemy->getBattleSprite().getPosition(), interact));
-
-	//The enemy moves towards the player or enemy is waiting
-	std::uniform_int_distribution<int> waitingChance(1, 500);
-	if (!this->enemyIsWainting && this->clock.getElapsedTime() - this->waitingBegin > this->waitingTime)
-	{
-		this->enemyIsWainting = (waitingChance(rd) == 1);
-		if (this->enemyIsWainting)
-		{
-			this->waitingBegin = this->clock.getElapsedTime();
-			this->enemyIsWainting = false;
-		}
-	}
-
-	if (this->clock.getElapsedTime() - this->waitingBegin > this->waitingTime)
-	{
-		interact.enemy->move(calculateAngle(interact.enemy->getBattleSprite().getPosition(), interact), interact.player->getPlayerSpr());
-	}
+	interact.enemy->move(calculateAngle(interact.enemy->getBattleSprite().getPosition(), interact.player->getPosition()), 
+						 interact.player->getPlayerSpr());
 }
 
 
@@ -598,7 +578,7 @@ void GameInfoBattleScene::updateUiText(const ActionResults& interact) const
 
 void GameInfoBattleScene::checkStatus(ActionResults& interact)
 {
-	if (interact.player->get_health() <= 0 || interact.enemy->get_health() <= 0)
+	if (interact.player->get_health() < 0 || interact.enemy->get_health() < 0)
 	{
 		interact.sceneEnd = true; 
 
@@ -608,47 +588,4 @@ void GameInfoBattleScene::checkStatus(ActionResults& interact)
 			interact.defeatedEnemy = false; 
 	}
 }
-
-
-
-
-//Unghiul returnat va fi fata de directia 'Up' verticala si player
-const double GameInfoBattleScene::calculateAngle(const sf::Vector2f referencePoint, const ActionResults& interact)
-{
-	double angle = 0;
-
-	if (referencePoint.y <= interact.player->getPosition().y
-		&& referencePoint.x < interact.player->getPosition().x)
-	{
-		angle = 270 + (std::atan(abs((interact.player->getPosition().y - referencePoint.y)
-			/ (interact.player->getPosition().x - referencePoint.x))) * (180.0 / M_PI));
-
-		return angle; 
-	}
-	else if (referencePoint.y < interact.player->getPosition().y
-		&& referencePoint.x >= interact.player->getPosition().x)
-	{
-		angle = std::atan(abs((interact.player->getPosition().x - referencePoint.x)
-			/ (interact.player->getPosition().y - referencePoint.y))) * (180.0 / M_PI);
-
-		return angle; 
-	}
-	else if (referencePoint.y >= interact.player->getPosition().y
-		&& referencePoint.x > interact.player->getPosition().x)
-	{
-		angle = 90 + (std::atan(abs((interact.player->getPosition().y - referencePoint.y)
-			/ (interact.player->getPosition().x - referencePoint.x))) * (180.0 / M_PI));
-
-		return angle;
-	}
-	else if (referencePoint.y > interact.player->getPosition().y
-		&& referencePoint.x <= interact.player->getPosition().x)
-	{
-		angle = 180 + (std::atan(abs((interact.player->getPosition().x - referencePoint.x)
-			/ (interact.player->getPosition().y - referencePoint.y))) * (180.0 / M_PI));
-
-		return angle;
-	}
-}
-
 

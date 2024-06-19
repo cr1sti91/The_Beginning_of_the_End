@@ -8,19 +8,6 @@ Enemy::Enemy(const CategorieEnemy& categorie, const short& hp, const short& atta
 }
 
 
-void Enemy::move(const float& angle, const sf::Sprite& stopTexture)
-{
-	this->BattleSprite->move(-this->get_speedMovement() * std::cos((angle - 90) * M_PI / 180),
-		-this->get_speedMovement() * std::sin((angle - 90) * M_PI / 180));
-
-	for (int i{}; i < 2; i++) //A doua iterare impune miscarea inapoi cand sprite-ul player-ului are coliziune cu enemy
-	{
-		if (pixelPerfectCollision(*this->BattleSprite, stopTexture))
-			this->BattleSprite->move(this->get_speedMovement() * std::cos((angle - 90) * M_PI / 180),
-				this->get_speedMovement() * std::sin((angle - 90) * M_PI / 180));
-	}
-}
-
 //Getters
 const short& Enemy::get_health() const
 {

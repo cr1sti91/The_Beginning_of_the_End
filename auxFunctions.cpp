@@ -83,6 +83,47 @@ void resetBattleSprite(std::unique_ptr<sf::Sprite>& battleSpr, const std::unique
 }
 
 
+
+const double calculateAngle(const sf::Vector2f point, const sf::Vector2f referencePoint)
+{
+	double angle = 0;
+
+	if (point.y <= referencePoint.y
+		&& point.x < referencePoint.x)
+	{
+		angle = 270 + (std::atan(abs((referencePoint.y - point.y)
+			/ (referencePoint.x - point.x))) * (180.0 / M_PI));
+
+		return angle; 
+	}
+	else if (point.y < referencePoint.y
+		&& point.x >= referencePoint.x)
+	{
+		angle = std::atan(abs((referencePoint.x - point.x)
+			/ (referencePoint.y - point.y))) * (180.0 / M_PI);
+
+		return angle; 
+	}
+	else if (point.y >= referencePoint.y
+		&& point.x > referencePoint.x)
+	{
+		angle = 90 + (std::atan(abs((referencePoint.y - point.y)
+			/ (referencePoint.x - point.x))) * (180.0 / M_PI));
+
+		return angle;
+	}
+	else if (point.y > referencePoint.y
+		&& point.x <= referencePoint.x)
+	{
+		angle = 180 + (std::atan(abs((referencePoint.x - point.x)
+			/ (referencePoint.y - point.y))) * (180.0 / M_PI));
+
+		return angle;
+	}
+}
+
+
+
 const short dirToDegree(const short& dir_x, const short& dir_y)
 {
 	//In sensul acelor ceasornic are loc rotirea
@@ -106,7 +147,7 @@ const short dirToDegree(const short& dir_x, const short& dir_y)
 				}break;
 				default:
 				{
-					std::cout << "ERROR::Wizard::setSpriteDirection::Directie incorecta!" << std::endl;
+					std::cout << "ERROR::dirToDegree::Directie incorecta!" << std::endl;
 				}break;
 			}
 		}break;
@@ -128,7 +169,7 @@ const short dirToDegree(const short& dir_x, const short& dir_y)
 				}break;
 				default:
 				{
-					std::cout << "ERROR::Wizard::setSpriteDirection::Directie incorecta!" << std::endl;
+					std::cout << "ERROR::dirToDegree::Directie incorecta!" << std::endl;
 				}break;
 			}
 		}break;
@@ -150,13 +191,13 @@ const short dirToDegree(const short& dir_x, const short& dir_y)
 				}break;
 				default:
 				{
-					std::cout << "ERROR::Wizard::setSpriteDirection::Directie incorecta!" << std::endl;
+					std::cout << "ERROR::dirToDegree::Directie incorecta!" << std::endl;
 				}break;
 			}
 		}break;
 		default:
 		{
-			std::cout << "ERROR::Wizard::setSpriteDirection::Directie incorecta!" << std::endl;
+			std::cout << "ERROR::dirToDegree::Directie incorecta!" << std::endl;
 		}break;
 	}
 }

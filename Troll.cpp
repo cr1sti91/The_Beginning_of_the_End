@@ -36,6 +36,10 @@ void Troll::initVariables()
 
 	this->movingOrigin = sf::Vector2f(125.f, 115.f);
 	this->attackingOrigin = sf::Vector2f(206.f, 133.f);
+
+	this->enemyIsWaiting = false;
+	this->waitingBegin = sf::seconds(-3);  //cand incepe scena, enemy-ul nu va fi stopat
+	this->waitingTime = sf::seconds(3.f);
 }
 
 Troll::Troll(const CategorieEnemy& categorie, const short& hp, const short& attack, const float& speed)
@@ -45,6 +49,42 @@ Troll::Troll(const CategorieEnemy& categorie, const short& hp, const short& atta
 	this->initBattleTexAndSpr();
 	this->initVariables();
 }
+
+
+
+void Troll::move(const float& angle, const sf::Sprite& stopTexture)
+{
+	//The enemy is directed towards the player
+	this->BattleSprite->setRotation(calculateAngle(this->BattleSprite->getPosition(), stopTexture.getPosition()));
+
+	static std::random_device rd;
+	static std::uniform_int_distribution<int> waitingChance(1, 500);
+
+	//The enemy moves towards the player or enemy is waiting
+	if (!this->enemyIsWaiting && this->getEnemyClock().getElapsedTime() - this->waitingBegin > this->waitingTime)
+	{
+		this->enemyIsWaiting = (waitingChance(rd) == 1);
+		if (this->enemyIsWaiting)
+		{
+			this->waitingBegin = this->getEnemyClock().getElapsedTime();
+			this->enemyIsWaiting = false;
+		}
+	}
+
+	if (this->getEnemyClock().getElapsedTime() - this->waitingBegin > this->waitingTime)
+	{
+		this->BattleSprite->move(-this->get_speedMovement() * std::cos((angle - 90) * M_PI / 180),
+			-this->get_speedMovement() * std::sin((angle - 90) * M_PI / 180));
+
+		for (int i{}; i < 2; i++) //A doua iterare impune miscarea inapoi cand sprite-ul player-ului are coliziune cu enemy
+		{
+			if (pixelPerfectCollision(*this->BattleSprite, stopTexture))
+				this->BattleSprite->move(this->get_speedMovement() * std::cos((angle - 90) * M_PI / 180),
+					this->get_speedMovement() * std::sin((angle - 90) * M_PI / 180));
+		}
+	}
+}
+
 
 
 void Troll::closeAttack(const sf::Vector2f& playerPos, const sf::Vector2f& enemyPos)

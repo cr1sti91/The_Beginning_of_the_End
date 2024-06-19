@@ -364,6 +364,13 @@ const std::string path_Griffon_IntroTexture = "Textures/griffonIntroTexture.png"
 const std::string path_Griffon_MovingTexture = "Textures/griffonMoving.png"; 
 const std::string path_Griffon_AttackingTexture = "Textures/griffonAttacking.png"; 
 
+//Moving
+const std::string path_Griffon_BeingAttacked = "Textures/griffonBeingAttacked_Moving.png";
+const std::string path_Griffon_BeingColdAttacked = "Textures/griffonBeingColdAttacked_Moving.png";
+//Attacking
+const std::string path_Griffon_AttackingAttacked = "Textures/griffonAttackingAttacked.png";
+const std::string path_Griffon_AttackingColdAttacked = "Textures/griffonAttackingColdAttacked.png";
+
 
 //----------------------------------------For Text----------------------------------------
 //Font

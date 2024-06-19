@@ -11,8 +11,6 @@ private:
 	//Pentru a crea pauze
 	sf::Clock clock; 
 	sf::Time cooldownTime;
-	sf::Time waitingTime; 
-	sf::Time waitingBegin; 
 	sf::Time timePoint;
 	sf::Time lastAttack;
 
@@ -53,7 +51,6 @@ private:
 	std::shared_ptr<Item> currentItem; //este indexul in inventar al item-ului folosit 
 	bool itemChanged; 
 
-	bool enemyIsWainting; 
 	bool enemyWasAttacked; //enemy a fost atacat
 	bool newEnemyAttack; 
 
@@ -73,8 +70,7 @@ private:
 	void initVariables(const ActionResults& interact);
 	void initBackground(const ActionResults& interact);
 
-	const double calculateAngle(const sf::Vector2f mousePosition, const ActionResults& interact);  //Unghiul returnat va fi fata de 
-																								 //directia 'Up' verticala. 
+ 
 	//Metode aplicate player-ului
 	void movePlayer(ActionResults& interact); 
 	void rotatePlayer(const sf::RenderWindow& target, ActionResults& interact);

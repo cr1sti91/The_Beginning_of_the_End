@@ -5,15 +5,19 @@
 
 class Griffon : public Enemy
 {
+	sf::Vector2f movingOrigin, attackingOrigin; //Originile pentru texturi de din BattleScene
+
 	//Private methods
 	void initIntroTexAndSpr();
 	void initBattleTexAndSpr();
+	void initVariables(); 
 
 public:
 	// Constructor / Destructor
 	Griffon(const CategorieEnemy& categorie, const short& hp, const short& attack, const float& speed);
 	~Griffon() = default;
 
+	void move(const float& angle, const sf::Sprite& stopTexture) override; 
 
 	void closeAttack(const sf::Vector2f& playerPos, const sf::Vector2f& enemyPos) override;
 	void projectileAttack(std::vector<std::unique_ptr<Item>>& projectiles, const float& angle, const sf::Vector2f& pos,

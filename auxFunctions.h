@@ -16,6 +16,8 @@ void resetMusicForCase(std::atomic<bool>& musicIsStopped, std::atomic<bool>& mus
 
 void resetBattleSprite(std::unique_ptr<sf::Sprite>& battleSpr, const std::unique_ptr<sf::Texture>& newTexture, const sf::Vector2f origin);
 
+const double calculateAngle(const sf::Vector2f point, const sf::Vector2f referencePoint); 
+
 const short dirToDegree(const short& dir_x, const short& dir_y); 
 
 //O alternativa mai buna pentru metoda 'intersect' cand verificam coliziunea intre doua sprite-uri
