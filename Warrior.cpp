@@ -145,7 +145,7 @@ std::unique_ptr<Item> Warrior::generateItem() const
 		bool exist = false;
 		for (int j{}; j < this->inventar.size(); j++)
 		{
-			if (this->inventar.at(j)->getTipItem() == static_cast<TypeItem>(i))
+			if (this->inventar.at(j)->getTipItem() == static_cast<TypeItem>(i + 2))
 			{
 				exist = true;
 				break;
@@ -153,7 +153,7 @@ std::unique_ptr<Item> Warrior::generateItem() const
 		}
 
 		if (!exist)
-			unownedItems.push_back(i);
+			unownedItems.push_back(i + 2);
 	}
 
 	if (unownedItems.size() == 0)
@@ -162,9 +162,8 @@ std::unique_ptr<Item> Warrior::generateItem() const
 		return nullptr;
 	}
 
-	std::uniform_int_distribution<int> dist(0, unownedItems.size() - 1);  //La moment, pentru wizard sunt doua item-uri
+	std::uniform_int_distribution<int> dist(0, unownedItems.size() - 1); 
 
-	//avem '+ 2' fiindca static_cast<int>(TypeItem::Sword) = 2
-	return std::make_unique<Projectile>(static_cast<TypeItem>(unownedItems.at(dist(rd)) + 2), this->getPosition().x, 
+	return std::make_unique<Projectile>(static_cast<TypeItem>(unownedItems.at(dist(rd))), this->getPosition().x, 
 									    this->getPosition().y, this->playerSpr->getRotation());
 }

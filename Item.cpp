@@ -10,7 +10,7 @@ Item::Item(const TypeItem& tip) : tipItem(tip), countDown(std::nullopt)
 		break; 
 	case TypeItem::Sword: this->attackPower = 25;
 		break;
-	case TypeItem::Arrow: this->attackPower = 15;
+	case TypeItem::Knive: this->attackPower = 15;
 		break;
 	case TypeItem::Spear: this->attackPower = 20;
 		break;
@@ -66,8 +66,8 @@ const std::string Item::typeItemToStr(const TypeItem& typeItem)
 			return "IceBall";
 	case TypeItem::Sword: 
 			return "Sword"; 
-	case TypeItem::Arrow:
-			return "Arrow"; 
+	case TypeItem::Knive:
+			return "Knive"; 
 	case TypeItem::Spear:
 		return "Spear";
 	default:

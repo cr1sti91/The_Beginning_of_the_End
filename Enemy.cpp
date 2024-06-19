@@ -4,6 +4,7 @@ Enemy::Enemy(const CategorieEnemy& categorie, const short& hp, const short& atta
 	: categorie(categorie), health(hp), attackPower(attack), speedMovement(speed)
 {
 	this->isAttacking = false; 
+	this->isAttacked = false; 
 }
 
 

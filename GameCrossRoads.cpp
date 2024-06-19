@@ -157,6 +157,7 @@ void GameCrossRoads::initChestInfo()
 
 	initTex(this->chestInfoTex_2_fireball, path_CrossRoad_ChestInfo_2_fireball, "ERROR::GameCrossRoads::Info fireball inaccesibil!");
 	initTex(this->chestInfoTex_2_iceball, path_CrossRoad_ChestInfo_2_iceball, "ERROR::GameCrossRoads::Info iceball inaccesibil!");
+	initTex(this->chestInfoTex_2_spear, path_CrossRoad_ChestInfo_2_spear, "ERROR::GameCrossRoads::Info spear inaccesibil!");
 }
 
 
@@ -420,6 +421,11 @@ void GameCrossRoads::updatePollEvents(sf::RenderWindow& target, ActionResults& i
 						{
 							this->chestInfoSpr->setTexture(*this->chestInfoTex_2_iceball);
 						}break; 
+
+						case TypeItem::Spear:
+						{
+							this->chestInfoSpr->setTexture(*this->chestInfoTex_2_spear);
+						}break;
 
 						default:
 							std::cout << "ERROR::GameCrossRoads::updatePollEvents::Tip item incorect!" << std::endl;

@@ -23,12 +23,12 @@ void Projectile::initShape(float pos_x, float pos_y)
 
 	}break;
 
-	case TypeItem::Arrow:
+	case TypeItem::Knive:
 	{
-		initTexAndSpr(this->texture, this->sprite, path_Rogue_arrow, "ERROR::Projectile::initShape::Arrow inaccesibil!");
+		initTexAndSpr(this->texture, this->sprite, path_Rogue_knive, "ERROR::Projectile::initShape::Arrow inaccesibil!");
 		this->sprite->setPosition(pos_x, pos_y);
-		this->sprite->scale(0.35f, 0.1f);
-		this->sprite->setOrigin(78.f, 1140.f);  
+		this->sprite->scale(0.25f, 0.25f);
+		this->sprite->setOrigin(65.f, 485.f);  
 
 	}break;
 
@@ -58,8 +58,8 @@ void Projectile::initShape(float pos_x, float pos_y)
 
 
 
-Projectile::Projectile(const TypeItem& tip, float pos_x, float pos_y, const float& angle, float movement_speed)
-	: Item(tip), unghi(angle), movementSpeed(movement_speed)
+Projectile::Projectile(const TypeItem& tip, float pos_x, float pos_y, const float& angle)
+	: Item(tip), unghi(angle), movementSpeed(projSpeed.at(tip))
 {
 	this->initShape(pos_x, pos_y); 
 	this->sprite->setRotation(angle);

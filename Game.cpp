@@ -129,6 +129,7 @@ void Game::initVariables()
 	this->interact.isEnteringText = false; 
 	this->interact.clasaPlayer = CategoriePlayer::Warrior; //In modi implicit va fi warrior
 	this->interact.player = nullptr; 
+	this->interact.defeatedEnemy = false; 
 	this->interact.dir_x = 0;
 	this->interact.dir_y = 0;
 
@@ -213,6 +214,12 @@ void Game::resetMusic(unsigned short scena)
 						  path_BattleFinal_music, "ERROR::Scena_6::Muzica inaccesibila!");
 	}
 	break;
+
+	case 7:
+	{
+		resetMusicForCase(this->musicIsStopped, this->musicIsInitialized, this->music,
+						  path_TheEnd_music, "ERROR::Scena_7::Muzica inaccesibila!");
+	}
 	}
 }
 
@@ -260,6 +267,13 @@ void Game::resetInfoPtr(unsigned short scena)
 	{
 		this->gameInfoPtr.reset();
 		this->gameInfoPtr = std::make_unique<GameInfoBattleScene>(this->getWindowSize(), this->interact);
+	}
+	break;
+
+	case 7:
+	{
+		this->gameInfoPtr.reset();
+		this->gameInfoPtr = std::make_unique<GameInfoEndOfTheFight>(this->getWindowSize(), this->interact);
 	}
 	break;
 

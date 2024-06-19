@@ -4,11 +4,11 @@
 
 void GameInfoIntroBattle::initEnemy(const ActionResults& interact)
 {
-	/*std::random_device rd; 
-	std::uniform_int_distribution<unsigned short> dist(); 
-	unsigned short randomNum = dist(rd); */
+	std::random_device rd; 
+	std::uniform_int_distribution<unsigned short> dist(1, 2); 
+	unsigned short randomNum = dist(rd); 
 
-	unsigned short randomNum = 2; 
+	//unsigned short randomNum = 2; 
 
 	switch (static_cast<CategorieEnemy>(randomNum))
 	{

@@ -38,7 +38,7 @@ Rogue::Rogue(const std::string& name)
 	this->lastAttacked = sf::Time::Zero;
 
 	//In mod implicit un rogue detine sageti in inventar
-	this->inventar.push_back(std::make_shared<Projectile>(TypeItem::Arrow, this->getPosition().x,
+	this->inventar.push_back(std::make_shared<Projectile>(TypeItem::Knive, this->getPosition().x,
 													      this->getPosition().y, this->playerSpr->getRotation())); 
 }
 
@@ -49,9 +49,9 @@ void Rogue::attack(std::vector<std::unique_ptr<Item>>& projectiles, const TypeIt
 {
 	switch (tipAttack)
 	{
-	case TypeItem::Arrow:
+	case TypeItem::Knive:
 	{
-		projectiles.push_back(std::make_unique<Projectile>(TypeItem::Arrow, pos.x, pos.y, angle));
+		projectiles.push_back(std::make_unique<Projectile>(TypeItem::Knive, pos.x, pos.y, angle));
 	}break;
 
 	default:

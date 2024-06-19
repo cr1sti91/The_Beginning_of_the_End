@@ -117,7 +117,6 @@ void GameIntroInfo_1::updatePollEvents(sf::RenderWindow& target, ActionResults& 
 			{
 				////////////////////////////////////
 				//Cod de test
-				std::cout << "Wow functioneaza (a fost pentru play)" << std::endl;
 				interact.sceneEnd = true;
 				this->isExecuted = true;
 				return;
@@ -127,7 +126,6 @@ void GameIntroInfo_1::updatePollEvents(sf::RenderWindow& target, ActionResults& 
 			{
 				////////////////////////////////////
 				//Cod de test
-				std::cout << "Wow functioneaza (a fost pentru exit)" << std::endl;
 				interact.sceneEnd = false; //sceneEnd se considera TRUE doar cand jocul trece la alta scena
 										   //daca sceneEnd devine explicit false in timpul pollEvent, atunci jocul se finalizeaza
 				this->isExecuted = true;
@@ -295,7 +293,6 @@ void GameIntroInfo_2::updatePollEvents(sf::RenderWindow& target, ActionResults& 
 			//fi ales sprite-ul care contine textura cu indicele 2
 			if (this->continueSpr->getGlobalBounds().contains(getMousePosView(target)))
 			{
-				std::cout << "Wow functioneaza (a fost pentru play)" << std::endl;
 				this->isContinue = true;
 				++this->continueCount;
 				this->wasReseted = false;
@@ -371,7 +368,7 @@ void GameIntroInfo_2::reset(const CategoriePlayer& categorie, const std::string&
 
 		default:
 		{
-			std::cerr << "Nustiu cum dar categoria nu este valida!" << std::endl;
+			std::cerr << "ERROR::GameIntroInfo_2::reset::Categoria nu este valida!" << std::endl;
 		}break;
 		}
 	}

@@ -18,6 +18,7 @@ private:
 	std::unique_ptr<sf::Texture> chestInfoTex_1         { nullptr }; //am gasit un chest
 	std::unique_ptr<sf::Texture> chestInfoTex_2_fireball{ nullptr }; //descriere ceea ce se afla in chest
 	std::unique_ptr<sf::Texture> chestInfoTex_2_iceball	{ nullptr }; 
+	std::unique_ptr<sf::Texture> chestInfoTex_2_spear	{ nullptr }; 
 	std::unique_ptr<sf::Sprite>  chestInfoSpr           { nullptr };
 
 	std::unique_ptr<sf::Texture> OpenTex_1{ nullptr };

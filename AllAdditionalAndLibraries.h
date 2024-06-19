@@ -67,7 +67,7 @@ enum class TypeItem
 	Spear,
 
 	//For rogue
-	Arrow,
+	Knive,
 	Trap,
 
 	//For troll
@@ -76,6 +76,16 @@ enum class TypeItem
 	////////////
 	None
 };
+
+static const std::map<TypeItem, int> projSpeed
+{
+	{TypeItem::FireBall, 14}, 
+	{TypeItem::IceBall,  12}, 
+	{TypeItem::Spear,    10}, 
+	{TypeItem::Knive,    16},
+	{TypeItem::Rock,	 12}
+}; 
+
 
 //Numarul de tipuri de item-uri posibile pentru fiecare clasa
 const short possItemsWizard = 2;
@@ -99,9 +109,10 @@ struct ActionResults //Instantele clasei date fac legatura (sunt agregate ale lu
 	std::shared_ptr<Enemy> enemy; 
 
 	BattleLocation locatieLupta; 
+	bool defeatedEnemy; 
 
 	//Directie pentru rotatie (vectori de baza)
-	//citite de la tastatur (W,A,S,D)
+	//citite de la tastatura (W,A,S,D)
 	short dir_x; 
 	short dir_y; 
 
@@ -133,7 +144,7 @@ static const std::map<std::string, Stats> enemyStats
 
 
 //----------------------------------------Number of themes----------------------------------------
-const short themes = 5;
+const short themes = 6;
 
 
 //----------------------------------------Proprietati window----------------------------------------
@@ -149,6 +160,7 @@ const std::string path_Exploring_music = "Music/Exploring.wav";
 const std::string path_IntroBattle_music = "Music/IntroBattle.mp3"; 
 const std::string path_BattleFinal_music = "Music/BattleFinal.wav";
 const std::string path_IntroAfterBattle_music = "Music/IntroAfterBattle.mp3";
+const std::string path_TheEnd_music = "Music/TheEnd.mp3"; 
 
 
 
@@ -206,6 +218,7 @@ const std::string path_CrossRoads_ChestOpen = "Textures/chestImageOpen.png";
 const std::string path_CrossRoads_ChestInfo_1 = "Textures/chestInfo_1.png";
 const std::string path_CrossRoad_ChestInfo_2_fireball = "Textures/chestInfo_2_fireball.png"; 
 const std::string path_CrossRoad_ChestInfo_2_iceball = "Textures/chestInfo_2_iceball.png"; 
+const std::string path_CrossRoad_ChestInfo_2_spear = "Textures/chestInfo_2_spear.png"; 
 
 const std::string path_CrossRoads_Open = "Textures/open.png";
 const std::string path_CrossRoads_Open_mouseH = "Textures/open_mouseHeld.png";
@@ -243,6 +256,15 @@ const std::string path_BattleScene_BackGForest = "Textures/battleSceneForest.png
 const std::string path_BattleScene_BackGVillage = "Textures/battleSceneVillage.png";
 
 
+//----------------------------------------For GameInfoEndOfTheFight----------------------------------------
+const std::string path_EndOfTheFight_BackGCave = "Textures/caveFinish.png"; 
+const std::string path_EndOfTheFight_BackGForest = "Textures/forestFinish.png";
+const std::string path_EndOfTheFight_BackGVillage = "Textures/villageFinish.png";
+
+const std::string path_EndOfTheFight_win = "Textures/youWin.png";
+const std::string path_EndOfTheFight_defeat = "Textures/defeat.png";
+
+
 
 //----------------------------------------For Warrior class----------------------------------------
 const std::string path_Warrior_IntroText = "Textures/TextWarriorIntro.png"; //Nu se utilizeaza in Warrior class, ci in GameIntroInfo
@@ -276,7 +298,7 @@ const std::string path_Rogue_BattleUp = "Textures/rogueBattleSceneUp.png";
 const std::string path_Rogue_BattleUpAttacked = "Textures/rogueBattleSceneUpAttacked.png";
 
 //Items
-const std::string path_Rogue_arrow = "Textures/arrow.png"; 
+const std::string path_Rogue_knive = "Textures/knive.png"; 
 
 
 

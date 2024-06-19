@@ -43,6 +43,7 @@ void GameInfoBattleScene::initText(const ActionResults& interact)
 	this->uiText_EnemyName->setCharacterSize(30);
 	this->uiText_EnemyName->setFillColor(sf::Color::Yellow);
 	this->uiText_EnemyName->setPosition(1630.f, 50.f);
+
 	switch (interact.enemy->getCategorie())
 	{
 	case CategorieEnemy::Ghoul: this->uiText_EnemyName->setString("Ghoul");
@@ -207,6 +208,9 @@ void GameInfoBattleScene::updatePollEvents(sf::RenderWindow& target, ActionResul
 
 	//Update text
 	this->updateUiText(interact); 
+
+
+	this->checkStatus(interact); 
 }
 
 
@@ -310,7 +314,7 @@ void GameInfoBattleScene::thePlayersAttack(const sf::RenderWindow& target, Actio
 	{
 		if (this->currentItem->getTipItem() == TypeItem::FireBall ||
 			this->currentItem->getTipItem() == TypeItem::IceBall  ||
-			this->currentItem->getTipItem() == TypeItem::Arrow    ||
+			this->currentItem->getTipItem() == TypeItem::Knive    ||
 			this->currentItem->getTipItem() == TypeItem::Spear)
 		{
 			if (this->clock.getElapsedTime() - this->timePoint > this->cooldownTime && this->keyWasPressed)
@@ -588,6 +592,21 @@ void GameInfoBattleScene::updateUiText(const ActionResults& interact) const
 	ss << "Health: " << interact.enemy->get_health(); 
 
 	this->uiText_EnemyHealth->setString(ss.str()); 
+}
+
+
+
+void GameInfoBattleScene::checkStatus(ActionResults& interact)
+{
+	if (interact.player->get_health() <= 0 || interact.enemy->get_health() <= 0)
+	{
+		interact.sceneEnd = true; 
+
+		if (interact.player->get_health() > 0)
+			interact.defeatedEnemy = true;
+		else
+			interact.defeatedEnemy = false; 
+	}
 }
 
 

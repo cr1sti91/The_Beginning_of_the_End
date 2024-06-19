@@ -7,6 +7,7 @@
 #include "GameCrossRoads.h"
 #include "GameInfoIntroBattle.h"
 #include "GameInfoBattleScene.h"
+#include "GameInfoEndOfTheFight.h"
 
 
 class Game

@@ -194,30 +194,21 @@ void GameInfoChoose::updatePollEvents(sf::RenderWindow& target, ActionResults& i
 				//fi ales sprite-ul care contine textura cu indicele 2
 				if (this->WarriorSpr->getGlobalBounds().contains(getMousePosView(target)))
 				{
-					std::cout << "A fost ales Warrior" << std::endl;
 					interact.sceneEnd = true;
 					interact.clasaPlayer = CategoriePlayer::Warrior;
 					return;
 				}
 				else if (this->RogueSpr->getGlobalBounds().contains(getMousePosView(target)))
 				{
-					////////////////////////////////////
-					//Cod de test
-					std::cout << "A fost ales Rogue" << std::endl;
 					interact.sceneEnd = true;
 					interact.clasaPlayer = CategoriePlayer::Rogue;
 					return;
-					////////////////////////////////////
 				}
 				else if (this->WizardSpr->getGlobalBounds().contains(getMousePosView(target)))
 				{
-					////////////////////////////////////
-					//Cod de test
-					std::cout << "A fost ales Wizard" << std::endl;
 					interact.sceneEnd = true;
 					interact.clasaPlayer = CategoriePlayer::Wizard;
 					return;
-					////////////////////////////////////
 				}
 			}
 

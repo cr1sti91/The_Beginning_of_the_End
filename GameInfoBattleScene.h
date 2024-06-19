@@ -90,6 +90,9 @@ private:
 	void moveProjectiles(const sf::RenderWindow& target);
 	void updateUiText(const ActionResults& interact) const; 
 
+	//Verificare daca lupta sa incheiat
+	void checkStatus(ActionResults& interact); 
+
 
 public:
 	//Metodele de initializare sunt chemate in constructor (init all sprites)

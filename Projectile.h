@@ -17,7 +17,7 @@ private:
 
 
 public:
-	Projectile(const TypeItem& tip, float pos_x, float pos_y, const float& angle, float movement_speed = 12);
+	Projectile(const TypeItem& tip, float pos_x, float pos_y, const float& angle);
 	~Projectile() = default;
 
 	void move() override; 
