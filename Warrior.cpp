@@ -43,7 +43,7 @@ Warrior::Warrior(const std::string& name)
 	this->isAttacking = false; 
 
 	//Init variables
-	this->woundedTime = sf::seconds(0.4f);
+	this->woundedTime = sf::seconds(0.8f);
 	this->lastAttacked = sf::Time::Zero;
 
 	//In mod implicit, warrior-ul va avea in inventar un sword
@@ -158,7 +158,7 @@ std::unique_ptr<Item> Warrior::generateItem() const
 
 	if (unownedItems.size() == 0)
 	{
-		std::cerr << "ERROR::Wizard::generateItem::A avut loc incercarea de generare cand unownedItems.size = 0" << std::endl;
+		std::cerr << "ERROR::Warrior::generateItem::A avut loc incercarea de generare cand unownedItems.size = 0" << std::endl;
 		return nullptr;
 	}
 

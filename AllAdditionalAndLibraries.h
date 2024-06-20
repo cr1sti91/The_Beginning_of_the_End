@@ -68,7 +68,7 @@ enum class TypeItem
 
 	//For rogue
 	Knive,
-	Trap,
+	SpikedTrap,
 
 	//For troll
 	Rock, 
@@ -132,9 +132,9 @@ struct Stats
 
 static const std::map<std::string, Stats> enemyStats  
 {
-	{"Ghoul", {1000, 25, 2}},
-	{"Troll", {2000, 50, 1}},
-	{"Griffon", {1500, 35, 4}}
+	{"Ghoul", {800, 25, 2}},
+	{"Troll", {1500, 50, 1}},
+	{"Griffon", {1000, 35, 4}}
 };
 
 
@@ -219,6 +219,8 @@ const std::string path_CrossRoads_ChestInfo_1 = "Textures/chestInfo_1.png";
 const std::string path_CrossRoad_ChestInfo_2_fireball = "Textures/chestInfo_2_fireball.png"; 
 const std::string path_CrossRoad_ChestInfo_2_iceball = "Textures/chestInfo_2_iceball.png"; 
 const std::string path_CrossRoad_ChestInfo_2_spear = "Textures/chestInfo_2_spear.png"; 
+const std::string path_CrossRoad_ChestInfo_2_spikedTrap = "Textures/chestInfo_2_spikedTrap.png";
+const std::string path_CrossRoad_ChestInfo_2_knive = "Textures/chestInfo_2_knive.png";
 
 const std::string path_CrossRoads_Open = "Textures/open.png";
 const std::string path_CrossRoads_Open_mouseH = "Textures/open_mouseHeld.png";
@@ -240,14 +242,19 @@ const std::string path_villageInscription_choosed = "Textures/villageTEXT_choose
 
 
 //----------------------------------------For GameInfoIntroBattle----------------------------------------
-const std::string path_IntroBattle_BackGCave = "Textures/intrarePerstera.png";
+const std::string path_IntroBattle_BackGCave = "Textures/intrareCave.png";
 const std::string path_IntroBattle_CaveDescrip = "Textures/descriereCave.png"; 
 
 const std::string path_IntroBattle_BackGForest = "Textures/intrareForest.png";
 const std::string path_IntroBattle_ForestDescrip = "Textures/descriereForest.png";
 
-const std::string path_IntroBattle_BackGVillage = "Textures/intrareSat.png";
-const std::string path_IntroBattle_VillageDescrip = "Textures/descriereSat.png";
+const std::string path_IntroBattle_BackGVillage = "Textures/intrareVillage.png";
+const std::string path_IntroBattle_VillageDescrip = "Textures/descriereVillage.png";
+
+const std::string path_Ghoul_IntroMesajAtack = "Textures/ghoulMesajAtack.png";
+const std::string path_Troll_IntroMesajAtack = "Textures/trollMesajAtack.png";
+const std::string path_Griffon_IntroMesajAtack = "Textures/griffonMesajAtack.png";
+
 
 
 //----------------------------------------For GameInfoBattleScene----------------------------------------
@@ -299,6 +306,8 @@ const std::string path_Rogue_BattleUpAttacked = "Textures/rogueBattleSceneUpAtta
 
 //Items
 const std::string path_Rogue_knive = "Textures/knive.png"; 
+const std::string path_Rogue_trap = "Textures/spikedTrap.png"; 
+
 
 
 
@@ -335,8 +344,6 @@ const std::string path_Ghoul_BeingColdAttacked = "Textures/ghoulBeingColdAttacke
 
 const std::string path_Ghoul_AttackingAttacked = "Textures/ghoulAttackingAttacked.png";
 const std::string path_Ghoul_AttackingColdAttacked = "Textures/ghoulAttackingColdAttacked.png";
-
-const std::string path_Ghoul_IntroMesajAtack = "Textures/ghoulMesajAtack.png";
 
 
 //----------------------------------------For Troll class----------------------------------------

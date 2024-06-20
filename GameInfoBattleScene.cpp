@@ -67,7 +67,8 @@ void GameInfoBattleScene::initText(const ActionResults& interact)
 void GameInfoBattleScene::initTime()
 {
 	this->timePoint = sf::Time::Zero;
-	this->cooldownTime = sf::seconds(0.4f); 
+	this->cooldownTime = sf::seconds(0.4f);
+	this->cooldownTimeTr = sf::seconds(2.f);
 }
 
 void GameInfoBattleScene::initLimits()
@@ -93,6 +94,8 @@ void GameInfoBattleScene::initVariables(const ActionResults& interact)
 
 	this->isCloseAttack = false; 
 	this->isHoldClosedAttack = false; 
+
+	this->battleFinish = false; 
 	
 	//In mod implicit, este folosit primul item din inventar
 	if (interact.player->getInvetar().size() != 0)
@@ -149,6 +152,11 @@ void GameInfoBattleScene::drawGameInfo(sf::RenderTarget& target, ActionResults& 
 {
 	target.draw(*this->backgroundSpr); 
 
+	for (auto& trap : this->trapsPlayer)
+	{
+		target.draw(*trap->getSprite());
+	}
+
 	target.draw(*this->uiText_PlayerName);
 	target.draw(*this->uiText_EnemyName);
 
@@ -184,6 +192,9 @@ void GameInfoBattleScene::updatePollEvents(sf::RenderWindow& target, ActionResul
 
 	//Player attack
 	this->thePlayersAttack(target, interact); 
+
+	//Check traps
+	this->checkTrapsTime(); 
 
 	//Resetare
 	this->keyWasPressed = false; //Conteaza doar pentru player
@@ -363,6 +374,22 @@ void GameInfoBattleScene::thePlayersAttack(const sf::RenderWindow& target, Actio
 				interact.player->stopAttack(); 
 			}
 		}
+		else if (this->currentItem->getTipItem() == TypeItem::SpikedTrap)
+		{
+			if (this->clock.getElapsedTime() - this->timePoint > this->cooldownTimeTr)
+			{
+				this->timePoint = this->clock.getElapsedTime();
+
+				this->mouseHeld = true;
+
+				interact.player->attack(this->trapsPlayer, this->currentItem->getTipItem(),
+										interact.player->getPlayerSpr().getRotation(),
+										interact.player->getPlayerSpr().getTransform().transformPoint(210.f, 124));
+			}
+			//'sprite.getTransform().transformPoint()' returneaza adresa (Vector2f) punctului (210, 124) ce se afla pe sprite in  
+			//coordonatele window-ului dupa ce a avut loc ultima transforamare (aplicare a unei matrici 3x3 asupra sprite-ului dat).
+			//In acest mod, fireballurile vor fi create la adresa actualizata a punctului de pe sprite. 
+		}
 	}
 	else
 	{
@@ -480,6 +507,19 @@ void GameInfoBattleScene::moveProjectiles(const sf::RenderWindow& target)
 	}
 }
 
+
+
+void GameInfoBattleScene::checkTrapsTime()
+{
+	for (int i{}; i < this->trapsPlayer.size(); i++)
+	{
+		if (this->trapsPlayer.at(i)->action())
+			this->trapsPlayer.erase(this->trapsPlayer.begin() + i); 
+	}
+}
+
+
+
 void GameInfoBattleScene::enemyGetAttacked(ActionResults& interact)
 {
 	if (this->isCloseAttack && !this->isHoldClosedAttack)
@@ -518,6 +558,17 @@ void GameInfoBattleScene::enemyGetAttacked(ActionResults& interact)
 	else
 	{
 		interact.enemy->getAttacked(false, this->currentItem->getAttackPower(), this->currentItem->getTipItem());
+	}
+
+
+	//Verificam daca enemy a nimerit in capcana
+	for (int i{}; i < this->trapsPlayer.size(); i++)
+	{
+		if (pixelPerfectCollision(*trapsPlayer.at(i)->getSprite(), interact.enemy->getBattleSprite()))
+		{
+			interact.enemy->getAttacked(true, this->trapsPlayer.at(i)->getAttackPower(), this->trapsPlayer.at(i)->getTipItem());
+
+		}
 	}
 }
 
@@ -578,14 +629,18 @@ void GameInfoBattleScene::updateUiText(const ActionResults& interact) const
 
 void GameInfoBattleScene::checkStatus(ActionResults& interact)
 {
-	if (interact.player->get_health() < 0 || interact.enemy->get_health() < 0)
+	if ((interact.player->get_health() <= 0 || interact.enemy->get_health() <= 0) && !this->battleFinish)
 	{
-		interact.sceneEnd = true; 
+		this->battleFinish = true;  
+	}
+	else if (this->battleFinish)
+	{
+		interact.sceneEnd = true;
 
 		if (interact.player->get_health() > 0)
 			interact.defeatedEnemy = true;
 		else
-			interact.defeatedEnemy = false; 
+			interact.defeatedEnemy = false;
 	}
 }
 

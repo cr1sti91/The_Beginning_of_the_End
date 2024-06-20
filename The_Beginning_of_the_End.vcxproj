@@ -153,6 +153,7 @@
     <ClCompile Include="Rogue.cpp" />
     <ClCompile Include="Sword.cpp" />
     <ClCompile Include="The_Beginning_of_the_End.cpp" />
+    <ClCompile Include="Trap.cpp" />
     <ClCompile Include="Troll.cpp" />
     <ClCompile Include="Warrior.cpp" />
     <ClCompile Include="Wizard.cpp" />
@@ -176,6 +177,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Rogue.h" />
     <ClInclude Include="Sword.h" />
+    <ClInclude Include="Trap.h" />
     <ClInclude Include="Troll.h" />
     <ClInclude Include="Warrior.h" />
     <ClInclude Include="Wizard.h" />

@@ -71,6 +71,11 @@ void Projectile::move()
 	this->sprite->move(this->movementSpeed * std::cos((unghi - 90) * M_PI / 180), this->movementSpeed * std::sin((unghi - 90) * M_PI / 180));
 }
 
+const bool Projectile::action()
+{
+	return false; 
+}
+
 const std::unique_ptr<sf::Sprite>& Projectile::getSprite() const
 {
 	return this->sprite;

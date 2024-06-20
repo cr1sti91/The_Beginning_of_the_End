@@ -7,7 +7,8 @@ class Sword : public Item
 public: 
 	Sword(const CategoriePlayer& player);
 
-	void move() override;
+	const bool action() override;
+	void move() override; 
 	const std::unique_ptr<sf::Sprite>& getSprite() const override;
 };
 

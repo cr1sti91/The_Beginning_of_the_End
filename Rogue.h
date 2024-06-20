@@ -1,6 +1,7 @@
 #pragma once
 #include "Player.h"
 #include "Projectile.h"
+#include "Trap.h"
 
 
 

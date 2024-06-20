@@ -15,11 +15,13 @@ private:
 	std::unique_ptr<sf::Texture> chestTex_2{ nullptr };
 	std::unique_ptr<sf::Sprite>  chestSpr  { nullptr };
 
-	std::unique_ptr<sf::Texture> chestInfoTex_1         { nullptr }; //am gasit un chest
-	std::unique_ptr<sf::Texture> chestInfoTex_2_fireball{ nullptr }; //descriere ceea ce se afla in chest
-	std::unique_ptr<sf::Texture> chestInfoTex_2_iceball	{ nullptr }; 
-	std::unique_ptr<sf::Texture> chestInfoTex_2_spear	{ nullptr }; 
-	std::unique_ptr<sf::Sprite>  chestInfoSpr           { nullptr };
+	std::unique_ptr<sf::Texture> chestInfoTex_1				{ nullptr }; //am gasit un chest
+	std::unique_ptr<sf::Texture> chestInfoTex_2_fireball	{ nullptr }; //descriere ceea ce se afla in chest
+	std::unique_ptr<sf::Texture> chestInfoTex_2_iceball		{ nullptr }; 
+	std::unique_ptr<sf::Texture> chestInfoTex_2_spear		{ nullptr };
+	std::unique_ptr<sf::Texture> chestInfoTex_2_spikedTrap{ nullptr };
+	std::unique_ptr<sf::Texture> chestInfoTex_2_knive	{ nullptr };
+	std::unique_ptr<sf::Sprite>  chestInfoSpr               { nullptr };
 
 	std::unique_ptr<sf::Texture> OpenTex_1{ nullptr };
 	std::unique_ptr<sf::Texture> OpenTex_2{ nullptr };
@@ -104,6 +106,8 @@ private:
 	void setPlayerSprite(ActionResults& interact); 
 	void deplasareSpreCufar(); 
 	void deplasareSpreDestinatie(); 
+
+	void setPosItem(const ActionResults& item); 
 
 
 public: 

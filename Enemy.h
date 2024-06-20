@@ -27,6 +27,11 @@ protected:
 	sf::Time lastAttack;
 	sf::Time woundedTime;
 
+	//Enemy
+	bool fellTrap; 
+	sf::Time trapDuration; 
+	sf::Time trapBegin; 
+
 	//For enemy waiting
 	sf::Time waitingTime;
 	sf::Time waitingBegin;

@@ -75,6 +75,9 @@
     <ClCompile Include="GameInfoEndOfTheFight.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Trap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AllAdditionalAndLibraries.h">
@@ -138,6 +141,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameInfoEndOfTheFight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Trap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

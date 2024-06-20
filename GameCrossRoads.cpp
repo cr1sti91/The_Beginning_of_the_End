@@ -158,6 +158,8 @@ void GameCrossRoads::initChestInfo()
 	initTex(this->chestInfoTex_2_fireball, path_CrossRoad_ChestInfo_2_fireball, "ERROR::GameCrossRoads::Info fireball inaccesibil!");
 	initTex(this->chestInfoTex_2_iceball, path_CrossRoad_ChestInfo_2_iceball, "ERROR::GameCrossRoads::Info iceball inaccesibil!");
 	initTex(this->chestInfoTex_2_spear, path_CrossRoad_ChestInfo_2_spear, "ERROR::GameCrossRoads::Info spear inaccesibil!");
+	initTex(this->chestInfoTex_2_spikedTrap, path_CrossRoad_ChestInfo_2_spikedTrap, "ERROR::GameCrossRoads::Info spikedTrap inaccesibil!");
+	initTex(this->chestInfoTex_2_knive, path_CrossRoad_ChestInfo_2_knive, "ERROR::GameCrossRoads::Info knive inaccesibil!");
 }
 
 
@@ -401,13 +403,10 @@ void GameCrossRoads::updatePollEvents(sf::RenderWindow& target, ActionResults& i
 						adaugat = interact.player->addItems(std::move(interact.player->generateItem())); 
 					}
 
-					*this->addedItem = *interact.player->getInvetar().at(interact.player->getInvetar().size() - 1)->getSprite(); 
-					this->addedItem->setPosition(1050.f, 700.f); 
-					this->addedItem->setRotation(90); 
+					
+					//Setam pozitia sprite-ului in window a item-ului nou adaugat in inventar
+					this->setPosItem(interact); 
 
-					////////////////////////////////////////////////
-					//In dependenta de item trebie setata o scalare individuala
-					this->addedItem->setScale(1.f, 1.f); 
 
 					//Chest info reset
 					switch (interact.player->getInvetar().at(interact.player->getInvetar().size() - 1)->getTipItem())
@@ -427,6 +426,15 @@ void GameCrossRoads::updatePollEvents(sf::RenderWindow& target, ActionResults& i
 							this->chestInfoSpr->setTexture(*this->chestInfoTex_2_spear);
 						}break;
 
+						case TypeItem::SpikedTrap:
+						{
+							this->chestInfoSpr->setTexture(*this->chestInfoTex_2_spikedTrap);
+						}break;
+
+						case TypeItem::Knive:
+						{
+							this->chestInfoSpr->setTexture(*this->chestInfoTex_2_knive);
+						}break;
 						default:
 							std::cout << "ERROR::GameCrossRoads::updatePollEvents::Tip item incorect!" << std::endl;
 							break;
@@ -648,5 +656,35 @@ void GameCrossRoads::deplasareSpreDestinatie()
 			}
 		}
 	}
+}
+
+
+
+void GameCrossRoads::setPosItem(const ActionResults& interact)
+{
+	this->addedItem->setTexture(*interact.player->getInvetar().at(interact.player->getInvetar().size() - 1)->getSprite()->getTexture());
+	this->addedItem->setOrigin(interact.player->getInvetar().at(interact.player->getInvetar().size() - 1)->getSprite()->getOrigin());
+
+	switch (interact.player->getInvetar().at(interact.player->getInvetar().size() - 1)->getTipItem())
+	{
+		case TypeItem::FireBall: this->addedItem->setPosition(700.f, 750.f);
+			break;
+		case TypeItem::Spear: this->addedItem->setPosition(500.f, 750.f);
+			break;
+		case TypeItem::IceBall: this->addedItem->setPosition(550.f, 750.f);
+			break;
+		case TypeItem::Knive: this->addedItem->setPosition(700.f, 750.f);
+			break;
+		case TypeItem::SpikedTrap:
+		{ 
+			this->addedItem->setPosition(900.f, 800.f); 
+			this->addedItem->setScale(0.5f, 0.5f); 
+		}
+		    break;
+		default: std::cerr << "ERROR::GameCrossRoads::setPosItem::Tip item incorect!" << std::endl;
+			break;
+	}
+
+	this->addedItem->setRotation(90);
 }
 

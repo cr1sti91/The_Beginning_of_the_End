@@ -98,7 +98,10 @@ bool Player::addItems(std::unique_ptr<Item> item)
 
 void Player::healthDecreases(const short& damage)
 {
-	this->health -= damage; 
+	if (damage < this->health)
+		this->health -= damage;
+	else
+		this->health = 0; 
 }
 
 

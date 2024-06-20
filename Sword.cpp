@@ -8,7 +8,7 @@ Sword::Sword(const CategoriePlayer& player) : Item(TypeItem::Sword)
 	{
 		this->itemLimits = sf::IntRect
 		(
-			225.f, 0.f, 70.f, 225.f
+			225, 0, 70, 225
 		);
 	}break; 
 
@@ -16,6 +16,11 @@ Sword::Sword(const CategoriePlayer& player) : Item(TypeItem::Sword)
 		std::cerr << "ERROR::Sword::Sword::Categorie player incorecta!" << std::endl;
 		break;
 	}
+}
+
+const bool Sword::action()
+{
+	return false; 
 }
 
 void Sword::move()

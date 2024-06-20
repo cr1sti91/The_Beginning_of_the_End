@@ -10,7 +10,8 @@ class GameInfoBattleScene : public GameInfo
 private: 
 	//Pentru a crea pauze
 	sf::Clock clock; 
-	sf::Time cooldownTime;
+	sf::Time cooldownTime;   //For projectiles/close attaks
+	sf::Time cooldownTimeTr; //For traps
 	sf::Time timePoint;
 	sf::Time lastAttack;
 
@@ -57,10 +58,13 @@ private:
 
 	//For attacking -  item-uri ce sunt generate intr-un numar mai mare - fireballs, arrows, spears
 	std::vector<std::unique_ptr<Item>> projectilesPlayer;
+	std::vector<std::unique_ptr<Item>> trapsPlayer; 
 	std::vector<std::unique_ptr<Item>> projectilesEnemy; 
 
 	bool isCloseAttack; 
 	bool isHoldClosedAttack; 
+
+	bool battleFinish; 
 
 	//Private methods
 	void initFont(); 
@@ -84,6 +88,8 @@ private:
 	void enemyAttack(ActionResults& interact); 
 
 	void moveProjectiles(const sf::RenderWindow& target);
+	void checkTrapsTime(); 
+
 	void updateUiText(const ActionResults& interact) const; 
 
 	//Verificare daca lupta sa incheiat

@@ -9,7 +9,7 @@ Wizard::Wizard(const std::string& name)
 	this->initPlayerSpr(); 
 
 	//Init variables
-	this->woundedTime = sf::seconds(0.4f); 
+	this->woundedTime = sf::seconds(0.8f); 
 	this->lastAttacked = sf::Time::Zero; 
 
 	

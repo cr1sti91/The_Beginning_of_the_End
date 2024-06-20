@@ -34,12 +34,11 @@ Rogue::Rogue(const std::string& name)
 	this->initPlayerSpr(); 
 
 	//Init variables
-	this->woundedTime = sf::seconds(0.4f);
+	this->woundedTime = sf::seconds(0.8f);
 	this->lastAttacked = sf::Time::Zero;
 
-	//In mod implicit un rogue detine sageti in inventar
-	this->inventar.push_back(std::make_shared<Projectile>(TypeItem::Knive, this->getPosition().x,
-													      this->getPosition().y, this->playerSpr->getRotation())); 
+	//In mod random in inventar este plasat un item pentru rogue
+	this->inventar.push_back(std::move(this->generateItem()));
 }
 
 
@@ -52,6 +51,11 @@ void Rogue::attack(std::vector<std::unique_ptr<Item>>& projectiles, const TypeIt
 	case TypeItem::Knive:
 	{
 		projectiles.push_back(std::make_unique<Projectile>(TypeItem::Knive, pos.x, pos.y, angle));
+	}break;
+
+	case TypeItem::SpikedTrap:
+	{
+		projectiles.push_back(std::make_unique<Trap>(TypeItem::SpikedTrap, pos.x, pos.y, angle));
 	}break;
 
 	default:
@@ -83,7 +87,45 @@ void Rogue::getAttacked(const bool& isAttacked, const short& attackPower)
 
 std::unique_ptr<Item> Rogue::generateItem() const
 {
-	return nullptr;  //NECESITA DEZVOLTARE
+	static std::random_device rd;
+	std::vector<int> unownedItems; //Vector de itemi (pentru wizard) care nu sunt prezenti in inventar
+
+	for (int i{}; i < possItemsWizard; i++)
+	{
+		bool exist = false;
+		for (int j{}; j < this->inventar.size(); j++)
+		{
+			if (this->inventar.at(j)->getTipItem() == static_cast<TypeItem>(i + 4))
+			{
+				exist = true;
+				break;
+			}
+		}
+
+		if (!exist)
+			unownedItems.push_back(i + 4);
+	}
+
+	if (unownedItems.size() == 0)
+	{
+		std::cerr << "ERROR::Rogue::generateItem::A avut loc incercarea de generare cand unownedItems.size = 0" << std::endl;
+		return nullptr;
+	}
+
+	std::uniform_int_distribution<int> dist(0, unownedItems.size() - 1);
+
+	const TypeItem item = static_cast<TypeItem>(unownedItems.at(dist(rd))); 
+
+	if (item == TypeItem::SpikedTrap)
+	{
+		return std::make_unique<Trap>(item, this->getPosition().x,
+			this->getPosition().y, this->playerSpr->getRotation());
+	}
+	else
+	{
+		return std::make_unique<Projectile>(item, this->getPosition().x,
+			this->getPosition().y, this->playerSpr->getRotation());
+	}
 }
 
 

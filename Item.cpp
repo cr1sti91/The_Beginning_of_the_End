@@ -1,6 +1,7 @@
 #include "Item.h"
 
-Item::Item(const TypeItem& tip) : tipItem(tip), countDown(std::nullopt)
+Item::Item(const TypeItem& tip, const std::optional<sf::Time> time) 
+	: tipItem(tip), countDown(std::nullopt), lifeTime(time)
 {
 	switch (tip)
 	{
@@ -15,6 +16,8 @@ Item::Item(const TypeItem& tip) : tipItem(tip), countDown(std::nullopt)
 	case TypeItem::Spear: this->attackPower = 20;
 		break;
 	case TypeItem::Rock: this->attackPower = 30;
+		break;
+	case TypeItem::SpikedTrap: this->attackPower = 25;
 		break;
 	default:
 	{
@@ -56,6 +59,11 @@ const sf::IntRect& Item::getItemLimits() const
 	return this->itemLimits; 
 }
 
+const std::optional<sf::Time>& Item::getLifeTime() const
+{
+	return this->lifeTime; 
+}
+
 const std::string Item::typeItemToStr(const TypeItem& typeItem)
 {
 	switch (typeItem)
@@ -69,7 +77,9 @@ const std::string Item::typeItemToStr(const TypeItem& typeItem)
 	case TypeItem::Knive:
 			return "Knive"; 
 	case TypeItem::Spear:
-		return "Spear";
+			return "Spear";
+	case TypeItem::SpikedTrap: 
+			return "SpikedTrap"; 
 	default:
 			return "GameInfoBattleScene::updateUiText::Incorect argument for lambda function!";
 		break;

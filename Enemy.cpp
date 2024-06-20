@@ -5,6 +5,10 @@ Enemy::Enemy(const CategorieEnemy& categorie, const short& hp, const short& atta
 {
 	this->isAttacking = false; 
 	this->isAttacked = false; 
+	this->enemyIsWaiting = false;
+
+	this->fellTrap = false; 
+	this->trapDuration = sf::seconds(3.f); 
 }
 
 
@@ -46,7 +50,10 @@ void Enemy::set_speedMovement(const float& newValue)
 
 void Enemy::healthDecreases(const short& damage)
 {
-	this->health -= damage; 
+	if (damage < this->health)
+		this->health -= damage;
+	else
+		this->health = 0; 
 }
 
 

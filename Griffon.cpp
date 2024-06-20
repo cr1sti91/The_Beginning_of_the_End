@@ -72,7 +72,7 @@ void Griffon::move(const float& angle, const sf::Sprite& stopTexture)
 		}
 	}
 
-	if (this->getEnemyClock().getElapsedTime() - this->waitingBegin > this->waitingTime)
+	if (this->getEnemyClock().getElapsedTime() - this->waitingBegin > this->waitingTime && !this->fellTrap)
 	{
 		const float newAngle = (this->isAttacking) ? this->BattleSprite->getRotation() : angle; 
 
@@ -204,6 +204,10 @@ void Griffon::getAttacked(const bool& isAttacked, const short& attackPower, cons
 			{
 				this->BattleSprite->setTexture(*this->ColdAttackedTexture);
 			}
+
+			this->healthDecreases(attackPower); //enemy este ranit
+			this->lastAttack = this->getEnemyClock().getElapsedTime();
+			this->isAttacked = true;
 		}
 		else if (tipAtac == TypeItem::FireBall)
 		{
@@ -217,8 +221,32 @@ void Griffon::getAttacked(const bool& isAttacked, const short& attackPower, cons
 			{
 				this->BattleSprite->setTexture(*this->AttackedTexture);
 			}
+
+			this->healthDecreases(attackPower); //enemy este ranit
+			this->lastAttack = this->getEnemyClock().getElapsedTime();
+			this->isAttacked = true;
 		}
-		else
+		else if (tipAtac == TypeItem::SpikedTrap && !this->fellTrap && !this->isAttacking)
+		{
+			this->fellTrap = true;
+			this->trapBegin = this->getEnemyClock().getElapsedTime();
+
+			this->ThermalAttack = std::nullopt;
+
+			if (this->isAttacking)
+			{
+				this->BattleSprite->setTexture(*this->AttackingAttackedTexture);
+			}
+			else
+			{
+				this->BattleSprite->setTexture(*this->AttackedTexture);
+			}
+
+			this->healthDecreases(attackPower); //enemy este ranit
+			this->lastAttack = this->getEnemyClock().getElapsedTime();
+			this->isAttacked = true;
+		}
+		else if (tipAtac != TypeItem::SpikedTrap)
 		{
 			this->ThermalAttack = std::nullopt;
 
@@ -230,13 +258,14 @@ void Griffon::getAttacked(const bool& isAttacked, const short& attackPower, cons
 			{
 				this->BattleSprite->setTexture(*this->AttackedTexture);
 			}
-		}
 
-		this->healthDecreases(attackPower); //enemy este ranit
-		this->lastAttack = this->getEnemyClock().getElapsedTime();
-		this->isAttacked = true;
+			this->healthDecreases(attackPower); //enemy este ranit
+			this->lastAttack = this->getEnemyClock().getElapsedTime();
+			this->isAttacked = true;
+		}
 	}
-	else if (this->getEnemyClock().getElapsedTime() - this->lastAttack > this->woundedTime)
+	else if (this->getEnemyClock().getElapsedTime() - this->lastAttack > this->woundedTime
+			 && this->getEnemyClock().getElapsedTime() - this->trapBegin > this->trapDuration)
 	{
 		if (this->isAttacking)
 		{
@@ -246,7 +275,10 @@ void Griffon::getAttacked(const bool& isAttacked, const short& attackPower, cons
 		{
 			this->BattleSprite->setTexture(*this->MovingTexture);
 		}
+
 		this->isAttacked = false;
+		this->fellTrap = false; 
+
 		this->ThermalAttack = std::nullopt;
 	}
 }

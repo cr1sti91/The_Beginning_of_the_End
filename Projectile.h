@@ -20,6 +20,7 @@ public:
 	Projectile(const TypeItem& tip, float pos_x, float pos_y, const float& angle);
 	~Projectile() = default;
 
+	const bool action() override; 
 	void move() override; 
 
 	//Accessors 
