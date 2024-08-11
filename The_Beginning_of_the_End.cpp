@@ -12,7 +12,11 @@ int main()
             game->playMusic(); 
             std::this_thread::sleep_for(std::chrono::milliseconds(1800));
         }
+<<<<<<< HEAD
    });
+=======
+    });
+>>>>>>> faaa16ec2dadcdf2473e45f2552fc26578cf45d3
 
 
     game->run();
