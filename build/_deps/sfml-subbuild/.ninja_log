@@ -1,0 +1,21 @@
+# ninja log v5
+4	163	7451116145985756	sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-mkdir	c1b3dd7a8e898e21
+4	163	7451116145985756	D:/ItSchool/Folder_cu_programe/Proiect_de_curs/The_Beginning_of_the_End/source/build/_deps/sfml-subbuild/sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-mkdir	c1b3dd7a8e898e21
+164	31521	7451116459625000	sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-download	3cbb5207ff83ce0b
+164	31521	7451116459625000	D:/ItSchool/Folder_cu_programe/Proiect_de_curs/The_Beginning_of_the_End/source/build/_deps/sfml-subbuild/sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-download	3cbb5207ff83ce0b
+31521	35505	0	sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-update	27fa155e996b7e54
+31521	35505	0	D:/ItSchool/Folder_cu_programe/Proiect_de_curs/The_Beginning_of_the_End/source/build/_deps/sfml-subbuild/sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-update	27fa155e996b7e54
+35507	35657	7451116500938887	sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-patch	1fb2024dcad6bf22
+35507	35657	7451116500938887	D:/ItSchool/Folder_cu_programe/Proiect_de_curs/The_Beginning_of_the_End/source/build/_deps/sfml-subbuild/sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-patch	1fb2024dcad6bf22
+35658	35789	7451116502260380	sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-configure	5a707f424e123e9
+35658	35789	7451116502260380	D:/ItSchool/Folder_cu_programe/Proiect_de_curs/The_Beginning_of_the_End/source/build/_deps/sfml-subbuild/sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-configure	5a707f424e123e9
+35790	35953	7451116503913251	sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-build	34c5adfab08b1fce
+35790	35953	7451116503913251	D:/ItSchool/Folder_cu_programe/Proiect_de_curs/The_Beginning_of_the_End/source/build/_deps/sfml-subbuild/sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-build	34c5adfab08b1fce
+35954	36052	7451116504975477	sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-install	79faafd53770a0f
+35954	36052	7451116504975477	D:/ItSchool/Folder_cu_programe/Proiect_de_curs/The_Beginning_of_the_End/source/build/_deps/sfml-subbuild/sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-install	79faafd53770a0f
+36052	36157	7451116505952418	sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-test	dde1eb9c4d1ecfe4
+36052	36157	7451116505952418	D:/ItSchool/Folder_cu_programe/Proiect_de_curs/The_Beginning_of_the_End/source/build/_deps/sfml-subbuild/sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-test	dde1eb9c4d1ecfe4
+36158	36343	7451116507855704	CMakeFiles/sfml-populate-complete	a6178756e1b1e13b
+36158	36343	7451116507855704	sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-done	a6178756e1b1e13b
+36158	36343	7451116507855704	D:/ItSchool/Folder_cu_programe/Proiect_de_curs/The_Beginning_of_the_End/source/build/_deps/sfml-subbuild/CMakeFiles/sfml-populate-complete	a6178756e1b1e13b
+36158	36343	7451116507855704	D:/ItSchool/Folder_cu_programe/Proiect_de_curs/The_Beginning_of_the_End/source/build/_deps/sfml-subbuild/sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-done	a6178756e1b1e13b

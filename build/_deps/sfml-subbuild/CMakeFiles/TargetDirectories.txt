@@ -1,0 +1,3 @@
+D:/ItSchool/Folder_cu_programe/Proiect_de_curs/The_Beginning_of_the_End/source/build/_deps/sfml-subbuild/CMakeFiles/sfml-populate.dir
+D:/ItSchool/Folder_cu_programe/Proiect_de_curs/The_Beginning_of_the_End/source/build/_deps/sfml-subbuild/CMakeFiles/edit_cache.dir
+D:/ItSchool/Folder_cu_programe/Proiect_de_curs/The_Beginning_of_the_End/source/build/_deps/sfml-subbuild/CMakeFiles/rebuild_cache.dir
