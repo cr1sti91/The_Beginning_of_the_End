@@ -78,7 +78,7 @@ enum class TypeItem
 	None
 };
 
-static const std::map<TypeItem, int> projSpeed
+const std::map<TypeItem, int> projSpeed
 {
 	{TypeItem::FireBall, 14}, 
 	{TypeItem::IceBall,  12}, 
@@ -131,7 +131,7 @@ struct Stats
 	int speedMovement;
 };
 
-static const std::map<std::string, Stats> enemyStats  
+const std::map<std::string, Stats> enemyStats  
 {
 	{"Ghoul", {800, 25, 2}},
 	{"Troll", {1500, 50, 1}},
