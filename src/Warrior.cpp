@@ -5,9 +5,9 @@
 void Warrior::initTexture()
 {
 	//For CrossRoads scene
-	initTex(this->textureToCave, path_Warrior_toCave, "ERROR::Rogue::Rogue to cave inaccesibil!");
-	initTex(this->textureToForest, path_Warrior_toForest, "ERROR::Rogue::Rogue to forest inaccesibil!");
-	initTex(this->textureToVillage, path_Warrior_toVillage, "ERROR::Rogue::Rogue to village inaccesibil!");
+	initTex(this->textureToCave, path_Warrior_toCave, "ERROR::Rogue::Warrior to cave inaccesibil!");
+	initTex(this->textureToForest, path_Warrior_toForest, "ERROR::Rogue::Warrior to forest inaccesibil!");
+	initTex(this->textureToVillage, path_Warrior_toVillage, "ERROR::Rogue::Warrior to village inaccesibil!");
 
 	this->textureToCave->setSmooth(true);
 	this->textureToForest->setSmooth(true);

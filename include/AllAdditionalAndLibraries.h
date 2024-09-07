@@ -279,7 +279,7 @@ const std::string path_Warrior_IntroText = "img-font-audio/Textures/TextWarriorI
 
 //Scena CrossRoads
 const std::string path_Warrior_toCave = "img-font-audio/Textures/warriorCave.png";
-const std::string path_Warrior_toForest = "Timg-font-audio/extures/warriorForest.png";
+const std::string path_Warrior_toForest = "img-font-audio/Textures/warriorForest.png";
 const std::string path_Warrior_toVillage = "img-font-audio/Textures/warriorVillage.png";
 
 //Scena Battle
