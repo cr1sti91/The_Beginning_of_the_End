@@ -23,7 +23,7 @@ const short& Enemy::get_attackPower() const
 	return this->attackPower;
 }
 
-const short& Enemy::get_speedMovement() const
+const float& Enemy::get_speedMovement() const
 {
 	return this->speedMovement;
 }

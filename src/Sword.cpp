@@ -1,6 +1,6 @@
 #include "Sword.h"
 
-Sword::Sword(const CategoriePlayer& player) : Item(TypeItem::Sword)
+Sword::Sword(const CategoriePlayer& player) : Item(TypeItem::Sword), sword_spr(std::make_unique<sf::Sprite>())
 {
 	switch (player)
 	{
@@ -29,5 +29,5 @@ void Sword::move()
 
 const std::unique_ptr<sf::Sprite>& Sword::getSprite() const
 {
-	return nullptr;
+	return this->sword_spr;
 }

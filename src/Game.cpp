@@ -336,32 +336,36 @@ void Game::updatePollEvents()
 {
 	while (this->window->pollEvent(this->event))
 	{
-		if (event.type == sf::Event::Closed)
-		{
-			this->window->close();
-		}
-		else if (event.key.code == sf::Keyboard::Escape)
-		{
-			this->window->close();
-		}
-		//Citim textul de la tastatura
-		else if (this->event.type == sf::Event::TextEntered && this->interact.isEnteringText)
-		{
-			if (this->event.text.unicode < 128)
-			{
-				if (event.text.unicode == '\b') //Backspace
-				{
-					if (!this->interact.playerName.empty())
-					{
-						this->interact.playerName.pop_back();
-					}
-				}
-				else
-				{
-					this->interact.playerName += static_cast<char>(this->event.text.unicode);
-				}
-			}
-		}
+        if (this->event.type == sf::Event::Closed)
+        {
+            this->window->close();
+        }
+        else if (this->event.type == sf::Event::KeyPressed)
+        {
+            if (this->event.key.code == sf::Keyboard::Escape)
+            {
+                this->window->close();
+            }
+        }
+        // Citim textul de la tastatură numai dacă evenimentul este TextEntered
+        else if (this->event.type == sf::Event::TextEntered && this->interact.isEnteringText)
+        {
+            if (this->event.text.unicode < 128)
+            {
+                if (this->event.text.unicode == '\b') // Backspace
+                {
+                    if (!this->interact.playerName.empty())
+                    {
+                        this->interact.playerName.pop_back();
+                    }
+                }
+                else
+                {
+                    this->interact.playerName += static_cast<char>(this->event.text.unicode);
+                }
+            }
+        }
+    
 	}
 
 

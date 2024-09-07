@@ -5,6 +5,9 @@
 
 class Sword : public Item
 {
+private:
+	std::unique_ptr<sf::Sprite> sword_spr; 
+	
 public: 
 	Sword(const CategoriePlayer& player);
 

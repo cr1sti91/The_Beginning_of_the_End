@@ -14,7 +14,7 @@ file(GLOB_RECURSE SRC_FILES src/*.cpp)
 add_executable(game The_Beginning_of_the_End.cpp ${SRC_FILES})
 target_include_directories(game PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_link_libraries(game PRIVATE sfml-graphics sfml-system sfml-audio sfml-window sfml-network)
-target_compile_features(game PRIVATE cxx_std_17)
+target_compile_features(game PRIVATE cxx_std_20)
 
 add_custom_command(TARGET game POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/img-font-audio $<TARGET_FILE_DIR:game>/img-font-audio

@@ -120,6 +120,8 @@ const double calculateAngle(const sf::Vector2f point, const sf::Vector2f referen
 
 		return angle;
 	}
+
+	return 0; //Pentru a evita warning
 }
 
 
@@ -200,6 +202,8 @@ const short dirToDegree(const short& dir_x, const short& dir_y)
 			std::cout << "ERROR::dirToDegree::Directie incorecta!" << std::endl;
 		}break;
 	}
+
+	return 0; //Pentru a evita warning
 }
 
 

@@ -15,6 +15,11 @@ void GameCrossRoads::initVariables()
 	this->isChestScene = false;
 	this->afterChestScene = false; 
 	this->isChestReseted = false;
+
+	skipIsDrawn = false; 
+	openIsDrawn = false;  
+	continueIsDrawn = false; 
+
 	this->isChestOpen = std::nullopt; 
 
 	this->isAtTheDestination = false; 
@@ -216,6 +221,9 @@ void GameCrossRoads::drawGameInfo(sf::RenderTarget& target, ActionResults& inter
 		target.draw(*this->OpenSpr);
 		target.draw(*this->SkipSpr);
 		target.draw(*this->chestInfoSpr); 
+
+		this->openIsDrawn = true; 
+		this->skipIsDrawn = true; 
 	}
 	else if (this->isChestOpen.value())
 	{
@@ -224,6 +232,8 @@ void GameCrossRoads::drawGameInfo(sf::RenderTarget& target, ActionResults& inter
 									   //item adaugat in inventar
 		target.draw(*this->chestInfoSpr);
 		target.draw(*this->continueSpr); 
+
+		this->continueIsDrawn = true;
 	}
 }
 
@@ -335,17 +345,17 @@ void GameCrossRoads::updatePollEvents(sf::RenderWindow& target, ActionResults& i
 			
 
 			//Verificare pentru deschiderea chest-ului
-			if (this->OpenSpr->getGlobalBounds().contains(getMousePosView(target)) && !this->isChestOpen.has_value())
+			if (this->OpenSpr->getGlobalBounds().contains(getMousePosView(target)) && !this->isChestOpen.has_value() && this->openIsDrawn)
 			{
 				this->isChestOpen = true; 
 			}
-			else if (this->SkipSpr->getGlobalBounds().contains(getMousePosView(target)) && !this->isChestOpen.has_value())
+			else if (this->SkipSpr->getGlobalBounds().contains(getMousePosView(target)) && !this->isChestOpen.has_value() && this->skipIsDrawn)
 			{
 				this->isChestOpen = false; 
 			}
 
 			//Verificare pentru 'continue'
-			if (this->continueSpr->getGlobalBounds().contains(getMousePosView(target)) && !this->afterChestScene)
+			if (this->continueSpr->getGlobalBounds().contains(getMousePosView(target)) && !this->afterChestScene && this->continueIsDrawn)
 			{
 				this->afterChestScene = true;
 				this->isChestScene = false;

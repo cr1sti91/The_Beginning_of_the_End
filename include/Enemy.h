@@ -76,7 +76,7 @@ public:
 	//Getters
 	const short& get_health() const;
 	const short& get_attackPower() const;
-	const short& get_speedMovement() const;
+	const float& get_speedMovement() const;
 	const CategorieEnemy& getCategorie() const;
 	const bool& getIsAttacking() const; 
 

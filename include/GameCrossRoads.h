@@ -19,8 +19,8 @@ private:
 	std::unique_ptr<sf::Texture> chestInfoTex_2_fireball	{ nullptr }; //descriere ceea ce se afla in chest
 	std::unique_ptr<sf::Texture> chestInfoTex_2_iceball		{ nullptr }; 
 	std::unique_ptr<sf::Texture> chestInfoTex_2_spear		{ nullptr };
-	std::unique_ptr<sf::Texture> chestInfoTex_2_spikedTrap{ nullptr };
-	std::unique_ptr<sf::Texture> chestInfoTex_2_knive	{ nullptr };
+	std::unique_ptr<sf::Texture> chestInfoTex_2_spikedTrap  { nullptr };
+	std::unique_ptr<sf::Texture> chestInfoTex_2_knive	    { nullptr };
 	std::unique_ptr<sf::Sprite>  chestInfoSpr               { nullptr };
 
 	std::unique_ptr<sf::Texture> OpenTex_1{ nullptr };
@@ -85,6 +85,12 @@ private:
 	bool isChestReseted;
 
 	bool isAtTheDestination;
+
+	//Variabile ce sunt modificate in metode const
+	mutable bool skipIsDrawn; 
+	mutable bool openIsDrawn; 
+	mutable bool continueIsDrawn; 
+
 
 	std::optional<bool> isChestOpen; 
 
